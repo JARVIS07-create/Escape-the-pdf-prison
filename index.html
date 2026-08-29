@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape the PDF Prison</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <!-- 1. LANDING PAGE VIEW (YOUR TEAMMATE'S CODE) -->
+    <div class="container" id="landing-view">
+        <h1>Escape the PDF Prison</h1>
+        <h2>Welcome!</h2>
+        <p class="tagline">Your resume tells your story.<br>Now, let your portfolio bring that story to life.</p>
+        
+        <!-- Welcome Buttons -->
+        <div class="buttons" id="action-buttons">
+            <button type="button" onclick="showForm('login')">Sign In</button>
+            <button type="button" onclick="showForm('signup')">Create Account</button>
+        </div>
+
+        <!-- Login / Signup Form Box -->
+        <div class="form-box" id="auth-form-box">
+            <h2 id="form-title">Account</h2>
+            <form id="auth-form">
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" id="submit-btn">Continue to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- 2. DASHBOARD VIEW (MY ADDED CODE - INITIALLY HIDDEN) -->
+    <div id="dashboard-view" style="display: none; position: relative; z-index: 10; max-width: 1100px; margin: 30px auto; padding: 20px; color: white;">
+
+        <!-- Dashboard Header -->
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px;">
+            <h2 style="color: white; margin: 0;">Portfolio Workspace</h2>
+            <div>
+                <select id="theme-select" style="padding: 8px 12px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; margin-right: 10px; cursor: pointer;">
+                    <option value="dark">Cyber Dark Theme</option>
+                    <option value="minimal">Modern Minimalist</option>
+                    <option value="light">Executive Light</option>
+                </select>
+                <button type="button" style="background-color: #10b981; margin: 0; padding: 10px 20px; border: none; border-radius: 5px; color: white; cursor: pointer;">Publish Portfolio</button>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Split View -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            
+            <!-- Left Form Panel -->
+            <div style="background: rgba(15, 23, 42, 0.9); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); text-align: left;">
+                <h3 style="margin-bottom: 15px; color: white;">Edit Details</h3>
+                
+                <label style="display:block; margin-top: 10px; font-size: 14px;">Full Name</label>
+                <input type="text" value="Alex Smith" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 5px;">
+
+                <label style="display:block; margin-top: 10px; font-size: 14px;">Professional Bio</label>
+                <textarea style="width: 100%; height: 70px; padding: 10px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; font-family: inherit;">Passionate Computer Science student building scalable web software and modern UX systems.</textarea>
+                <button type="button" style="font-size: 12px; padding: 6px 12px; background: #8b5cf6; border: none; border-radius: 5px; color: white; cursor: pointer; margin-top: 5px;">✨ Polish Bio with AI</button>
+
+                <h4 style="margin-top: 20px; margin-bottom: 10px; color: white;">Projects & Experience</h4>
+                <input type="text" value="FolioPulse - AI Portfolio Generator" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 5px;">
+                <textarea style="width: 100%; height: 60px; padding: 10px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; font-family: inherit;">Engineered a web application that transforms resume text into responsive portfolio websites.</textarea>
+                <button type="button" style="font-size: 12px; padding: 6px 12px; background: #8b5cf6; border: none; border-radius: 5px; color: white; cursor: pointer; margin-top: 5px;">✨ Polish Bullets with AI</button>
+            </div>
+
+            <!-- Right Live Preview Panel -->
+            <div style="background: rgba(255, 255, 255, 0.95); color: #1e293b; padding: 25px; border-radius: 10px; text-align: left;">
+                <div style="font-size: 12px; color: #64748b; font-weight: bold; margin-bottom: 10px;">LIVE PREVIEW</div>
+                <h1 style="color: #0f172a; font-size: 28px; margin-bottom: 5px;">Alex Smith</h1>
+                <p style="color: #475569; font-size: 14px; margin-bottom: 20px;">Passionate Computer Science student building scalable web software and modern UX systems.</p>
+                
+                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 15px;">
+                
+                <h3 style="color: #1e293b; font-size: 18px; margin-bottom: 8px;">Featured Project</h3>
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 6px;">
+                    <h4 style="color: #2563eb; margin-bottom: 4px;">FolioPulse - AI Portfolio Generator</h4>
+                    <p style="font-size: 13px; color: #334155;">Engineered a web application that transforms resume text into responsive portfolio websites.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- 3. CONNECTION JAVASCRIPT (MY ADDED CODE) -->
+    <script>
+        function showForm(type) {
+            document.getElementById('auth-form-box').style.display = 'block';
+            document.getElementById('form-title').innerText = type === 'login' ? 'Sign In' : 'Create Account';
+        }
+
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            localStorage.setItem('isLoggedIn', 'true');
+            document.getElementById('landing-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
