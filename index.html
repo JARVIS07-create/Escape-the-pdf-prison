@@ -5,12 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escape the PDF Prison</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Mobile & Tablet Responsive Layout Rules */
+        * {
+            box-sizing: border-box;
+        }
+
+        .dash-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 15px;
+            color: white;
+        }
+
+        .dash-header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .dash-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dash-nav-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .dash-nav-link:hover, .dash-nav-link.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .action-card {
+            background: rgba(15, 23, 42, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .form-switch-text {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .form-switch-link {
+            color: #38bdf8;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .url-box {
+            display: none;
+            margin-top: 12px;
+            padding: 10px;
+            background: #1e293b;
+            border: 1px dashed #38bdf8;
+            border-radius: 6px;
+            word-break: break-all;
+            font-size: 13px;
+        }
+
+        /* Responsive Breakpoint for Mobile & Tablets */
+        @media (max-width: 850px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .dash-header-wrap {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
 
     <div class="overlay"></div>
 
-    <!-- 1. LANDING PAGE VIEW (YOUR TEAMMATE'S CODE) -->
+    <!-- 1. LANDING PAGE VIEW -->
     <div class="container" id="landing-view">
         <h1>Escape the PDF Prison</h1>
         <h2>Welcome!</h2>
@@ -22,67 +163,92 @@
             <button type="button" onclick="showForm('signup')">Create Account</button>
         </div>
 
-        <!-- Login / Signup Form Box -->
-        <div class="form-box" id="auth-form-box">
+        <!-- Unified Login / Signup Form Box -->
+        <div class="form-box" id="auth-form-box" style="display: none;">
             <h2 id="form-title">Account</h2>
+            
             <form id="auth-form">
+                <input type="text" id="full-name-field" placeholder="Full Name" style="display: none;" required>
                 <input type="email" placeholder="Email Address" required>
                 <input type="password" placeholder="Password" required>
                 <button type="submit" id="submit-btn">Continue to Dashboard</button>
             </form>
+
+            <p class="form-switch-text" id="switch-prompt">
+                Don't have an account? 
+                <span class="form-switch-link" onclick="toggleAuthMode()">Sign Up</span>
+            </p>
         </div>
     </div>
 
 
-    <!-- 2. DASHBOARD VIEW (MY ADDED CODE - INITIALLY HIDDEN) -->
-    <div id="dashboard-view" style="display: none; position: relative; z-index: 10; max-width: 1100px; margin: 30px auto; padding: 20px; color: white;">
+    <!-- 2. DASHBOARD VIEW -->
+    <div id="dashboard-view" class="dash-container" style="display: none;">
 
         <!-- Dashboard Header -->
-        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px;">
-            <h2 style="color: white; margin: 0;">Portfolio Workspace</h2>
-            <div>
-                <select id="theme-select" style="padding: 8px 12px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; margin-right: 10px; cursor: pointer;">
-                    <option value="dark">Cyber Dark Theme</option>
-                    <option value="minimal">Modern Minimalist</option>
-                    <option value="light">Executive Light</option>
-                </select>
-                <button type="button" style="background-color: #10b981; margin: 0; padding: 10px 20px; border: none; border-radius: 5px; color: white; cursor: pointer;">Publish Portfolio</button>
+        <header class="dash-header-wrap">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <h2 style="color: white; margin: 0; font-size: 20px;">⚡ FolioPulse</h2>
+                <nav class="dash-nav">
+                    <a href="#editor" class="dash-nav-link active">Dashboard</a>
+                </nav>
+            </div>
+
+            <div class="header-controls">
+                <button type="button" class="btn-primary" onclick="scrollToEdit()">✏️ Edit Portfolio</button>
+                <button type="button" class="btn-danger" onclick="logout()">Sign Out</button>
             </div>
         </header>
 
+        <!-- 2 PRIMARY OPTIONS SECTION -->
+        <div class="action-card">
+            <h3 style="margin-top: 0; margin-bottom: 15px;">Quick Actions</h3>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                
+                <!-- Option 1: Upload Resume -->
+                <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin: 0 0 8px 0;">1. Upload Your Resume</h4>
+                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Import raw resume text or paste details to build your site.</p>
+                    <button type="button" class="btn-primary" onclick="scrollToEdit()">Upload / Edit Text</button>
+                </div>
+
+                <!-- Option 2: View Portfolio & Generate URL -->
+                <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin: 0 0 8px 0;">2. View Your Portfolio</h4>
+                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Generate a live public URL to share with recruiters.</p>
+                    <button type="button" class="btn-success" onclick="generatePortfolioURL()">Generate Public Link</button>
+                    
+                    <div id="generated-url-box" class="url-box">
+                        <span style="color: #94a3b8; font-size: 11px; display: block;">YOUR PORTFOLIO LINK:</span>
+                        <a id="portfolio-link" href="#" target="_blank" style="color: #38bdf8; font-weight: bold;"></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <!-- Main Dashboard Split View -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="dashboard-grid" id="edit-section">
             
-            <!-- Left Form Panel -->
+            <!-- Left Edit Panel -->
             <div style="background: rgba(15, 23, 42, 0.9); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); text-align: left;">
                 <h3 style="margin-bottom: 15px; color: white;">Edit Details</h3>
                 
                 <label style="display:block; margin-top: 10px; font-size: 14px;">Full Name</label>
-                <input type="text" value="Alex Smith" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 5px;">
+                <input type="text" id="input-name" value="Alex Smith" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 5px;">
 
                 <label style="display:block; margin-top: 10px; font-size: 14px;">Professional Bio</label>
-                <textarea style="width: 100%; height: 70px; padding: 10px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; font-family: inherit;">Passionate Computer Science student building scalable web software and modern UX systems.</textarea>
-                <button type="button" style="font-size: 12px; padding: 6px 12px; background: #8b5cf6; border: none; border-radius: 5px; color: white; cursor: pointer; margin-top: 5px;">✨ Polish Bio with AI</button>
-
-                <h4 style="margin-top: 20px; margin-bottom: 10px; color: white;">Projects & Experience</h4>
-                <input type="text" value="FolioPulse - AI Portfolio Generator" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 5px;">
-                <textarea style="width: 100%; height: 60px; padding: 10px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; font-family: inherit;">Engineered a web application that transforms resume text into responsive portfolio websites.</textarea>
-                <button type="button" style="font-size: 12px; padding: 6px 12px; background: #8b5cf6; border: none; border-radius: 5px; color: white; cursor: pointer; margin-top: 5px;">✨ Polish Bullets with AI</button>
+                <textarea id="input-bio" style="width: 100%; height: 80px; padding: 10px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; font-family: inherit;">Passionate Computer Science student building scalable web software and modern UX systems.</textarea>
             </div>
 
             <!-- Right Live Preview Panel -->
             <div style="background: rgba(255, 255, 255, 0.95); color: #1e293b; padding: 25px; border-radius: 10px; text-align: left;">
                 <div style="font-size: 12px; color: #64748b; font-weight: bold; margin-bottom: 10px;">LIVE PREVIEW</div>
-                <h1 style="color: #0f172a; font-size: 28px; margin-bottom: 5px;">Alex Smith</h1>
-                <p style="color: #475569; font-size: 14px; margin-bottom: 20px;">Passionate Computer Science student building scalable web software and modern UX systems.</p>
-                
+                <h1 id="preview-name" style="color: #0f172a; font-size: 28px; margin-bottom: 5px;">Alex Smith</h1>
+                <p id="preview-bio" style="color: #475569; font-size: 14px; margin-bottom: 20px;">Passionate Computer Science student building scalable web software and modern UX systems.</p>
                 <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 15px;">
-                
-                <h3 style="color: #1e293b; font-size: 18px; margin-bottom: 8px;">Featured Project</h3>
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 6px;">
-                    <h4 style="color: #2563eb; margin-bottom: 4px;">FolioPulse - AI Portfolio Generator</h4>
-                    <p style="font-size: 13px; color: #334155;">Engineered a web application that transforms resume text into responsive portfolio websites.</p>
-                </div>
+                <h4 style="color: #2563eb; margin-bottom: 4px;">Featured Project</h4>
+                <p style="font-size: 13px; color: #334155;">FolioPulse - AI Portfolio Generator</p>
             </div>
 
         </div>
@@ -90,18 +256,75 @@
     </div>
 
 
-    <!-- 3. CONNECTION JAVASCRIPT (MY ADDED CODE) -->
+    <!-- 3. JAVASCRIPT LOGIC -->
     <script>
+        let currentMode = 'login';
+
         function showForm(type) {
+            currentMode = type;
             document.getElementById('auth-form-box').style.display = 'block';
-            document.getElementById('form-title').innerText = type === 'login' ? 'Sign In' : 'Create Account';
+            updateFormUI();
         }
 
+        function toggleAuthMode() {
+            currentMode = (currentMode === 'login') ? 'signup' : 'login';
+            updateFormUI();
+        }
+
+        function updateFormUI() {
+            const title = document.getElementById('form-title');
+            const nameField = document.getElementById('full-name-field');
+            const switchPrompt = document.getElementById('switch-prompt');
+
+            if (currentMode === 'signup') {
+                title.innerText = 'Create Account';
+                nameField.style.display = 'block';
+                nameField.required = true;
+                switchPrompt.innerHTML = 'Already have an account? <span class="form-switch-link" onclick="toggleAuthMode()">Sign In</span>';
+            } else {
+                title.innerText = 'Sign In';
+                nameField.style.display = 'none';
+                nameField.required = false;
+                switchPrompt.innerHTML = 'Don\'t have an account? <span class="form-switch-link" onclick="toggleAuthMode()">Sign Up</span>';
+            }
+        }
+
+        // Login / Signup Submit
         document.getElementById('auth-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            localStorage.setItem('isLoggedIn', 'true');
             document.getElementById('landing-view').style.display = 'none';
             document.getElementById('dashboard-view').style.display = 'block';
+        });
+
+        // Logout Button Logic
+        function logout() {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('landing-view').style.display = 'block';
+        }
+
+        // Scroll to Edit Section
+        function scrollToEdit() {
+            document.getElementById('edit-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Generate Portfolio Live URL
+        function generatePortfolioURL() {
+            const name = document.getElementById('input-name').value.toLowerCase().replace(/\s+/g, '');
+            const url = `https://${name || 'user'}.foliopulse.app`;
+            
+            const linkElem = document.getElementById('portfolio-link');
+            linkElem.innerText = url;
+            linkElem.href = url;
+            
+            document.getElementById('generated-url-box').style.display = 'block';
+        }
+
+        // Live Preview Sync
+        document.getElementById('input-name').addEventListener('input', (e) => {
+            document.getElementById('preview-name').innerText = e.target.value || 'Your Name';
+        });
+        document.getElementById('input-bio').addEventListener('input', (e) => {
+            document.getElementById('preview-bio').innerText = e.target.value || 'Your Bio';
         });
     </script>
 
