@@ -159,28 +159,14 @@
         
         <!-- Welcome Buttons -->
         <div class="buttons" id="action-buttons">
-            <button type="button" onclick="showForm('login')">Sign In</button>
-            <button type="button" onclick="showForm('signup')">Create Account</button>
-        </div>
+    <button type="button" onclick="window.location.href='signin.html'">
+        Sign In
+    </button>
 
-        <!-- Unified Login / Signup Form Box -->
-        <div class="form-box" id="auth-form-box" style="display: none;">
-            <h2 id="form-title">Account</h2>
-            
-            <form id="auth-form">
-                <input type="text" id="full-name-field" placeholder="Full Name" style="display: none;" required>
-                <input type="email" placeholder="Email Address" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit" id="submit-btn">Continue to Dashboard</button>
-            </form>
-
-            <p class="form-switch-text" id="switch-prompt">
-                Don't have an account? 
-                <span class="form-switch-link" onclick="toggleAuthMode()">Sign Up</span>
-            </p>
-        </div>
-    </div>
-
+    <button type="button" onclick="window.location.href='signup.html'">
+        Create Account
+    </button>
+</div>
 
     <!-- 2. DASHBOARD VIEW -->
     <div id="dashboard-view" class="dash-container" style="display: none;">
