@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Resume</title>
+
+    <link rel="stylesheet" href="style2.css">
+
+</head>
+
+
+<body class="upload-page">
+
+    <!-- Dark background overlay -->
+    <div class="background-overlay"></div>
+
+
+    <!-- Main content -->
+    <div class="upload-container">
+
+        <h1>Upload Your Resume</h1>
+
+        <p class="upload-subtitle">
+            Turn your resume into a professional portfolio with AI.
+        </p>
+
+
+        <!-- Upload Card -->
+
+        <div class="upload-card">
+
+            <div class="upload-icon">
+                📄
+            </div>
+
+            <h2>
+                Upload your resume
+            </h2>
+
+            <p class="upload-text">
+                Choose your resume from your device
+            </p>
+
+
+            <!-- File selection -->
+
+            <input
+                type="file"
+                id="resume"
+                accept=".pdf,.jpg,.jpeg,.png"
+            >
+
+
+            <label for="resume" class="choose-file">
+                Choose File
+            </label>
+
+
+            <!-- File name appears here -->
+
+            <p id="file-name">
+                No file selected
+            </p>
+
+
+            <!-- File formats -->
+
+            <p class="file-types">
+                PDF, JPG or PNG
+            </p>
+
+        </div>
+
+
+        <!-- Analyze button -->
+
+        <button
+            id="analyze-button"
+            class="analyze-button"
+            disabled
+            onclick="analyzeResume()"
+        >
+            Analyze My Resume
+        </button>
+
+        <!-- View Resume button -->
+
+        <button
+            id="view-button"
+            class="view-button"
+            onclick="viewResume()"
+            disabled
+        >
+        👁 View Uploaded Resume
+        </button>
+
+
+        <!-- Message -->
+
+        <p id="message"></p>
+
+
+        <!-- Back -->
+
+        <a href="dashboard.html" class="back-button">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <script>
+
+        // Get the elements
+
+        const resumeInput =
+            document.getElementById("resume");
+
+        const fileName =
+            document.getElementById("file-name");
+
+        const analyzeButton =
+            document.getElementById("analyze-button");
+        
+        const viewButton =
+            document.getElementById("view-button");
+
+
+
+        // When user chooses a file
+
+        resumeInput.addEventListener("change", function () {
+
+            if (resumeInput.files.length > 0) {
+
+                const file = resumeInput.files[0];
+
+                fileName.textContent =
+                    file.name;
+
+                analyzeButton.disabled = false;
+                viewButton.disabled = false;
+
+
+            }
+
+        });
+
+
+        // Analyze button
+
+        function analyzeResume() {
+
+            const message =
+                document.getElementById("message");
+
+            message.textContent =
+                "Your resume is ready for AI analysis!";
+
+        }
+        // View uploaded resume
+
+        function viewResume() {
+
+            const file = resumeInput.files[0];
+
+            if (file) {
+
+                const fileURL =
+                    URL.createObjectURL(file);
+
+                window.open(fileURL, "_blank");
+            }
+        }
+
+                
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
