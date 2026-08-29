@@ -290,10 +290,9 @@
         }
 
         // Login / Signup Submit
-        document.getElementById('auth-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('landing-view').style.display = 'none';
-            document.getElementById('dashboard-view').style.display = 'block';
+       document.getElementById('auth-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    window.location.href = './upload_resume.html';
         });
 
         // Logout Button Logic
