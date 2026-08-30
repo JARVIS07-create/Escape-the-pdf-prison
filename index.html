@@ -8,7 +8,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0b0f19;
+            background-color: #111827;
             color: white;
             min-height: 100vh;
             display: flex;
@@ -16,10 +16,10 @@
             position: relative;
         }
 
-        /* Collaborative Open-Plan Workspace Background */
+        /* Natural Office Workspace Background (Neutral dark overlay, no blue tint) */
         .office-bg {
             position: fixed; inset: 0; z-index: 0;
-            background: linear-gradient(to bottom, rgba(11, 15, 25, 0.72), rgba(11, 15, 25, 0.88)),
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.85)),
                         url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
             pointer-events: none;
         }
@@ -28,19 +28,12 @@
         .navbar {
             position: relative; z-index: 10;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 6%; background: rgba(11, 15, 25, 0.6);
+            padding: 20px 6%; background: rgba(15, 23, 42, 0.6);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
         }
 
         .logo { font-size: 24px; font-weight: bold; cursor: pointer; color: white; text-decoration: none; }
-
-        .edit-portfolio-btn {
-            display: none; background: #38bdf8; color: #0f172a;
-            padding: 10px 20px; border-radius: 8px; font-weight: 700;
-            font-size: 14px; text-decoration: none; transition: background 0.2s;
-        }
-        .edit-portfolio-btn:hover { background: #7dd3fc; }
 
         /* View Container */
         .view-container {
@@ -97,10 +90,9 @@
 
     <div class="office-bg"></div>
 
-    <!-- Top Navbar -->
+    <!-- Top Navbar (Edit Portfolio button removed from top-right) -->
     <nav class="navbar">
         <div class="logo" onclick="showView('landing')">⚡ FolioPulse</div>
-        <a href="edit-portfolio.html" class="edit-portfolio-btn" id="edit-btn">✏️ Edit Portfolio</a>
     </nav>
 
     <div class="view-container">
@@ -127,7 +119,8 @@
                     <label>Password</label>
                     <input type="password" required placeholder="Enter password">
                 </div>
-                <!-- Forgot Password Link (Shown on Sign In) -->
+                
+                <!-- Forgot Password Link -->
                 <a href="#" class="forgot-password" id="forgot-pw-link" onclick="alert('Password reset link sent to your email!')">Forgot password?</a>
                 
                 <button type="submit" class="cta-btn btn-primary" style="width: 100%;">Continue to Dashboard</button>
@@ -167,7 +160,6 @@
             document.getElementById('landing-view').style.display = 'none';
             document.getElementById('auth-view').style.display = 'none';
             document.getElementById('dashboard-view').style.display = 'none';
-            document.getElementById('edit-btn').style.display = 'none';
 
             if (view === 'landing') {
                 document.getElementById('landing-view').style.display = 'block';
@@ -177,7 +169,6 @@
                 document.getElementById('forgot-pw-link').style.display = view === 'signin' ? 'block' : 'none';
             } else if (view === 'dashboard') {
                 document.getElementById('dashboard-view').style.display = 'block';
-                document.getElementById('edit-btn').style.display = 'inline-block'; // Displays Edit Portfolio button top-right
             }
         }
 
