@@ -16,11 +16,11 @@
             position: relative;
         }
 
-        /* Modern Office Graphic Background Layer */
+        /* Bright Corporate High-rise Office Background */
         .office-bg {
             position: fixed; inset: 0; z-index: 0;
-            background: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.92)),
-                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            background: linear-gradient(to bottom, rgba(11, 15, 25, 0.70), rgba(11, 15, 25, 0.88)),
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
             pointer-events: none;
         }
 
@@ -33,13 +33,14 @@
             backdrop-filter: blur(12px);
         }
 
-        .logo { font-size: 24px; font-weight: bold; cursor: pointer; }
+        .logo { font-size: 24px; font-weight: bold; cursor: pointer; color: white; text-decoration: none; }
 
         .edit-portfolio-btn {
             display: none; background: #38bdf8; color: #0f172a;
             padding: 10px 20px; border-radius: 8px; font-weight: 700;
-            font-size: 14px; cursor: pointer; border: none;
+            font-size: 14px; text-decoration: none; transition: background 0.2s;
         }
+        .edit-portfolio-btn:hover { background: #7dd3fc; }
 
         /* View Container */
         .view-container {
@@ -72,8 +73,12 @@
         /* DASHBOARD VIEW */
         .dashboard-view { display: none; }
         .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; max-width: 650px; width: 100%; margin-top: 30px; }
-        .option-card { background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 14px; padding: 30px; cursor: pointer; backdrop-filter: blur(12px); }
-        .option-card:hover { border-color: #38bdf8; transform: translateY(-3px); }
+        .option-card {
+            background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px; padding: 30px; cursor: pointer; backdrop-filter: blur(12px);
+            text-decoration: none; color: white; transition: all 0.2s ease;
+        }
+        .option-card:hover { border-color: #38bdf8; transform: translateY(-3px); background: rgba(15, 23, 42, 0.9); }
     </style>
 </head>
 <body>
@@ -83,7 +88,7 @@
     <!-- Top Navbar -->
     <nav class="navbar">
         <div class="logo" onclick="showView('landing')">⚡ FolioPulse</div>
-        <button class="edit-portfolio-btn" id="edit-btn" onclick="alert('Opening editor...')">✏️ Edit Portfolio</button>
+        <a href="edit-portfolio.html" class="edit-portfolio-btn" id="edit-btn">✏️ Edit Portfolio</a>
     </nav>
 
     <div class="view-container">
@@ -119,16 +124,16 @@
             <h1>Welcome to Your Dashboard</h1>
             <p style="color: #94a3b8; margin-top: 8px;">Select an option below to get started:</p>
             <div class="options-grid">
-                <div class="option-card" onclick="alert('Upload Resume feature selected!')">
+                <a href="upload_resume.html" class="option-card">
                     <div style="font-size: 36px; margin-bottom: 10px;">📄</div>
                     <h3>1. Upload Resume</h3>
                     <p style="color: #94a3b8; font-size: 13px; margin-top: 6px;">Automatically import details from your resume PDF.</p>
-                </div>
-                <div class="option-card" onclick="alert('View Portfolio feature selected!')">
+                </a>
+                <a href="portfolio.html" class="option-card">
                     <div style="font-size: 36px; margin-bottom: 10px;">👁️</div>
                     <h3>2. View Your Portfolio</h3>
                     <p style="color: #94a3b8; font-size: 13px; margin-top: 6px;">Preview how your live portfolio looks online.</p>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -154,6 +159,12 @@
 
         function handleAuth(event) {
             event.preventDefault();
+            showView('dashboard');
+        }
+
+        // Auto-show Dashboard if redirected back from upload_resume or portfolio pages
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('authenticated') === 'true') {
             showView('dashboard');
         }
     </script>
