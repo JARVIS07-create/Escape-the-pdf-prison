@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Resume - FolioPulse</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Glass Card Container */
         .upload-wrapper {
             background: rgba(255, 255, 255, 0.88);
             border: 1px solid rgba(226, 232, 240, 0.9);
@@ -27,17 +25,20 @@
             border-radius: 12px;
             padding: 32px 20px;
             margin: 24px 0;
-            transition: border-color 0.2s ease, background-color 0.2s ease;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
 
-        .upload-card:hover {
+        .upload-card.dragover {
             border-color: #2563eb;
-            background-color: #f8fafc;
+            background-color: #eff6ff;
+            transform: scale(1.01);
         }
 
         .upload-icon {
             font-size: 40px;
             margin-bottom: 10px;
+            display: inline-block;
         }
 
         .choose-file-btn {
@@ -64,6 +65,7 @@
             color: #2563eb;
             margin-top: 6px;
             font-size: 14px;
+            word-break: break-all;
         }
 
         .file-types {
@@ -75,7 +77,7 @@
         .action-buttons-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
         }
 
@@ -85,23 +87,30 @@
         }
 
         .action-buttons-group button:disabled {
-            background-color: #94a3b8;
-            border-color: #94a3b8;
+            background-color: #cbd5e1;
+            border-color: #cbd5e1;
+            color: #94a3b8;
             cursor: not-allowed;
-            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
         }
 
         #status-message {
-            margin-top: 15px;
+            margin-top: 16px;
             font-weight: 600;
             font-size: 14px;
-            color: #2563eb;
             min-height: 20px;
         }
 
+        .status-success { color: #059669; }
+        .status-error { color: #dc2626; }
+        .status-loading { color: #2563eb; }
+
         .back-link {
-            display: inline-block;
-            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 24px;
             color: #64748b;
             text-decoration: none;
             font-weight: 600;
@@ -112,9 +121,17 @@
         .back-link:hover {
             color: #0f172a;
         }
+
+        @media (max-width: 640px) {
+            .upload-wrapper {
+                padding: 24px 16px;
+            }
+            .upload-card {
+                padding: 24px 14px;
+            }
+        }
     </style>
 </head>
-
 <body>
 
     <div class="overlay"></div>
@@ -125,10 +142,10 @@
         </a>
 
         <div class="nav-right">
-            <div class="dropdown" id="userDropdown">
+            <div class="dropdown open-dropdown" id="user-dropdown">
                 <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
-                    <div class="avatar">JS</div>
-                    <span>Account</span>
+                    <span class="avatar">👤</span>
+                    <span>Menu</span>
                     <span class="chevron">▼</span>
                 </button>
                 <div class="dropdown-menu">
@@ -136,14 +153,14 @@
                         <span class="item-icon">👤</span> Profile
                     </a>
                     <a href="portfolio.html" class="dropdown-item">
-                        <span class="item-icon">🌐</span> My Portfolio
+                        <span class="item-icon">📁</span> My Portfolios
                     </a>
                     <a href="chat.html" class="dropdown-item">
-                        <span class="item-icon">💬</span> AI Chat Assistant
+                        <span class="item-icon">🤖</span> AI Chat Box
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="index.html" class="dropdown-item" style="color: #ef4444;">
-                        <span class="item-icon">🚪</span> Log Out
+                    <a href="index.html" class="dropdown-item logout-link" onclick="logout(event)">
+                        <span class="item-icon">🚪</span> Sign Out
                     </a>
                 </div>
             </div>
@@ -152,52 +169,56 @@
 
     <main class="container">
         <div class="upload-wrapper">
-            <h1>Upload Your <span>Resume</span></h1>
-            <p class="description">Turn your resume into a professional showcase website with AI.</p>
+            <h1 class="hero-title" style="font-size: 32px; margin-bottom: 8px;">Upload Your <span>Resume</span></h1>
+            <p class="hero-subtitle" style="margin-bottom: 20px; font-size: 14px;">Turn your resume into a professional showcase website with AI.</p>
 
-            <div class="upload-card">
+            <div class="upload-card" id="drop-zone" onclick="document.getElementById('resume').click()">
                 <div class="upload-icon">📄</div>
-                <h2>Upload your resume</h2>
-                <p class="description" style="font-size: 14px;">Choose your resume from your device</p>
+                <h3 style="font-size: 16px; color: #0f172a; margin-bottom: 4px;">Upload your resume</h3>
+                <p style="font-size: 13px; color: #64748b;">Drag and drop or browse from your device</p>
 
                 <input 
                     type="file" 
                     id="resume" 
-                    accept=".pdf,.jpg,.jpeg,.png" 
+                    accept=".pdf,.jpg,.jpeg,.png,.docx" 
                     style="display: none;"
+                    onclick="event.stopPropagation()"
                 >
 
-                <label for="resume" class="choose-file-btn">
+                <label for="resume" class="choose-file-btn" onclick="event.stopPropagation()">
                     Browse Files
                 </label>
 
                 <p id="file-name">No file selected</p>
-                <p class="file-types">Supported formats: PDF, JPG, PNG</p>
+                <p class="file-types">Supported formats: PDF, DOCX, JPG, PNG (Max 10MB)</p>
             </div>
 
             <div class="action-buttons-group">
                 <button 
+                    type="button"
                     id="analyze-button" 
+                    class="btn-primary"
                     disabled 
                     onclick="analyzeResume()"
                 >
-                    Analyze My Resume
+                    ⚡ Analyze My Resume
                 </button>
 
                 <button 
+                    type="button"
                     id="view-button" 
                     class="btn-secondary" 
                     disabled 
                     onclick="viewResume()"
                 >
-                    👁 View Uploaded Resume
+                    👁 Preview Uploaded File
                 </button>
             </div>
 
             <p id="status-message"></p>
 
             <div>
-                <a href="index.html" class="back-link">
+                <a href="index.html?authenticated=true" class="back-link">
                     ← Back to Dashboard
                 </a>
             </div>
@@ -208,38 +229,69 @@
         // Dropdown toggle logic
         function toggleDropdown(event) {
             event.stopPropagation();
-            const dropdown = document.getElementById("userDropdown");
-            dropdown.classList.toggle("open");
+            document.getElementById("user-dropdown").classList.toggle("open");
         }
 
-        // Close dropdown when clicking outside
         window.onclick = function (event) {
-            if (!event.target.closest('.dropdown')) {
-                const dropdown = document.getElementById("userDropdown");
-                if (dropdown && dropdown.classList.contains('open')) {
-                    dropdown.classList.remove('open');
-                }
+            const dropdown = document.getElementById("user-dropdown");
+            if (dropdown && !dropdown.contains(event.target)) {
+                dropdown.classList.remove("open");
             }
         };
+
+        function logout(event) {
+            event.preventDefault();
+            window.location.href = "index.html";
+        }
 
         // DOM elements
         const resumeInput = document.getElementById("resume");
         const fileName = document.getElementById("file-name");
+        const dropZone = document.getElementById("drop-zone");
         const analyzeButton = document.getElementById("analyze-button");
         const viewButton = document.getElementById("view-button");
         const statusMessage = document.getElementById("status-message");
 
+        // Drag and Drop handlers
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add('dragover');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove('dragover');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                resumeInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
         // File selection handler
         resumeInput.addEventListener("change", function () {
             if (resumeInput.files.length > 0) {
-                const file = resumeInput.files[0];
-                fileName.textContent = file.name;
-
-                analyzeButton.disabled = false;
-                viewButton.disabled = false;
-                statusMessage.textContent = "";
+                handleFileSelect(resumeInput.files[0]);
             }
         });
+
+        function handleFileSelect(file) {
+            fileName.textContent = file.name;
+            analyzeButton.disabled = false;
+            viewButton.disabled = false;
+            statusMessage.textContent = "";
+            statusMessage.className = "";
+        }
 
         // Backend upload & analysis call
         async function analyzeResume() {
@@ -250,51 +302,9 @@
                 return;
             }
 
-            analyzeButton.textContent = "Analyzing...";
+            analyzeButton.textContent = "Analyzing with AI...";
             analyzeButton.disabled = true;
-            statusMessage.textContent = "AI is analyzing your resume... Please wait.";
+            statusMessage.textContent = "AI is extracting skills, education, and project records...";
+            statusMessage.className = "status-loading";
 
-            const formData = new FormData();
-            formData.append("resume", file);
-
-            try {
-                const response = await fetch("/analyze-resume", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const result = await response.json();
-                console.log("Gemini Result:", result);
-
-                if (result.success) {
-                    statusMessage.textContent = "Resume analyzed successfully!";
-                    console.log("Extracted Data:", result.data);
-                    alert("Resume analyzed successfully! Check the browser console.");
-                } else {
-                    statusMessage.textContent = "AI could not analyze the resume.";
-                    console.error("Analysis Error:", result.error);
-                    alert("Error: " + result.error);
-                }
-            } catch (error) {
-                console.error("Server Error:", error);
-                statusMessage.textContent = "Could not connect to the AI server.";
-                alert("Could not connect to the Python backend server.");
-            } finally {
-                analyzeButton.textContent = "Analyze My Resume";
-                analyzeButton.disabled = false;
-            }
-        }
-
-        // Open selected file in a preview tab
-        function viewResume() {
-            const file = resumeInput.files[0];
-            if (file) {
-                const fileURL = URL.createObjectURL(file);
-                window.open(fileURL, "_blank");
-            }
-        }
-    </script>
-
-</body>
-
-</html>
+            const formData
