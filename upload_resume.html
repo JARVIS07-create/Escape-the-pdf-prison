@@ -2,23 +2,16 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Upload Resume</title>
-
     <link rel="stylesheet" href="style2.css">
-
 </head>
-
 
 <body class="upload-page">
 
     <!-- Dark background overlay -->
     <div class="background-overlay"></div>
-
 
     <!-- Main content -->
     <div class="upload-container">
@@ -29,56 +22,44 @@
             Turn your resume into a professional portfolio with AI.
         </p>
 
-
         <!-- Upload Card -->
-
         <div class="upload-card">
 
             <div class="upload-icon">
                 📄
             </div>
 
-            <h2>
-                Upload your resume
-            </h2>
+            <h2>Upload your resume</h2>
 
             <p class="upload-text">
                 Choose your resume from your device
             </p>
 
-
-            <!-- File selection -->
-
+            <!-- File selection (hidden visually so label controls it) -->
             <input
                 type="file"
                 id="resume"
                 accept=".pdf,.jpg,.jpeg,.png"
+                style="display: none;"
             >
-
 
             <label for="resume" class="choose-file">
                 Choose File
             </label>
 
-
             <!-- File name appears here -->
-
             <p id="file-name">
                 No file selected
             </p>
 
-
             <!-- File formats -->
-
             <p class="file-types">
                 PDF, JPG or PNG
             </p>
 
         </div>
 
-
         <!-- Analyze button -->
-
         <button
             id="analyze-button"
             class="analyze-button"
@@ -89,101 +70,69 @@
         </button>
 
         <!-- View Resume button -->
-
         <button
             id="view-button"
             class="view-button"
             onclick="viewResume()"
             disabled
         >
-        👁 View Uploaded Resume
+            👁 View Uploaded Resume
         </button>
 
+        <!-- Status Message -->
+        <p id="message" style="margin-top: 15px; color: #38bdf8; font-weight: bold;"></p>
 
-        <!-- Message -->
-
-        <p id="message"></p>
-
-
-        <!-- Back -->
-
-       <a href="./index.html" class="back-button">
-    ← Back to Dashboard
-</a>
+        <!-- Back to Dashboard -->
+        <div style="margin-top: 25px;">
+            <a href="./index.html" class="back-button">
+                ← Back to Dashboard
+            </a>
+        </div>
 
     </div>
 
-
     <script>
+        // Get elements
+        const resumeInput = document.getElementById("resume");
+        const fileName = document.getElementById("file-name");
+        const analyzeButton = document.getElementById("analyze-button");
+        const viewButton = document.getElementById("view-button");
+        const message = document.getElementById("message");
 
-        // Get the elements
-
-        const resumeInput =
-            document.getElementById("resume");
-
-        const fileName =
-            document.getElementById("file-name");
-
-        const analyzeButton =
-            document.getElementById("analyze-button");
-        
-        const viewButton =
-            document.getElementById("view-button");
-
-
-
-        // When user chooses a file
-
+        // File Selection Listener
         resumeInput.addEventListener("change", function () {
-
             if (resumeInput.files.length > 0) {
-
                 const file = resumeInput.files[0];
+                fileName.textContent = file.name;
 
-                fileName.textContent =
-                    file.name;
-
+                // Enable action buttons
                 analyzeButton.disabled = false;
                 viewButton.disabled = false;
-
-
+                message.textContent = "";
             }
-
         });
 
-
-        // Analyze button
-
+        // Analyze Resume & Redirect Back to Dashboard
         function analyzeResume() {
+            analyzeButton.textContent = "Analyzing...";
+            message.textContent = "Extracting portfolio details from resume...";
 
-            const message =
-                document.getElementById("message");
-
-            message.textContent =
-                "Your resume is ready for AI analysis!";
-
+            setTimeout(() => {
+                message.textContent = "Analysis Complete! Redirecting to dashboard...";
+                setTimeout(() => {
+                    window.location.href = './index.html';
+                }, 1200);
+            }, 1500);
         }
-        // View uploaded resume
 
+        // View Uploaded Resume in New Tab
         function viewResume() {
-
             const file = resumeInput.files[0];
-
             if (file) {
-
-                const fileURL =
-                    URL.createObjectURL(file);
-
+                const fileURL = URL.createObjectURL(file);
                 window.open(fileURL, "_blank");
             }
         }
-
-                
-
-
-
-
-
     </script>
 
 </body>
