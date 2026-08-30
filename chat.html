@@ -44,6 +44,11 @@
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .api-key-btn:hover {
+            background: #e2e8f0;
         }
 
         .chat-messages {
@@ -166,7 +171,6 @@
         const userInput = document.getElementById("user-input");
         const sendBtn = document.getElementById("send-btn");
 
-        // Sync dropdown & navbar on page load
         window.addEventListener("DOMContentLoaded", () => {
             syncNavbarProfile();
             if (!localStorage.getItem("geminiApiKey")) {
@@ -208,10 +212,10 @@
 
         function promptApiKey() {
             const currentKey = localStorage.getItem("geminiApiKey") || "";
-            const key = prompt("Enter your Google Gemini API Key:", currentKey);
+            const key = prompt("Enter your Google Gemini API Key from Google AI Studio:", currentKey);
             if (key !== null && key.trim() !== "") {
                 localStorage.setItem("geminiApiKey", key.trim());
-                alert("Gemini API key saved to localStorage!");
+                alert("Gemini API key updated!");
             }
         }
 
@@ -224,7 +228,6 @@
             return msg;
         }
 
-        // Handle sending messages & calling Gemini API
         async function sendMessage(event) {
             event.preventDefault();
             const text = userInput.value.trim();
@@ -245,11 +248,11 @@
             const loadingMsg = appendMessage("Thinking...", "assistant");
 
             try {
-                // Include user profile context if available
                 const savedProfile = localStorage.getItem("userProfile") || "{}";
-                const systemPrompt = `You are an AI assistant for the FolioPulse portfolio builder. The current user profile data is: ${savedProfile}. Help the user refine their resume, skills, and portfolio copy concisely.`;
+                const systemPrompt = `You are an AI assistant for the FolioPulse portfolio builder. Current profile: ${savedProfile}. Keep answers helpful and concise.`;
 
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                // Uses gemini-1.5-flash endpoint
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -278,8 +281,9 @@
 
         function handleLogout(event) {
             event.preventDefault();
+            localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("userProfile");
-            window.location.href = "index.html";
+            window.location.href = "signin.html";
         }
     </script>
 </body>
