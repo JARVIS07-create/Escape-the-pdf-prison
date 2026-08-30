@@ -3,338 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escape the PDF Prison</title>
-    <link rel="stylesheet" href="style.css">
+    <title>FolioPulse - AI Portfolio Builder</title>
     <style>
-        /* Mobile & Tablet Responsive Layout Rules */
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        .dash-container {
-            position: relative;
-            z-index: 10;
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 15px;
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
             color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .dash-header-wrap {
+        /* Navbar */
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 15px;
+            padding: 20px 8%;
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
-        .dash-nav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .dash-nav-link {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .dash-nav-link:hover, .dash-nav-link.active {
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
         }
 
-        .header-controls {
+        .nav-links {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .action-card {
-            background: rgba(15, 23, 42, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
-        }
-
-        .btn-primary {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
-
-        .btn-success {
-            background-color: #10b981;
-            color: white;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-danger {
-            background: transparent;
-            border: 1px solid #ef4444;
-            color: #ef4444;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .form-switch-text {
-            margin-top: 15px;
-            font-size: 13px;
+        .nav-links a {
             color: #cbd5e1;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.2s ease;
         }
 
-        .form-switch-link {
-            color: #38bdf8;
-            cursor: pointer;
-            text-decoration: underline;
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .nav-btn {
+            padding: 9px 18px;
+            border-radius: 8px;
             font-weight: 600;
         }
 
-        .url-box {
-            display: none;
-            margin-top: 12px;
-            padding: 10px;
-            background: #1e293b;
-            border: 1px dashed #38bdf8;
-            border-radius: 6px;
-            word-break: break-all;
-            font-size: 13px;
+        .nav-btn.primary {
+            background: #3b82f6;
+            color: white !important;
+            transition: background 0.2s ease;
         }
 
-        /* Responsive Breakpoint for Mobile & Tablets */
-        @media (max-width: 850px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
+        .nav-btn.primary:hover {
+            background: #2563eb;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px;
+            background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 70%);
+        }
+
+        .hero-content {
+            max-width: 750px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
+            background: #3b82f6;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+        }
+
+        .cta-button.secondary:hover {
+            border-color: #38bdf8;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 600px) {
+            .hero-content h1 {
+                font-size: 32px;
             }
-            .dash-header-wrap {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .header-controls {
-                width: 100%;
-                justify-content: flex-start;
+            .hero-content p {
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="overlay"></div>
-
-    <!-- 1. LANDING PAGE VIEW -->
-    <div class="container" id="landing-view">
-        <h1>Escape the PDF Prison</h1>
-        <h2>Welcome!</h2>
-        <p class="tagline">Your resume tells your story.<br>Now, let your portfolio bring that story to life.</p>
-        
-        <!-- Welcome Buttons (Fixed to trigger form display inside same page) -->
-        <div class="buttons" id="action-buttons">
-            <button type="button" onclick="showForm('login')">Sign In</button>
-            <button type="button" onclick="showForm('signup')">Create Account</button>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">⚡ FolioPulse</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="signin.html" class="nav-btn">Sign In</a>
+            <a href="signup.html" class="nav-btn primary">Create Account</a>
         </div>
+    </nav>
 
-        <!-- Unified Login / Signup Form Box -->
-        <div class="form-box" id="auth-form-box" style="display: none;">
-            <h2 id="form-title">Account</h2>
+    <!-- Main Hero / Dashboard View -->
+    <main class="hero-section">
+        <div class="hero-content">
+            <h1>Build Your Professional Portfolio in Seconds</h1>
+            <p>Showcase your work, highlight skills, and stand out to recruiters effortlessly with AI-powered suggestions.</p>
             
-            <form id="auth-form">
-                <input type="text" id="full-name-field" placeholder="Full Name" style="display: none;" required>
-                <input type="email" placeholder="Email Address" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit" id="submit-btn">Continue to Dashboard</button>
-            </form>
-
-            <p class="form-switch-text" id="switch-prompt">
-                Don't have an account? 
-                <span class="form-switch-link" onclick="toggleAuthMode()">Sign Up</span>
-            </p>
-        </div>
-    </div>
-
-
-    <!-- 2. DASHBOARD VIEW -->
-    <div id="dashboard-view" class="dash-container" style="display: none;">
-
-        <!-- Dashboard Header -->
-        <header class="dash-header-wrap">
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <h2 style="color: white; margin: 0; font-size: 20px;">⚡ FolioPulse</h2>
-                <nav class="dash-nav">
-                    <a href="#editor" class="dash-nav-link active">Dashboard</a>
-                </nav>
-            </div>
-
-            <div class="header-controls">
-                <button type="button" class="btn-primary" onclick="window.location.href='upload_resume.html'">Upload Resume</button>
-                <button type="button" class="btn-danger" onclick="logout()">Sign Out</button>
-            </div>
-        </header>
-
-        <!-- 2 PRIMARY OPTIONS SECTION -->
-        <div class="action-card">
-            <h3 style="margin-top: 0; margin-bottom: 15px;">Quick Actions</h3>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                
-                <!-- Option 1: Upload Resume File -->
-                <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
-                    <h4 style="margin: 0 0 8px 0;">1. Upload Your Resume File</h4>
-                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Import PDF/DOCX to automatically parse content.</p>
-                    <button type="button" class="btn-primary" onclick="window.location.href='upload_resume.html'">Upload Resume</button>
-                </div>
-
-                <!-- Option 2: Edit Text Directly -->
-                <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
-                    <h4 style="margin: 0 0 8px 0;">2. Edit Portfolio Manually</h4>
-                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Manually update bio, details, and preview live changes.</p>
-                    <button type="button" class="btn-primary" onclick="scrollToEdit()">Edit Text</button>
-                </div>
-
-                <!-- Option 3: Generate URL -->
-                <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
-                    <h4 style="margin: 0 0 8px 0;">3. View Your Portfolio Link</h4>
-                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Generate a live public URL to share with recruiters.</p>
-                    <button type="button" class="btn-success" onclick="generatePortfolioURL()">Generate Public Link</button>
-                    
-                    <div id="generated-url-box" class="url-box">
-                        <span style="color: #94a3b8; font-size: 11px; display: block;">YOUR PORTFOLIO LINK:</span>
-                        <a id="portfolio-link" href="#" target="_blank" style="color: #38bdf8; font-weight: bold;"></a>
-                    </div>
-                </div>
-
+            <div class="cta-group">
+                <!-- Replaced 'Upload Resume' with 'Edit Portfolio' -->
+                <a href="upload_resume.html" class="cta-button">Edit Portfolio</a>
+                <a href="signup.html" class="cta-button secondary">Get Started Free</a>
             </div>
         </div>
-
-        <!-- Main Dashboard Split View -->
-        <div class="dashboard-grid" id="edit-section">
-            
-            <!-- Left Edit Panel -->
-            <div style="background: rgba(15, 23, 42, 0.9); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); text-align: left;">
-                <h3 style="margin-bottom: 15px; color: white;">Edit Details</h3>
-                
-                <label style="display:block; margin-top: 10px; font-size: 14px;">Full Name</label>
-                <input type="text" id="input-name" value="Alex Smith" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 5px;">
-
-                <label style="display:block; margin-top: 10px; font-size: 14px;">Professional Bio</label>
-                <textarea id="input-bio" style="width: 100%; height: 80px; padding: 10px; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; font-family: inherit;">Passionate Computer Science student building scalable web software and modern UX systems.</textarea>
-            </div>
-
-            <!-- Right Live Preview Panel -->
-            <div style="background: rgba(255, 255, 255, 0.95); color: #1e293b; padding: 25px; border-radius: 10px; text-align: left;">
-                <div style="font-size: 12px; color: #64748b; font-weight: bold; margin-bottom: 10px;">LIVE PREVIEW</div>
-                <h1 id="preview-name" style="color: #0f172a; font-size: 28px; margin-bottom: 5px;">Alex Smith</h1>
-                <p id="preview-bio" style="color: #475569; font-size: 14px; margin-bottom: 20px;">Passionate Computer Science student building scalable web software and modern UX systems.</p>
-                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 15px;">
-                <h4 style="color: #2563eb; margin-bottom: 4px;">Featured Project</h4>
-                <p style="font-size: 13px; color: #334155;">FolioPulse - AI Portfolio Generator</p>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- 3. JAVASCRIPT LOGIC -->
-    <script>
-        let currentMode = 'login';
-
-        function showForm(type) {
-            currentMode = type;
-            document.getElementById('auth-form-box').style.display = 'block';
-            updateFormUI();
-        }
-
-        function toggleAuthMode() {
-            currentMode = (currentMode === 'login') ? 'signup' : 'login';
-            updateFormUI();
-        }
-
-        function updateFormUI() {
-            const title = document.getElementById('form-title');
-            const nameField = document.getElementById('full-name-field');
-            const switchPrompt = document.getElementById('switch-prompt');
-
-            if (currentMode === 'signup') {
-                title.innerText = 'Create Account';
-                nameField.style.display = 'block';
-                nameField.required = true;
-                switchPrompt.innerHTML = 'Already have an account? <span class="form-switch-link" onclick="toggleAuthMode()">Sign In</span>';
-            } else {
-                title.innerText = 'Sign In';
-                nameField.style.display = 'none';
-                nameField.required = false;
-                switchPrompt.innerHTML = 'Don\'t have an account? <span class="form-switch-link" onclick="toggleAuthMode()">Sign Up</span>';
-            }
-        }
-
-        // Login / Signup Submit (Reveals Dashboard view)
-        document.getElementById('auth-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('landing-view').style.display = 'none';
-            document.getElementById('dashboard-view').style.display = 'block';
-        });
-
-        // Logout Button Logic
-        function logout() {
-            document.getElementById('dashboard-view').style.display = 'none';
-            document.getElementById('auth-form-box').style.display = 'none';
-            document.getElementById('landing-view').style.display = 'block';
-        }
-
-        // Scroll to Edit Section
-        function scrollToEdit() {
-            document.getElementById('edit-section').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Generate Portfolio Live URL
-        function generatePortfolioURL() {
-            const name = document.getElementById('input-name').value.toLowerCase().replace(/\s+/g, '');
-            const url = `https://${name || 'user'}.foliopulse.app`;
-            
-            const linkElem = document.getElementById('portfolio-link');
-            linkElem.innerText = url;
-            linkElem.href = url;
-            
-            document.getElementById('generated-url-box').style.display = 'block';
-        }
-
-        // Live Preview Sync
-        document.getElementById('input-name').addEventListener('input', (e) => {
-            document.getElementById('preview-name').innerText = e.target.value || 'Your Name';
-        });
-        document.getElementById('input-bio').addEventListener('input', (e) => {
-            document.getElementById('preview-bio').innerText = e.target.value || 'Your Bio';
-        });
-    </script>
+    </main>
 
 </body>
 </html>
