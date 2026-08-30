@@ -1,5 +1,5 @@
 /* ============================= */
-/* UPLOAD RESUME PAGE */
+/* UPLOAD RESUME PAGE (style2.css) */
 /* ============================= */
 
 * {
@@ -10,132 +10,151 @@
 
 .upload-page {
     min-height: 100vh;
-    font-family: Arial, sans-serif;
-    color: white;
-    background-image: url("https://images.unsplash.com/photo-1556761175-b413da4baf72");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #0f172a;
+    /* High-clarity, visible modern office workspace */
+    background: url("https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=2000&q=85") center/cover no-repeat fixed;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
-/* Dark layer over background */
+/* Light office overlay for high background visibility */
 .background-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
     z-index: 0;
 }
 
-/* Main container */
+/* Main content wrapper */
 .upload-container {
     position: relative;
     z-index: 1;
     width: 90%;
-    max-width: 700px;
+    max-width: 620px;
     margin: auto;
     text-align: center;
-    padding-top: 70px;
-    padding-bottom: 50px;
+    padding: 40px 32px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
 }
 
-/* Main heading */
+/* Headings */
 .upload-container h1 {
-    font-size: 45px;
+    font-size: 38px;
+    font-weight: 800;
     margin-bottom: 12px;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.upload-container h1 span {
+    color: #2563eb;
 }
 
 /* Subtitle */
 .upload-subtitle {
-    font-size: 18px;
-    color: #eeeeee;
-    margin-bottom: 35px;
+    font-size: 16px;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 24px;
 }
 
-/* Upload card */
+/* Upload Drop Card */
 .upload-card {
     width: 100%;
-    max-width: 500px;
-    margin: auto;
-    padding: 45px 30px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 18px;
-    color: #222;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+    margin: 0 auto 24px auto;
+    padding: 32px 20px;
+    background: #ffffff;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    color: #0f172a;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.upload-card:hover {
+    border-color: #2563eb;
+    background-color: #f8fafc;
 }
 
 /* Upload icon */
 .upload-icon {
-    font-size: 50px;
-    margin-bottom: 15px;
+    font-size: 42px;
+    margin-bottom: 12px;
 }
 
 /* Upload heading */
 .upload-card h2 {
-    font-size: 27px;
-    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #0f172a;
 }
 
 /* Description */
 .upload-text {
-    color: #666;
-    font-size: 16px;
-    margin-bottom: 25px;
-}
-
-/* Hide original file input */
-#resume {
-    display: none;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 18px;
 }
 
 /* Choose File button */
 .choose-file {
     display: inline-block;
-    padding: 13px 30px;
-    background-color: #2563eb;
-    color: white;
-    border-radius: 7px;
+    padding: 10px 24px;
+    background-color: #f1f5f9;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-/* Choose file hover */
 .choose-file:hover {
-    background-color: #1d4ed8;
+    background-color: #e2e8f0;
+    border-color: #94a3b8;
 }
 
-/* File name */
+/* File name output */
 #file-name {
-    margin-top: 18px;
-    font-weight: bold;
-    color: #333;
+    margin-top: 14px;
+    font-weight: 600;
+    color: #2563eb;
+    font-size: 14px;
     word-break: break-word;
 }
 
-/* File types */
+/* File formats note */
 .file-types {
-    margin-top: 12px;
-    color: #777;
-    font-size: 14px;
+    margin-top: 6px;
+    color: #94a3b8;
+    font-size: 12px;
 }
 
-/* Analyze button */
+/* Primary Analyze button */
 .analyze-button {
-    display: inline-block;
+    display: block;
     width: 100%;
-    max-width: 320px;
-    margin-top: 25px;
-    padding: 14px 25px;
-    border: none;
-    border-radius: 8px;
+    margin: 10px auto 0 auto;
+    padding: 13px 25px;
+    border: 1px solid transparent;
+    border-radius: 6px;
     background-color: #2563eb;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
@@ -144,62 +163,60 @@
     background-color: #1d4ed8;
 }
 
-/* Disabled analyze button */
 .analyze-button:disabled {
-    background-color: #64748b;
-    opacity: 0.7;
+    background-color: #94a3b8;
     cursor: not-allowed;
+    opacity: 0.7;
 }
 
-/* View button */
+/* Secondary View button */
 .view-button {
-    display: inline-block;
+    display: block;
     width: 100%;
-    max-width: 320px;
-    margin-top: 12px;
+    margin: 10px auto 0 auto;
     padding: 12px 25px;
-    border: 1px solid #2563eb;
-    border-radius: 8px;
-    background-color: white;
-    color: #2563eb;
-    font-size: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #334155;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .view-button:hover:not(:disabled) {
-    background-color: #eff6ff;
+    background-color: #f8fafc;
+    border-color: #94a3b8;
 }
 
 .view-button:disabled {
     color: #94a3b8;
-    border-color: #cbd5e1;
-    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+    background-color: #f8fafc;
     cursor: not-allowed;
 }
 
-/* Message */
+/* Dynamic status feedback */
 #message {
-    margin-top: 20px;
-    font-size: 16px;
-    font-weight: bold;
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2563eb;
+    min-height: 20px;
 }
 
-/* Back button */
+/* Back Link */
 .back-button {
     display: inline-block;
-    margin-top: 25px;
-    padding: 8px 16px;
-    color: #e2e8f0;
+    margin-top: 20px;
+    color: #64748b;
     text-decoration: none;
-    font-size: 15px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    transition: background 0.2s ease, color 0.2s ease;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.2s ease;
 }
 
 .back-button:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.2);
+    color: #0f172a;
 }
