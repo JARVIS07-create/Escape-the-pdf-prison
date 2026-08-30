@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - FolioPulse</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profile-wrapper {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 16px;
+            padding: 36px 30px;
+            max-width: 750px;
+            margin: 0 auto;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+        }
+
+        .profile-card-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 28px;
+        }
+
+        .avatar-upload-group {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transition: opacity 0.2s ease;
+            overflow: hidden;
+        }
+
+        .avatar-upload-group:hover .avatar-preview {
+            opacity: 0.85;
+        }
+
+        .avatar-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #0f172a;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            border: 2px solid #ffffff;
+        }
+
+        .user-title-group h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+
+        .user-title-group p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .form-section {
+            margin-bottom: 28px;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background: #ffffff;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            gap: 12px;
+        }
+
+        #save-status {
+            font-size: 14px;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        @media (max-width: 640px) {
+            .profile-wrapper { padding: 24px 16px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .profile-card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <!-- Header Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-badge">⚡</span> FolioPulse
+        </a>
+
+        <div class="nav-right">
+            <div class="dropdown" id="user-dropdown">
+                <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
+                    <div class="avatar" id="nav-user-avatar">AM</div>
+                    <span id="nav-user-name">Profile</span>
+                    <span class="chevron">▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">
+                        <span class="item-icon">👤</span> Profile Settings
+                    </a>
+                    <a href="portfolio.html" class="dropdown-item">
+                        <span class="item-icon">📁</span> My Portfolios
+                    </a>
+                    <a href="chat.html" class="dropdown-item">
+                        <span class="item-icon">🤖</span> AI Chat Box
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="index.html" class="dropdown-item logout-link" onclick="handleLogout(event)">
+                        <span class="item-icon">🚪</span> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="profile-wrapper">
+            
+            <!-- User Header & Avatar -->
+            <div class="profile-card-header">
+                <div class="avatar-upload-group" onclick="document.getElementById('avatar-input').click()">
+                    <div class="avatar-preview" id="avatar-display">AM</div>
+                    <div class="avatar-badge">📷</div>
+                    <input type="file" id="avatar-input" accept="image/*" style="display: none;" onchange="previewAvatar(event)">
+                </div>
+                <div class="user-title-group">
+                    <h2 id="header-name">Alex Morgan</h2>
+                    <p id="header-email">alex.morgan@example.com</p>
+                </div>
+            </div>
+
+            <form id="profile-form" onsubmit="saveProfileDetails(event)">
+                
+                <!-- Personal Details Section -->
+                <div class="form-section">
+                    <div class="form-section-title">👤 Personal Details</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" value="Alex" required oninput="updateHeader()">
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" value="Morgan" required oninput="updateHeader()">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="job-title">Professional Title</label>
+                            <input type="text" id="job-title" value="Full Stack Developer & Systems Designer">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="bio">Bio / Summary</label>
+                            <textarea id="bio">Passionate web developer specializing in AI-driven web technologies and responsive front-end design systems.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="form-section">
+                    <div class="form-section-title">📧 Contact & Location</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" value="alex.morgan@example.com" required oninput="updateHeader()">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" value="+1 (555) 019-2834">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" value="San Francisco, CA, USA">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Profiles Section -->
+                <div class="form-section">
+                    <div class="form-section-title">🌐 Social Links</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="github">GitHub Profile</label>
+                            <input type="url" id="github" value="https://github.com/alexmorgan">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn Profile</label>
+                            <input type="url" id="linkedin" value="https://linkedin.com/in/alexmorgan">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Bar -->
+                <div class="action-bar">
+                    <span id="save-status"></span>
+                    <div style="display: flex; gap: 10px;">
+                        <a href="index.html?authenticated=true" class="btn-secondary" style="padding: 10px 18px; font-size: 14px; text-decoration: none;">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn-primary" style="padding: 10px 22px; font-size: 14px;">
+                            💾 Save Profile
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+
+    <script>
+        let avatarBase64 = "";
+
+        // Dropdown toggle logic
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            document.getElementById("user-dropdown").classList.toggle("open");
+        }
+
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById("user-dropdown");
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove("open");
+            }
+        });
+
+        // Load profile and sync navbar on startup
+        window.addEventListener("DOMContentLoaded", () => {
+            loadProfileDetails();
+            syncNavbarProfile();
+        });
+
+        // Sync Navbar elements with LocalStorage
+        function syncNavbarProfile() {
+            const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+            const navAvatar = document.getElementById("nav-user-avatar");
+            const navName = document.getElementById("nav-user-name");
+
+            if (savedProfile) {
+                if (navName && savedProfile.firstName) {
+                    navName.textContent = savedProfile.firstName;
+                }
+
+                if (navAvatar) {
+                    if (savedProfile.avatar) {
+                        navAvatar.style.backgroundImage = `url('${savedProfile.avatar}')`;
+                        navAvatar.style.backgroundSize = "cover";
+                        navAvatar.style.backgroundPosition = "center";
+                        navAvatar.textContent = "";
+                    } else {
+                        const initials = ((savedProfile.firstName?.[0] || '') + (savedProfile.lastName?.[0] || '')).toUpperCase() || '👤';
+                        navAvatar.style.backgroundImage = "none";
+                        navAvatar.textContent = initials;
+                    }
+                }
+            }
+        }
+
+        // Read LocalStorage into inputs
+        function loadProfileDetails() {
+            const savedProfile = JSON.parse(localStorage.getItem("userProfile")) || {};
+
+            if (savedProfile.firstName) document.getElementById("first-name").value = savedProfile.firstName;
+            if (savedProfile.lastName) document.getElementById("last-name").value = savedProfile.lastName;
+            if (savedProfile.jobTitle) document.getElementById("job-title").value = savedProfile.jobTitle;
+            if (savedProfile.bio) document.getElementById("bio").value = savedProfile.bio;
+            if (savedProfile.email) document.getElementById("email").value = savedProfile.email;
+            if (savedProfile.phone) document.getElementById("phone").value = savedProfile.phone;
+            if (savedProfile.location) document.getElementById("location").value = savedProfile.location;
+            if (savedProfile.github) document.getElementById("github").value = savedProfile.github;
+            if (savedProfile.linkedin) document.getElementById("linkedin").value = savedProfile.linkedin;
+            
+            if (savedProfile.avatar) {
+                avatarBase64 = savedProfile.avatar;
+                const avatarDisplay = document.getElementById("avatar-display");
+                avatarDisplay.style.backgroundImage = `url('${savedProfile.avatar}')`;
+                avatarDisplay.style.backgroundSize = "cover";
+                avatarDisplay.style.backgroundPosition = "center";
+                avatarDisplay.textContent = "";
+            }
+
+            updateHeader();
+        }
+
+        // Dynamic header live updates
+        function updateHeader() {
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const email = document.getElementById('email').value;
+
+            document.getElementById('header-name').textContent = `${firstName} ${lastName}`.trim() || "User Name";
+            document.getElementById('header-email').textContent = email || "user@example.com";
+            
+            const initials = ((firstName[0] || '') + (lastName[0] || '')).toUpperCase() || '👤';
+            if (!avatarBase64) {
+                const avatarDisplay = document.getElementById('avatar-display');
+                avatarDisplay.style.backgroundImage = "none";
+                avatarDisplay.textContent = initials;
+            }
+        }
+
+        // Preview avatar image & convert to base64
+        function previewAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    avatarBase64 = e.target.result;
+                    const avatarDisplay = document.getElementById('avatar-display');
+                    avatarDisplay.style.backgroundImage = `url('${avatarBase64}')`;
+                    avatarDisplay.style.backgroundSize = 'cover';
+                    avatarDisplay.style.backgroundPosition = 'center';
+                    avatarDisplay.textContent = '';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Save profile object into LocalStorage
+        function saveProfileDetails(event) {
+            event.preventDefault();
+
+            const profileData = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                jobTitle: document.getElementById('job-title').value,
+                bio: document.getElementById('bio').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                github: document.getElementById('github').value,
+                linkedin: document.getElementById('linkedin').value,
+                avatar: avatarBase64
+            };
+
+            localStorage.setItem("userProfile", JSON.stringify(profileData));
+
+            // Sync the top navigation bar immediately
+            syncNavbarProfile();
+
+            const saveStatus = document.getElementById('save-status');
+            saveStatus.textContent = "✓ Profile saved to LocalStorage!";
+            saveStatus.style.color = "#059669";
+
+            setTimeout(() => {
+                saveStatus.textContent = "";
+            }, 3000);
+        }
+
+        function handleLogout(event) {
+            event.preventDefault();
+            localStorage.removeItem("userProfile");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
