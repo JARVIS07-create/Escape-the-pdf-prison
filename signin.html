@@ -5,56 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In | FolioPulse</title>
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            margin: 0; min-height: 100vh; font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e3a8a);
-            color: white; display: flex; justify-content: center; align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0f19;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
-        .auth-container { width: 100%; max-width: 430px; padding: 20px; }
+
+        /* Shared Office Graphic Background */
+        .office-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: 
+                linear-gradient(to bottom, rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)),
+                url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            pointer-events: none;
+        }
+
+        .auth-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
         .auth-card {
-            background: rgba(15, 23, 42, 0.95); padding: 40px; border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+            background: rgba(15, 23, 42, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
         }
-        .logo { text-align: center; font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-        h2 { text-align: center; margin-bottom: 8px; }
-        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; }
+
+        .logo { text-align: center; font-size: 26px; font-weight: bold; margin-bottom: 12px; }
+        h2 { text-align: center; margin-bottom: 8px; font-size: 22px; }
+        .subtitle { text-align: center; color: #94a3b8; margin-bottom: 28px; font-size: 14px; }
+        
         .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 7px; font-size: 14px; color: #cbd5e1; }
+        label { display: block; margin-bottom: 7px; font-size: 13px; color: #cbd5e1; }
+        
         input {
-            width: 100%; padding: 13px; border-radius: 8px; border: 1px solid #475569;
-            background: #1e293b; color: white; font-size: 15px; outline: none;
+            width: 100%;
+            padding: 13px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: rgba(30, 41, 59, 0.7);
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
         }
+
         input:focus { border-color: #38bdf8; }
-        .password-wrapper { position: relative; }
-        .password-wrapper input { padding-right: 50px; }
-        .toggle-password {
-            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-            cursor: pointer; user-select: none;
-        }
+
         .forgot-link {
-            display: block; text-align: right; margin-top: 8px; color: #38bdf8;
-            text-decoration: none; font-size: 13px;
+            display: block;
+            text-align: right;
+            margin-top: 8px;
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 13px;
         }
+
         .forgot-link:hover { text-decoration: underline; }
+
         .submit-btn {
-            width: 100%; padding: 13px; margin-top: 15px; border: none;
-            border-radius: 8px; background: #3b82f6; color: white;
-            font-size: 16px; font-weight: bold; cursor: pointer;
+            width: 100%;
+            padding: 13px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #3b82f6;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
         }
+
         .submit-btn:hover { background: #2563eb; }
-        .switch-text { text-align: center; margin-top: 25px; color: #94a3b8; font-size: 14px; }
-        .switch-text a { color: #38bdf8; text-decoration: none; font-weight: bold; }
-        .back-home { display: block; text-align: center; margin-top: 20px; color: #94a3b8; font-size: 13px; text-decoration: none; }
+
+        .switch-text { text-align: center; margin-top: 22px; color: #94a3b8; font-size: 14px; }
+        .switch-text a { color: #38bdf8; text-decoration: none; font-weight: 600; }
+        .back-home { display: block; text-align: center; margin-top: 18px; color: #64748b; font-size: 13px; text-decoration: none; }
+        .back-home:hover { color: #94a3b8; }
     </style>
 </head>
 <body>
+
+    <div class="office-bg"></div>
 
     <div class="auth-container">
         <div class="auth-card">
             <div class="logo">⚡ FolioPulse</div>
             <h2>Welcome Back</h2>
-            <p class="subtitle">Sign in to continue to your portfolio.</p>
+            <p class="subtitle">Sign in to continue to your dashboard.</p>
 
             <form onsubmit="handleSignIn(event)">
                 <div class="form-group">
@@ -64,11 +119,7 @@
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="password" placeholder="Enter your password" required>
-                        <span class="toggle-password" onclick="togglePassword()">👁️</span>
-                    </div>
-                    <!-- Forgot Password Link -->
+                    <input type="password" id="password" placeholder="Enter your password" required>
                     <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
                 </div>
 
@@ -84,15 +135,10 @@
     </div>
 
     <script>
-        function togglePassword() {
-            const pwd = document.getElementById("password");
-            pwd.type = pwd.type === "password" ? "text" : "password";
-        }
-
         function handleSignIn(event) {
             event.preventDefault();
-            localStorage.setItem("isLoggedIn", "true");
-            window.location.href = "index.html";
+            // Redirects straight to the Dashboard view upon login
+            window.location.href = "dashboard.html";
         }
     </script>
 </body>
