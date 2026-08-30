@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FolioPulse | Welcome</title>
+    <title>FolioPulse</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #0b0f19;
             color: white;
             min-height: 100vh;
@@ -22,57 +22,37 @@
             overflow-x: hidden;
         }
 
-        /* Animated Graphic Background Elements */
-        .bg-graphics {
+        /* Modern Office Graphic Background Layer */
+        .office-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
             z-index: 0;
+            background: 
+                linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.92)),
+                url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
             pointer-events: none;
-            overflow: hidden;
         }
 
-        /* Radial Glowing Orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.45;
-            animation: float 10s infinite alternate ease-in-out;
-        }
-
-        .orb-1 {
-            width: 380px;
-            height: 380px;
-            background: #3b82f6;
-            top: -50px;
-            left: -50px;
-        }
-
-        .orb-2 {
-            width: 450px;
-            height: 450px;
-            background: #8b5cf6;
-            bottom: -100px;
-            right: -100px;
-            animation-delay: -5s;
-        }
-
-        /* Tech Grid Pattern Overlay */
-        .grid-pattern {
+        /* Tech Grid & Glowing Accents */
+        .grid-overlay {
             position: absolute;
             inset: 0;
             background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 40px) scale(1.1); }
+        .glow-orb {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 70%, transparent 100%);
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: blur(80px);
         }
 
         /* Navigation Header */
@@ -82,9 +62,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(11, 15, 25, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 22px 6%;
+            background: rgba(11, 15, 25, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
         }
 
@@ -98,49 +78,24 @@
             gap: 8px;
         }
 
-        .nav-buttons {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* Separate Direct Page Navigation Buttons */
-        .btn-signin {
-            color: #e2e8f0;
-            text-decoration: none;
+        /* Top Corner Edit Portfolio Button (Hidden on Landing, Visible on Dashboard) */
+        .edit-portfolio-btn {
+            display: none;
+            background: #38bdf8;
+            color: #0f172a;
             padding: 10px 20px;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.05);
-            transition: all 0.2s ease;
-        }
-
-        .btn-signin:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-signup {
-            color: #ffffff;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            font-weight: 700;
             font-size: 14px;
-            font-weight: 600;
-            background: #3b82f6;
-            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
-        .btn-signup:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
+        .edit-portfolio-btn:hover {
+            background: #7dd3fc;
         }
 
-        /* Hero / Landing Content Container */
+        /* SECTION 1: LANDING HERO VIEW */
         .hero-container {
             position: relative;
             z-index: 10;
@@ -156,21 +111,22 @@
         .badge {
             display: inline-block;
             padding: 6px 16px;
-            background: rgba(56, 189, 248, 0.1);
+            background: rgba(56, 189, 248, 0.12);
             border: 1px solid rgba(56, 189, 248, 0.3);
             color: #38bdf8;
             border-radius: 20px;
             font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
         }
 
         .hero-title {
-            font-size: 48px;
-            line-height: 1.2;
-            margin-bottom: 18px;
+            font-size: 52px;
+            line-height: 1.15;
+            margin-bottom: 20px;
             font-weight: 800;
-            max-width: 750px;
+            max-width: 800px;
+            letter-spacing: -1px;
         }
 
         .hero-title span {
@@ -183,7 +139,7 @@
             font-size: 18px;
             color: #94a3b8;
             margin-bottom: 40px;
-            max-width: 600px;
+            max-width: 620px;
             line-height: 1.6;
         }
 
@@ -191,16 +147,17 @@
             display: flex;
             gap: 16px;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
         .cta-btn {
             padding: 14px 32px;
             border-radius: 10px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
         }
 
         .cta-btn.primary {
@@ -215,46 +172,105 @@
         }
 
         .cta-btn.secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             color: white;
+            backdrop-filter: blur(5px);
         }
 
         .cta-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border-color: #38bdf8;
             transform: translateY(-2px);
         }
 
-        @media (max-width: 600px) {
-            .hero-title { font-size: 32px; }
-            .hero-subtitle { font-size: 15px; }
+        /* SECTION 2: DASHBOARD VIEW (Hidden Initially) */
+        .dashboard-container {
+            display: none;
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .dashboard-container h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .dashboard-container p {
+            color: #94a3b8;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 720px;
+            width: 100%;
+        }
+
+        .option-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 40px 25px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .card-icon {
+            font-size: 42px;
+            margin-bottom: 16px;
+        }
+
+        .option-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .option-card p {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
 
-    <!-- Graphic Background Overlay -->
-    <div class="bg-graphics">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="grid-pattern"></div>
+    <!-- Shared Office Graphic Background Layer -->
+    <div class="office-bg">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb"></div>
     </div>
 
-    <!-- Header Navigation Bar -->
+    <!-- Top Navbar -->
     <nav class="navbar">
         <a href="index.html" class="logo">⚡ FolioPulse</a>
-
-        <!-- Sign In & Create Account direct route buttons -->
-        <div class="nav-buttons">
-            <a href="signin.html" class="btn-signin">Sign In</a>
-            <a href="signup.html" class="btn-signup">Create Account</a>
-        </div>
+        <!-- Edit Portfolio Button in Top Corner -->
+        <a href="edit-portfolio.html" class="edit-portfolio-btn" id="edit-portfolio-btn">✏️ Edit Portfolio</a>
     </nav>
 
-    <!-- Main Landing View -->
-    <main class="hero-container">
-        <div class="badge">🚀 Portfolio Builder</div>
+    <!-- 1. LANDING HERO VIEW -->
+    <main class="hero-container" id="hero-view">
+        <div class="badge">📌 Portfolio Builder</div>
         <h1 class="hero-title">Build & Share Your <span>Professional Portfolio</span> Instantly</h1>
         <p class="hero-subtitle">Convert your resume into a personalized showcase website or start editing your details directly from your dashboard.</p>
 
@@ -263,6 +279,42 @@
             <a href="signin.html" class="cta-btn secondary">Sign In</a>
         </div>
     </main>
+
+    <!-- 2. DASHBOARD VIEW -->
+    <main class="dashboard-container" id="dashboard-view">
+        <h1>Welcome to Your Dashboard</h1>
+        <p>Choose an action below to manage your professional profile.</p>
+
+        <div class="options-grid">
+            <!-- Option 1: Upload Resume -->
+            <a href="upload_resume.html" class="option-card">
+                <div class="card-icon">📄</div>
+                <h3>1. Upload Resume</h3>
+                <p>Upload a PDF resume to automatically extract details and build your portfolio.</p>
+            </a>
+
+            <!-- Option 2: View Your Portfolio -->
+            <a href="portfolio.html" class="option-card">
+                <div class="card-icon">👁️</div>
+                <h3>2. View Your Portfolio</h3>
+                <p>Preview your live portfolio exactly as recruiters and visitors will see it.</p>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Check if user navigated here after authenticating
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('authenticated') === 'true') {
+            showDashboard();
+        }
+
+        function showDashboard() {
+            document.getElementById('hero-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'flex';
+            document.getElementById('edit-portfolio-btn').style.display = 'inline-block';
+        }
+    </script>
 
 </body>
 </html>
