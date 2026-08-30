@@ -4,205 +4,378 @@
     box-sizing: border-box;
 }
 
-
 body {
-
-    height: 100vh;
-
-    font-family: Arial, sans-serif;
-
-    background-image: url("https://images.unsplash.com/photo-1521737711867-e3b97375f902");
-
-    background-size: cover;
-
-    background-position: center;
-
-    color: white;
-
+    min-height: 100vh;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    /* High-definition, visible modern office workspace */
+    background: url("https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=2000&q=85") center/cover no-repeat fixed;
+    color: #0f172a;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
-
-/* Dark layer over the image */
-
+/* Clear, balanced overlay that keeps the office sharply visible */
 .overlay {
-
     position: fixed;
-
     top: 0;
     left: 0;
-
     width: 100%;
     height: 100%;
-
-    background: rgba(0, 0, 0, 0.65);
-
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
     z-index: 0;
 }
 
-
-/* Main content */
-
-.container {
-
+/* Top Navigation Header */
+.navbar {
     position: relative;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 6%;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid #e2e8f0;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
 
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #0f172a;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-badge {
+    background: #2563eb;
+    color: #ffffff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Dropdown Navigation Menu */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-btn:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+}
+
+.dropdown-btn .avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    color: #4338ca;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.dropdown-btn .chevron {
+    font-size: 10px;
+    color: #64748b;
+    transition: transform 0.2s ease;
+}
+
+.dropdown.open .chevron {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    width: 220px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    display: none;
+    flex-direction: column;
+    padding: 6px;
+    z-index: 100;
+}
+
+.dropdown.open .dropdown-menu {
+    display: flex;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    color: #334155;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dropdown-item:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.dropdown-item .item-icon {
+    font-size: 16px;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 4px 0;
+}
+
+/* Main Content Container */
+.container {
+    position: relative;
     z-index: 1;
-
     text-align: center;
-
     width: 90%;
-
-    max-width: 700px;
-
+    max-width: 900px;
     margin: auto;
-
-    padding-top: 120px;
-
+    padding-top: 50px;
+    padding-bottom: 40px;
 }
 
+/* Landing Glass Card for High Readability */
+#landing-view {
+    background: rgba(255, 255, 255, 0.88);
+    padding: 48px 36px;
+    border-radius: 16px;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    max-width: 780px;
+    margin: 0 auto;
+}
 
-/* Project name */
-
+/* Headings */
 h1 {
-
-    font-size: 45px;
-
-    margin-bottom: 30px;
-
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: #0f172a;
+    letter-spacing: -0.02em;
 }
 
-
-/* Welcome */
+h1 span {
+    color: #2563eb;
+}
 
 h2 {
-
-    font-size: 32px;
-
+    font-size: 28px;
     margin-bottom: 15px;
-
+    color: #0f172a;
 }
 
-
-/* Main saying */
-
+/* Taglines & Text */
 .tagline {
-
-    font-size: 24px;
-
+    font-size: 20px;
     line-height: 1.5;
-
     margin-bottom: 15px;
-
+    color: #1e293b;
+    font-weight: 600;
 }
-
-
-/* Description */
 
 .description {
-
-    font-size: 17px;
-
-    color: #dddddd;
-
+    font-size: 16px;
+    color: #475569;
     line-height: 1.6;
-
+    max-width: 600px;
+    margin: 0 auto;
 }
-
 
 /* Buttons */
-
 .buttons {
-
-    margin-top: 30px;
-
+    margin-top: 25px;
 }
-
 
 button {
-
     padding: 13px 25px;
-
     margin: 8px;
-
-    border: none;
-
+    border: 1px solid transparent;
     border-radius: 6px;
-
     background-color: #2563eb;
-
     color: white;
-
     font-size: 16px;
-
+    font-weight: 600;
     cursor: pointer;
-
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
-
 
 button:hover {
-
     background-color: #1d4ed8;
-
 }
 
+button.btn-secondary {
+    background-color: #ffffff;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+}
 
-/* Forms */
+button.btn-secondary:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+}
 
+/* Auth Modal Form Box */
 .form-box {
-
     display: none;
-
-    width: 320px;
-
+    width: 100%;
+    max-width: 380px;
     margin: 30px auto;
-
-    padding: 25px;
-
-    background: rgba(255, 255, 255, 0.95);
-
-    border-radius: 10px;
-
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    color: #1e293b;
+    text-align: left;
 }
-
-
-/* Form heading */
 
 .form-box h2 {
-
-    color: #222;
-
+    color: #0f172a;
     font-size: 24px;
-
     margin-bottom: 20px;
-
+    text-align: center;
 }
 
+.form-group {
+    margin-bottom: 15px;
+}
 
-/* Email and password */
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
 
 input {
-
     width: 100%;
-
     padding: 12px;
-
-    margin-bottom: 15px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 5px;
-
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
     font-size: 15px;
-
+    color: #0f172a;
+    background-color: #ffffff;
 }
 
-
-/* Form button */
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
 
 .form-box button {
-
     width: 100%;
+    margin: 10px 0 0 0;
+}
 
-    margin: 0;
+.form-switch-text {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #475569;
+    text-align: center;
+}
 
+.form-switch-link {
+    color: #2563eb;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Dashboard View */
+.dashboard-view {
+    display: none;
+    width: 100%;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.option-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 28px 24px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    text-align: left;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.option-card:hover {
+    border-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.08);
+}
+
+.option-card .card-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.option-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #0f172a;
+}
+
+.option-card p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
 }
