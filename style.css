@@ -7,25 +7,72 @@
 body {
     min-height: 100vh;
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-    /* High-definition, visible modern office workspace */
-    background: url("https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=2000&q=85") center/cover no-repeat fixed;
     color: #0f172a;
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow-x: hidden;
+    /* Animated Gradient Base */
+    background: linear-gradient(135deg, #f0fdf4, #eff6ff, #f8fafc, #e0e7ff);
+    background-size: 400% 400%;
+    animation: gradientShift 14s ease infinite;
 }
 
-/* Clear, balanced overlay that keeps the office sharply visible */
+/* Graphic Motion Overlay (Floating Mesh Gradient Orbs) */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(1.5px);
-    -webkit-backdrop-filter: blur(1.5px);
+    pointer-events: none;
     z-index: 0;
+    overflow: hidden;
+}
+
+.overlay::before,
+.overlay::after {
+    content: '';
+    position: absolute;
+    width: 550px;
+    height: 550px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: orbFloat 18s ease-in-out infinite alternate;
+}
+
+.overlay::before {
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.35) 0%, rgba(147, 197, 253, 0) 70%);
+    top: -10%;
+    left: 10%;
+}
+
+.overlay::after {
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(196, 181, 253, 0) 70%);
+    bottom: -10%;
+    right: 10%;
+    animation-duration: 22s;
+    animation-direction: alternate-reverse;
+}
+
+/* Background Animation Keyframes */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes orbFloat {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+    50% {
+        transform: translate(80px, 60px) scale(1.15);
+    }
+    100% {
+        transform: translate(-60px, 100px) scale(0.9);
+    }
 }
 
 /* Top Navigation Header */
@@ -36,11 +83,11 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 16px 6%;
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid #e2e8f0;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.04);
 }
 
 .logo {
@@ -78,7 +125,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
     border: 1px solid #cbd5e1;
     padding: 8px 14px;
     border-radius: 8px;
@@ -176,15 +223,15 @@ body {
     padding-bottom: 40px;
 }
 
-/* Landing Glass Card for High Readability */
+/* Landing Frosted Glass Container */
 #landing-view {
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.85);
     padding: 48px 36px;
     border-radius: 16px;
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.09);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     max-width: 780px;
     margin: 0 auto;
 }
@@ -208,7 +255,6 @@ h2 {
     color: #0f172a;
 }
 
-/* Taglines & Text */
 .tagline {
     font-size: 20px;
     line-height: 1.5;
@@ -240,11 +286,12 @@ button {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 button:hover {
     background-color: #1d4ed8;
+    transform: translateY(-1px);
 }
 
 button.btn-secondary {
@@ -254,7 +301,7 @@ button.btn-secondary {
 }
 
 button.btn-secondary:hover {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
     border-color: #94a3b8;
 }
 
@@ -265,11 +312,11 @@ button.btn-secondary:hover {
     max-width: 380px;
     margin: 30px auto;
     padding: 30px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-    color: #1e293b;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 14px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
     text-align: left;
 }
 
@@ -305,7 +352,7 @@ input {
 input:focus {
     outline: none;
     border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .form-box button {
@@ -327,7 +374,7 @@ input:focus {
     font-weight: 600;
 }
 
-/* Dashboard View */
+/* Dashboard View Cards */
 .dashboard-view {
     display: none;
     width: 100%;
@@ -342,24 +389,23 @@ input:focus {
 }
 
 .option-card {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 14px;
     padding: 28px 24px;
     cursor: pointer;
     text-decoration: none;
     color: #0f172a;
-    transition: all 0.2s ease;
+    transition: all 0.25s ease;
     text-align: left;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(8px);
 }
 
 .option-card:hover {
     border-color: #2563eb;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px -4px rgba(37, 99, 235, 0.12);
 }
 
 .option-card .card-icon {
