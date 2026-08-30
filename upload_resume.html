@@ -4,17 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Resume - AI Portfolio Builder</title>
+    <title>Upload Resume - FolioPulse</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Specific page overrides for Upload View */
+        /* Glass Card Container */
+        .upload-wrapper {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 16px;
+            padding: 40px 30px;
+            max-width: 580px;
+            margin: 0 auto;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+            text-align: center;
+        }
+
         .upload-card {
             background: #ffffff;
             border: 2px dashed #cbd5e1;
             border-radius: 12px;
-            padding: 36px 24px;
-            margin: 24px auto;
-            max-width: 480px;
+            padding: 32px 20px;
+            margin: 24px 0;
             transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
@@ -24,14 +36,8 @@
         }
 
         .upload-icon {
-            font-size: 42px;
-            margin-bottom: 12px;
-        }
-
-        .upload-subtitle {
-            font-size: 16px;
-            color: #64748b;
-            margin-bottom: 20px;
+            font-size: 40px;
+            margin-bottom: 10px;
         }
 
         .choose-file-btn {
@@ -39,7 +45,7 @@
             background-color: #f1f5f9;
             color: #1e293b;
             border: 1px solid #cbd5e1;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 6px;
             font-weight: 600;
             font-size: 14px;
@@ -70,8 +76,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            max-width: 380px;
-            margin: 0 auto;
+            width: 100%;
         }
 
         .action-buttons-group button {
@@ -96,7 +101,7 @@
 
         .back-link {
             display: inline-block;
-            margin-top: 24px;
+            margin-top: 20px;
             color: #64748b;
             text-decoration: none;
             font-weight: 600;
@@ -112,18 +117,16 @@
 
 <body>
 
-    <!-- Light Office Background Overlay -->
     <div class="overlay"></div>
 
-    <!-- Top Navigation Header -->
     <header class="navbar">
         <a href="index.html" class="logo">
-            Portfolio AI <span class="logo-badge">PRO</span>
+            <span class="logo-badge">⚡</span> FolioPulse
         </a>
 
         <div class="nav-right">
             <div class="dropdown" id="userDropdown">
-                <button class="dropdown-btn" onclick="toggleDropdown()">
+                <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
                     <div class="avatar">JS</div>
                     <span>Account</span>
                     <span class="chevron">▼</span>
@@ -147,76 +150,64 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="container">
+        <div class="upload-wrapper">
+            <h1>Upload Your <span>Resume</span></h1>
+            <p class="description">Turn your resume into a professional showcase website with AI.</p>
 
-        <h1>Upload Your <span>Resume</span></h1>
+            <div class="upload-card">
+                <div class="upload-icon">📄</div>
+                <h2>Upload your resume</h2>
+                <p class="description" style="font-size: 14px;">Choose your resume from your device</p>
 
-        <p class="upload-subtitle">
-            Turn your static resume into a professional, high-converting portfolio website.
-        </p>
+                <input 
+                    type="file" 
+                    id="resume" 
+                    accept=".pdf,.jpg,.jpeg,.png" 
+                    style="display: none;"
+                >
 
-        <!-- Upload Drag & Drop Card -->
-        <div class="upload-card">
-            <div class="upload-icon">📄</div>
+                <label for="resume" class="choose-file-btn">
+                    Browse Files
+                </label>
 
-            <h2>Select File</h2>
+                <p id="file-name">No file selected</p>
+                <p class="file-types">Supported formats: PDF, JPG, PNG</p>
+            </div>
 
-            <p class="description" style="font-size: 14px;">
-                Choose your latest resume document from your device
-            </p>
+            <div class="action-buttons-group">
+                <button 
+                    id="analyze-button" 
+                    disabled 
+                    onclick="analyzeResume()"
+                >
+                    Analyze My Resume
+                </button>
 
-            <!-- Hidden File Input -->
-            <input 
-                type="file" 
-                id="resume" 
-                accept=".pdf,.jpg,.jpeg,.png" 
-                style="display: none;"
-            >
+                <button 
+                    id="view-button" 
+                    class="btn-secondary" 
+                    disabled 
+                    onclick="viewResume()"
+                >
+                    👁 View Uploaded Resume
+                </button>
+            </div>
 
-            <label for="resume" class="choose-file-btn">
-                Browse Files
-            </label>
+            <p id="status-message"></p>
 
-            <p id="file-name">No file selected</p>
-            <p class="file-types">Supported formats: PDF, JPG, PNG</p>
+            <div>
+                <a href="index.html" class="back-link">
+                    ← Back to Dashboard
+                </a>
+            </div>
         </div>
-
-        <!-- Dynamic Action Buttons Group -->
-        <div class="action-buttons-group">
-            <button 
-                id="analyze-button" 
-                disabled 
-                onclick="analyzeResume()"
-            >
-                Analyze My Resume
-            </button>
-
-            <button 
-                id="view-button" 
-                class="btn-secondary" 
-                disabled 
-                onclick="viewResume()"
-            >
-                👁 View Uploaded Resume
-            </button>
-        </div>
-
-        <!-- Status Message output -->
-        <p id="status-message"></p>
-
-        <!-- Navigation Back -->
-        <div>
-            <a href="index.html" class="back-link">
-                ← Back to Dashboard
-            </a>
-        </div>
-
     </main>
 
     <script>
-        // Dropdown Toggle Logic
-        function toggleDropdown() {
+        // Dropdown toggle logic
+        function toggleDropdown(event) {
+            event.stopPropagation();
             const dropdown = document.getElementById("userDropdown");
             dropdown.classList.toggle("open");
         }
@@ -224,37 +215,33 @@
         // Close dropdown when clicking outside
         window.onclick = function (event) {
             if (!event.target.closest('.dropdown')) {
-                const dropdowns = document.getElementsByClassName("dropdown");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('open')) {
-                        openDropdown.classList.remove('open');
-                    }
+                const dropdown = document.getElementById("userDropdown");
+                if (dropdown && dropdown.classList.contains('open')) {
+                    dropdown.classList.remove('open');
                 }
             }
         };
 
-        // DOM Elements
+        // DOM elements
         const resumeInput = document.getElementById("resume");
         const fileName = document.getElementById("file-name");
         const analyzeButton = document.getElementById("analyze-button");
         const viewButton = document.getElementById("view-button");
         const statusMessage = document.getElementById("status-message");
 
-        // File Selection Listener
+        // File selection handler
         resumeInput.addEventListener("change", function () {
             if (resumeInput.files.length > 0) {
                 const file = resumeInput.files[0];
                 fileName.textContent = file.name;
 
-                // Enable action buttons
                 analyzeButton.disabled = false;
                 viewButton.disabled = false;
                 statusMessage.textContent = "";
             }
         });
 
-        // Analyze Resume & API Integration
+        // Backend upload & analysis call
         async function analyzeResume() {
             const file = resumeInput.files[0];
 
@@ -263,7 +250,6 @@
                 return;
             }
 
-            // UI Feedback during request
             analyzeButton.textContent = "Analyzing...";
             analyzeButton.disabled = true;
             statusMessage.textContent = "AI is analyzing your resume... Please wait.";
@@ -294,13 +280,12 @@
                 statusMessage.textContent = "Could not connect to the AI server.";
                 alert("Could not connect to the Python backend server.");
             } finally {
-                // Restore Button State
                 analyzeButton.textContent = "Analyze My Resume";
                 analyzeButton.disabled = false;
             }
         }
 
-        // View Uploaded File in New Browser Tab
+        // Open selected file in a preview tab
         function viewResume() {
             const file = resumeInput.files[0];
             if (file) {
