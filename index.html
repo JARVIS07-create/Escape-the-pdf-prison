@@ -17,17 +17,76 @@
             position: relative;
         }
 
-        /* Office workspace background — pure CSS, no external image so it always renders */
+        /* Detailed CSS Office Workspace Background */
         .office-bg {
             position: fixed;
             inset: 0;
             z-index: 0;
-            background:
-                radial-gradient(circle at 50% 40%, rgba(37, 99, 235, 0.22) 0%, rgba(15, 23, 42, 0) 60%),
-                repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 80px),
-                repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 80px),
-                linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #0b1220 100%);
+            background: #090d16;
+            overflow: hidden;
             pointer-events: none;
+        }
+
+        /* Office Wall Grid & Lighting Glow */
+        .office-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 50% 25%, rgba(37, 99, 235, 0.25) 0%, rgba(15, 23, 42, 0) 70%),
+                radial-gradient(circle at 85% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 40%),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 60px),
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 60px);
+        }
+
+        /* Office Desk & Workspace Elements */
+        .office-desk {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 35vh;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border-top: 2px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Computer Monitor Glow in Background */
+        .office-monitor {
+            position: absolute;
+            bottom: 35vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(500px, 80vw);
+            height: min(280px, 30vh);
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            box-shadow: 0 -10px 40px rgba(37, 99, 235, 0.2);
+        }
+
+        .office-monitor::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 20px;
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        /* Warm Desk Lamp Ambient Glow (Top Right) */
+        .desk-lamp-glow {
+            position: absolute;
+            top: 10%;
+            right: 12%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
+            filter: blur(30px);
         }
 
         /* Navigation Header */
@@ -38,8 +97,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 6%;
-            background: rgba(15, 23, 42, 0.55);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
@@ -94,10 +153,10 @@
         .nav-btn:hover { background: rgba(255,255,255,0.12); }
         .nav-btn.solid:hover { background: #1d4ed8; }
 
-        /* Dropdown (only shown once logged in) */
+        /* Dropdown */
         .dropdown {
             position: relative;
-            display: none; /* toggled to inline-block by JS after auth */
+            display: none;
         }
 
         .dropdown-btn {
@@ -186,27 +245,46 @@
         }
 
         /* LANDING VIEW */
+        #landing-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
         .hero-title {
-            font-size: 44px;
+            font-size: clamp(26px, 5vw + 1rem, 44px);
             font-weight: 800;
             margin-bottom: 16px;
             max-width: 800px;
             color: #f8fafc;
             letter-spacing: -0.02em;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+            text-align: center;
+            line-height: 1.2;
         }
 
         .hero-title span { color: #60a5fa; }
 
         .hero-subtitle {
-            font-size: 17px;
+            font-size: clamp(14px, 2.5vw, 17px);
             color: #cbd5e1;
-            margin-bottom: 32px;
+            margin: 0 auto 32px auto;
             max-width: 600px;
             line-height: 1.6;
+            text-align: center;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.5);
         }
 
-        .cta-group { display: flex; gap: 14px; }
+        .cta-group { 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            gap: 14px; 
+            width: 100%;
+        }
 
         .cta-btn {
             padding: 12px 26px;
@@ -218,10 +296,10 @@
             transition: all 0.2s ease;
         }
 
-        .btn-primary { background: #2563eb; color: #ffffff; }
+        .btn-primary { background: #2563eb; color: #ffffff; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); }
         .btn-primary:hover { background: #1d4ed8; }
 
-        .btn-secondary { background: rgba(255,255,255,0.08); color: #f8fafc; border-color: rgba(255,255,255,0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.08); color: #f8fafc; border-color: rgba(255,255,255,0.3); backdrop-filter: blur(4px); }
         .btn-secondary:hover { background: rgba(255,255,255,0.15); }
 
         /* AUTH CARD */
@@ -234,7 +312,7 @@
             width: 100%;
             max-width: 400px;
             text-align: left;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
         }
 
         .auth-card h2 { text-align: center; margin-bottom: 24px; font-size: 22px; color: #0f172a; }
@@ -291,7 +369,7 @@
             width: 100%;
             max-width: 400px;
             text-align: left;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
         }
 
         .forgot-card h2 { margin-bottom: 8px; font-size: 22px; color: #0f172a; }
@@ -324,7 +402,7 @@
         }
 
         .dashboard-header { margin-bottom: 24px; }
-        .dashboard-header h1 { font-size: 28px; color: #f8fafc; text-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+        .dashboard-header h1 { font-size: 28px; color: #f8fafc; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
         .dashboard-header p { color: #cbd5e1; margin-top: 6px; }
 
         .options-grid {
@@ -344,51 +422,71 @@
             color: #0f172a;
             transition: all 0.2s ease;
             text-align: left;
-            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.4);
         }
 
         .option-card:hover {
             border-color: #2563eb;
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.5);
         }
 
         .option-card .card-icon { font-size: 30px; margin-bottom: 14px; display: inline-block; }
         .option-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #0f172a; }
         .option-card p { color: #64748b; font-size: 13px; line-height: 1.5; }
 
-        /* MOBILE RESPONSIVE */
+        /* OPTIMIZED MOBILE RESPONSIVE */
         @media (max-width: 640px) {
-            .navbar { padding: 12px 5%; }
-            .logo { font-size: 17px; }
-            .nav-btn { padding: 7px 12px; font-size: 13px; }
-            #nav-guest { gap: 8px; }
+            .navbar { padding: 12px 16px; }
+            .logo { font-size: 16px; }
+            .nav-btn { padding: 8px 12px; font-size: 13px; }
+            #nav-guest { gap: 6px; }
 
-            .view-container { padding: 28px 16px; }
-            .hero-title { font-size: 28px; margin-bottom: 12px; }
-            .hero-subtitle { font-size: 15px; margin-bottom: 24px; }
+            .view-container { padding: 24px 16px; }
+            .hero-subtitle { margin-bottom: 24px; }
 
-            .cta-group { flex-direction: column; width: 100%; max-width: 320px; }
-            .cta-btn { width: 100%; }
+            .cta-group { 
+                flex-direction: column; 
+                width: 100%; 
+                max-width: 280px; 
+                gap: 10px;
+            }
+            .cta-btn { 
+                width: 100%; 
+                padding: 12px; 
+            }
 
-            .auth-card, .forgot-card { padding: 24px 20px; max-width: 100%; }
+            .auth-card, .forgot-card { 
+                padding: 24px 16px; 
+                max-width: 100%; 
+            }
 
             .dashboard-header h1 { font-size: 22px; }
-            .options-grid { grid-template-columns: 1fr; }
-            .option-card { padding: 22px 18px; }
+            .options-grid { 
+                grid-template-columns: 1fr; 
+                gap: 14px; 
+            }
+            .option-card { padding: 20px 16px; }
 
-            .dropdown-menu { width: 200px; }
+            .dropdown-menu { 
+                width: calc(100vw - 32px); 
+                right: -8px; 
+            }
         }
 
         @media (max-width: 380px) {
-            .hero-title { font-size: 24px; }
-            .dropdown-btn span:not(.avatar):not(.chevron) { display: none; } /* hide "Menu" text, keep icon on very small screens */
+            .dropdown-btn span:not(.avatar):not(.chevron) { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="office-bg"></div>
+    <!-- Office Setup Elements -->
+    <div class="office-bg">
+        <div class="desk-lamp-glow"></div>
+        <div class="office-monitor"></div>
+        <div class="office-desk"></div>
+    </div>
 
     <nav class="navbar">
         <div class="logo" onclick="showView('landing')">
@@ -531,7 +629,7 @@
             document.getElementById('forgot-success').style.display = 'none';
 
             if (view === 'landing') {
-                document.getElementById('landing-view').style.display = 'block';
+                document.getElementById('landing-view').style.display = 'flex';
             } else if (view === 'signin' || view === 'signup') {
                 document.getElementById('auth-view').style.display = 'block';
                 document.getElementById('auth-title').innerText = view === 'signin' ? 'Sign In' : 'Create Account';
