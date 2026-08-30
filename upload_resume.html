@@ -203,7 +203,7 @@
                 >
                     ⚡ Analyze My Resume
                 </button>
-                
+
                 <div
                    id="result"
                    style="
@@ -216,7 +216,7 @@
                        white-space: pre-wrap;
                        text-align: left;
                        border: 1px solid #e2e8f0;
-                      ">
+                     ">
                 </div>
 
                 <button 
@@ -365,8 +365,12 @@
             formData.append("resume", file);
 
             try {
-                // Send request to Flask backend endpoint
-                const response = await fetch("http://127.0.0.1:5000/analyze-resume", {
+                // Dynamic URL works whether running through localhost:5000 or external port
+                const targetUrl = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+                    ? "/analyze-resume"
+                    : "http://127.0.0.1:5000/analyze-resume";
+
+                const response = await fetch(targetUrl, {
                     method: "POST",
                     body: formData
                 });
@@ -379,11 +383,10 @@
 
                     let parsedProfile = {};
                     try {
-                        // Clean markdown json formatting if returned by Gemini
-                        const cleanJson = data.raw_analysis.replace(/```json|```/g, "").trim();
+                        const cleanJson = (data.raw_analysis || data.data).replace(/```json|```/g, "").trim();
                         parsedProfile = JSON.parse(cleanJson);
                     } catch (e) {
-                        parsedProfile = { bio: data.raw_analysis };
+                        parsedProfile = { bio: data.raw_analysis || data.data };
                     }
 
                     // Save parsed result into LocalStorage
@@ -391,7 +394,7 @@
                     const mergedProfile = { ...existingProfile, ...parsedProfile };
                     localStorage.setItem("userProfile", JSON.stringify(mergedProfile));
 
-                    // Show JSON preview on screen
+                    // Display JSON preview on screen
                     resultContainer.style.display = "block";
                     resultContainer.textContent = JSON.stringify(parsedProfile, null, 2);
 
