@@ -142,10 +142,10 @@
         </a>
 
         <div class="nav-right">
-            <div class="dropdown open-dropdown" id="user-dropdown">
+            <div class="dropdown" id="user-dropdown">
                 <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
-                    <span class="avatar">👤</span>
-                    <span>Menu</span>
+                    <div class="avatar" id="nav-user-avatar">👤</div>
+                    <span id="nav-user-name">Menu</span>
                     <span class="chevron">▼</span>
                 </button>
                 <div class="dropdown-menu">
@@ -180,7 +180,7 @@
                 <input 
                     type="file" 
                     id="resume" 
-                    accept=".pdf,.jpg,.jpeg,.png,.docx" 
+                    accept=".pdf,.docx" 
                     style="display: none;"
                     onclick="event.stopPropagation()"
                 >
@@ -190,7 +190,7 @@
                 </label>
 
                 <p id="file-name">No file selected</p>
-                <p class="file-types">Supported formats: PDF, DOCX, JPG, PNG (Max 10MB)</p>
+                <p class="file-types">Supported formats: PDF, DOCX (Max 10MB)</p>
             </div>
 
             <div class="action-buttons-group">
@@ -203,6 +203,7 @@
                 >
                     ⚡ Analyze My Resume
                 </button>
+                
                 <div
                    id="result"
                    style="
@@ -212,7 +213,9 @@
                        background: white;
                        border-radius: 10px;
                        color: black;
-                      white-space: pre-wrap;
+                       white-space: pre-wrap;
+                       text-align: left;
+                       border: 1px solid #e2e8f0;
                       ">
                 </div>
 
@@ -238,6 +241,31 @@
     </main>
 
     <script>
+        // Synchronize navbar profile with LocalStorage
+        function syncNavbarProfile() {
+            const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+            const navAvatar = document.getElementById("nav-user-avatar");
+            const navName = document.getElementById("nav-user-name");
+
+            if (savedProfile) {
+                if (navName && savedProfile.firstName) {
+                    navName.textContent = savedProfile.firstName;
+                }
+                if (navAvatar) {
+                    if (savedProfile.avatar) {
+                        navAvatar.style.backgroundImage = `url('${savedProfile.avatar}')`;
+                        navAvatar.style.backgroundSize = "cover";
+                        navAvatar.textContent = "";
+                    } else {
+                        const initials = ((savedProfile.firstName?.[0] || '') + (savedProfile.lastName?.[0] || '')).toUpperCase() || '👤';
+                        navAvatar.textContent = initials;
+                    }
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", syncNavbarProfile);
+
         // Dropdown toggle logic
         function toggleDropdown(event) {
             event.stopPropagation();
@@ -253,16 +281,19 @@
 
         function logout(event) {
             event.preventDefault();
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("userProfile");
             window.location.href = "index.html";
         }
 
-        // DOM elements
+        // DOM Elements
         const resumeInput = document.getElementById("resume");
         const fileName = document.getElementById("file-name");
         const dropZone = document.getElementById("drop-zone");
         const analyzeButton = document.getElementById("analyze-button");
         const viewButton = document.getElementById("view-button");
         const statusMessage = document.getElementById("status-message");
+        const resultContainer = document.getElementById("result");
 
         // Drag and Drop handlers
         ['dragenter', 'dragover'].forEach(eventName => {
@@ -305,7 +336,18 @@
             statusMessage.className = "";
         }
 
-        // Backend upload & analysis call
+        // Preview local file in a new tab
+        function viewResume() {
+            const file = resumeInput.files[0];
+            if (file) {
+                const fileURL = URL.createObjectURL(file);
+                window.open(fileURL, '_blank');
+            } else {
+                alert("Please select a file first.");
+            }
+        }
+
+        // Backend upload & analysis call to app.py
         async function analyzeResume() {
             const file = resumeInput.files[0];
 
@@ -316,7 +358,62 @@
 
             analyzeButton.textContent = "Analyzing with AI...";
             analyzeButton.disabled = true;
-            statusMessage.textContent = "AI is extracting skills, education, and project records...";
+            statusMessage.textContent = "AI is extracting skills, bio, and resume details...";
             statusMessage.className = "status-loading";
 
-            const formData
+            const formData = new FormData();
+            formData.append("resume", file);
+
+            try {
+                // Send request to Flask backend endpoint
+                const response = await fetch("http://127.0.0.1:5000/analyze-resume", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    statusMessage.textContent = "✓ Resume analyzed successfully! Saving data...";
+                    statusMessage.className = "status-success";
+
+                    let parsedProfile = {};
+                    try {
+                        // Clean markdown json formatting if returned by Gemini
+                        const cleanJson = data.raw_analysis.replace(/```json|```/g, "").trim();
+                        parsedProfile = JSON.parse(cleanJson);
+                    } catch (e) {
+                        parsedProfile = { bio: data.raw_analysis };
+                    }
+
+                    // Save parsed result into LocalStorage
+                    const existingProfile = JSON.parse(localStorage.getItem("userProfile")) || {};
+                    const mergedProfile = { ...existingProfile, ...parsedProfile };
+                    localStorage.setItem("userProfile", JSON.stringify(mergedProfile));
+
+                    // Show JSON preview on screen
+                    resultContainer.style.display = "block";
+                    resultContainer.textContent = JSON.stringify(parsedProfile, null, 2);
+
+                    // Redirect to portfolio after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = "portfolio.html";
+                    }, 2000);
+
+                } else {
+                    statusMessage.textContent = `Error: ${data.error || "Failed to analyze resume."}`;
+                    statusMessage.className = "status-error";
+                    analyzeButton.disabled = false;
+                    analyzeButton.textContent = "⚡ Analyze My Resume";
+                }
+            } catch (err) {
+                console.error("Connection error:", err);
+                statusMessage.textContent = "Unable to connect to backend server. Make sure app.py is running on port 5000.";
+                statusMessage.className = "status-error";
+                analyzeButton.disabled = false;
+                analyzeButton.textContent = "⚡ Analyze My Resume";
+            }
+        }
+    </script>
+</body>
+</html>
