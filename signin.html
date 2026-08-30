@@ -2,15 +2,11 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Sign In | FolioPulse</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -19,11 +15,8 @@
             margin: 0;
             min-height: 100vh;
             font-family: Arial, sans-serif;
-
             background: linear-gradient(135deg, #0f172a, #1e3a8a);
-
             color: white;
-
             display: flex;
             justify-content: center;
             align-items: center;
@@ -37,37 +30,27 @@
 
         .auth-card {
             background: rgba(15, 23, 42, 0.95);
-
             padding: 40px;
-
             border-radius: 16px;
-
-            border: 1px solid rgba(255,255,255,0.12);
-
-            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
         }
 
         .logo {
             text-align: center;
-
             font-size: 28px;
-
             font-weight: bold;
-
             margin-bottom: 10px;
         }
 
         h2 {
             text-align: center;
-
             margin-bottom: 8px;
         }
 
         .subtitle {
             text-align: center;
-
             color: #94a3b8;
-
             margin-bottom: 30px;
         }
 
@@ -77,30 +60,21 @@
 
         label {
             display: block;
-
             margin-bottom: 7px;
-
             font-size: 14px;
-
             color: #cbd5e1;
         }
 
         input {
             width: 100%;
-
             padding: 13px;
-
             border-radius: 8px;
-
             border: 1px solid #475569;
-
             background: #1e293b;
-
             color: white;
-
             font-size: 15px;
-
             outline: none;
+            transition: border-color 0.2s ease;
         }
 
         input:focus {
@@ -117,27 +91,19 @@
 
         .toggle-password {
             position: absolute;
-
             right: 14px;
-
             top: 50%;
-
             transform: translateY(-50%);
-
             cursor: pointer;
+            user-select: none;
         }
 
         .forgot {
             display: block;
-
             text-align: right;
-
             margin-top: 8px;
-
             color: #38bdf8;
-
             text-decoration: none;
-
             font-size: 13px;
         }
 
@@ -147,24 +113,16 @@
 
         .submit-btn {
             width: 100%;
-
             padding: 13px;
-
             margin-top: 10px;
-
             border: none;
-
             border-radius: 8px;
-
             background: #3b82f6;
-
             color: white;
-
             font-size: 16px;
-
             font-weight: bold;
-
             cursor: pointer;
+            transition: background 0.2s ease;
         }
 
         .submit-btn:hover {
@@ -173,169 +131,116 @@
 
         .switch-text {
             text-align: center;
-
             margin-top: 25px;
-
             color: #94a3b8;
-
             font-size: 14px;
         }
 
         .switch-text a {
             color: #38bdf8;
-
             text-decoration: none;
-
             font-weight: bold;
+        }
+
+        .switch-text a:hover {
+            text-decoration: underline;
         }
 
         .back-home {
             display: block;
-
             text-align: center;
-
             margin-top: 20px;
-
             color: #94a3b8;
-
             text-decoration: none;
-
             font-size: 13px;
+            transition: color 0.2s ease;
         }
 
+        .back-home:hover {
+            color: #ffffff;
+        }
     </style>
-
 </head>
-
 
 <body>
 
     <div class="auth-container">
-
         <div class="auth-card">
 
             <div class="logo">
                 ⚡ FolioPulse
             </div>
 
-            <h2>
-                Welcome Back
-            </h2>
+            <h2>Welcome Back</h2>
 
             <p class="subtitle">
                 Sign in to continue to your portfolio.
             </p>
 
-
             <form onsubmit="signIn(event)">
-
                 <div class="form-group">
-
-                    <label for="email">
-                        Email Address
-                    </label>
-
+                    <label for="email">Email Address</label>
                     <input
                         type="email"
                         id="email"
                         placeholder="Enter your email"
                         required
                     >
-
                 </div>
 
-
                 <div class="form-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
+                    <label for="password">Password</label>
                     <div class="password-wrapper">
-
                         <input
                             type="password"
                             id="password"
                             placeholder="Enter your password"
                             required
                         >
-
                         <span
                             class="toggle-password"
                             onclick="togglePassword()"
+                            role="button"
+                            aria-label="Toggle password visibility"
                         >
                             👁️
                         </span>
-
                     </div>
 
-
-                    <a
-                        href="forgot-password.html"
-                        class="forgot"
-                    >
+                    <a href="forgot-password.html" class="forgot">
                         Forgot Password?
                     </a>
-
                 </div>
 
-
-                <button
-                    type="submit"
-                    class="submit-btn"
-                >
+                <button type="submit" class="submit-btn">
                     Sign In
                 </button>
-
             </form>
 
-
             <p class="switch-text">
-
                 Don't have an account?
-
-                <a href="signup.html">
-                    Create Account
-                </a>
-
+                <a href="signup.html">Create Account</a>
             </p>
 
-
-            <a
-                href="index.html"
-                class="back-home"
-            >
+            <a href="index.html" class="back-home">
                 ← Back to Home
             </a>
 
         </div>
-
     </div>
 
-
     <script>
-
         function togglePassword() {
-
-            const password =
-                document.getElementById("password");
-
-            password.type =
-                password.type === "password"
-                ? "text"
-                : "password";
-
+            const password = document.getElementById("password");
+            password.type = password.type === "password" ? "text" : "password";
         }
-
 
         function signIn(event) {
-
             event.preventDefault();
-
+            // Simulate successful authentication state
+            localStorage.setItem("isLoggedIn", "true");
             window.location.href = "index.html";
-
         }
-
     </script>
 
 </body>
