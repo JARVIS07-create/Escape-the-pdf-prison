@@ -157,24 +157,11 @@
         <h2>Welcome!</h2>
         <p class="tagline">Your resume tells your story.<br>Now, let your portfolio bring that story to life.</p>
         
-        <!-- Welcome Buttons -->
-       <div class="buttons" id="action-buttons">
-
-    <button
-        type="button"
-        onclick="window.location.href='signin.html'"
-    >
-        Sign In
-    </button>
-
-    <button
-        type="button"
-        onclick="window.location.href='signup.html'"
-    >
-        Create Account
-    </button>
-
-</div>
+        <!-- Welcome Buttons (Fixed to trigger form display inside same page) -->
+        <div class="buttons" id="action-buttons">
+            <button type="button" onclick="showForm('login')">Sign In</button>
+            <button type="button" onclick="showForm('signup')">Create Account</button>
+        </div>
 
         <!-- Unified Login / Signup Form Box -->
         <div class="form-box" id="auth-form-box" style="display: none;">
@@ -208,7 +195,7 @@
             </div>
 
             <div class="header-controls">
-                <button type="button" class="btn-primary" onclick="window.location.href='upload_resume.html'">Upload resume</button>
+                <button type="button" class="btn-primary" onclick="window.location.href='upload_resume.html'">Upload Resume</button>
                 <button type="button" class="btn-danger" onclick="logout()">Sign Out</button>
             </div>
         </header>
@@ -218,16 +205,23 @@
             <h3 style="margin-top: 0; margin-bottom: 15px;">Quick Actions</h3>
             <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                 
-                <!-- Option 1: Upload Resume -->
+                <!-- Option 1: Upload Resume File -->
                 <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
-                    <h4 style="margin: 0 0 8px 0;">1. Upload Your Resume</h4>
-                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Import raw resume text or paste details to build your site.</p>
-                    <button type="button" class="btn-primary" onclick="scrollToEdit()">Upload / Edit Text</button>
+                    <h4 style="margin: 0 0 8px 0;">1. Upload Your Resume File</h4>
+                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Import PDF/DOCX to automatically parse content.</p>
+                    <button type="button" class="btn-primary" onclick="window.location.href='upload_resume.html'">Upload Resume</button>
                 </div>
 
-                <!-- Option 2: View Portfolio & Generate URL -->
+                <!-- Option 2: Edit Text Directly -->
                 <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
-                    <h4 style="margin: 0 0 8px 0;">2. View Your Portfolio</h4>
+                    <h4 style="margin: 0 0 8px 0;">2. Edit Portfolio Manually</h4>
+                    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Manually update bio, details, and preview live changes.</p>
+                    <button type="button" class="btn-primary" onclick="scrollToEdit()">Edit Text</button>
+                </div>
+
+                <!-- Option 3: Generate URL -->
+                <div style="flex: 1; min-width: 250px; background: #1e293b; padding: 15px; border-radius: 8px;">
+                    <h4 style="margin: 0 0 8px 0;">3. View Your Portfolio Link</h4>
                     <p style="font-size: 13px; color: #94a3b8; margin-bottom: 12px;">Generate a live public URL to share with recruiters.</p>
                     <button type="button" class="btn-success" onclick="generatePortfolioURL()">Generate Public Link</button>
                     
@@ -302,15 +296,17 @@
             }
         }
 
-        // Login / Signup Submit
-       document.getElementById('auth-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    window.location.href = './upload_resume.html';
+        // Login / Signup Submit (Reveals Dashboard view)
+        document.getElementById('auth-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('landing-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
         });
 
         // Logout Button Logic
         function logout() {
             document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('auth-form-box').style.display = 'none';
             document.getElementById('landing-view').style.display = 'block';
         }
 
