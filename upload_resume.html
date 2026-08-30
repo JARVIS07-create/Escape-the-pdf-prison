@@ -68,6 +68,7 @@
         >
             Analyze My Resume
         </button>
+        <p id="message"></p>
 
         <!-- View Resume button -->
         <button
@@ -113,17 +114,78 @@
         });
 
         // Analyze Resume & Redirect Back to Dashboard
-        function analyzeResume() {
-            analyzeButton.textContent = "Analyzing...";
-            message.textContent = "Extracting portfolio details from resume...";
+        async function analyzeResume() {
+             // Get the selected resume
+             const file = resumeInput.files[0];
 
-            setTimeout(() => {
-                message.textContent = "Analysis Complete! Redirecting to dashboard...";
-                setTimeout(() => {
-                    window.location.href = './index.html';
-                }, 1200);
-            }, 1500);
+            // Check if user selected a file
+             if (!file) {
+                alert("Please select your resume first.");
+                return;
+             }
+
+            // Change button text
+            analyzeButton.textContent = "Analyzing...";
+            analyzeButton.disabled = true;
+
+            // Show message
+            message.textContent = "AI is analyzing your resume... Please wait.";
+
+            // Create FormData
+            const formData = new FormData();
+
+            // Add resume to FormData
+            formData.append("resume", file);
+
+            try {
+
+                // Send resume to Python Flask
+                const response = await fetch("/analyze-resume", {
+                    method: "POST",
+                    body: formData
+                 });
+
+                 // Get response from Python
+                 const result = await response.json();
+
+                console.log("Gemini Result:", result);
+
+                if (result.success) {
+
+                   message.textContent = "Resume analyzed successfully!";
+
+                   // Show the extracted information for now
+                   console.log(result.data);
+
+                   alert("Resume analyzed successfully! Check the browser console.");
+
+                } else {
+
+                    message.textContent = "AI could not analyze the resume.";
+
+                    console.error(result.error);
+
+                    alert("Error: " + result.error);
+                }
+            } catch (error) {
+
+                 console.error(error);
+
+                 message.textContent =
+                    "Could not connect to the AI server.";
+
+                 alert("Could not connect to the Python server.");
+
+           }
+            // Restore button
+            analyzeButton.textContent = "Analyze My Resume";
+            analyzeButton.disabled = false;
         }
+
+
+
+
+
 
         // View Uploaded Resume in New Tab
         function viewResume() {
