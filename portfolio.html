@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio - FolioPulse</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .portfolio-wrapper {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 16px;
+            padding: 36px 30px;
+            max-width: 850px;
+            margin: 0 auto;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+            text-align: left;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar-large {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-details h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .share-banner {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .share-url {
+            font-family: monospace;
+            font-weight: 600;
+            color: #1d4ed8;
+            font-size: 14px;
+        }
+
+        .portfolio-section {
+            margin-bottom: 28px;
+        }
+
+        .portfolio-section h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .card-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+        }
+
+        .info-card h4 {
+            font-size: 15px;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .info-card .meta {
+            font-size: 12px;
+            color: #2563eb;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #0f172a;
+        }
+
+        @media (max-width: 640px) {
+            .portfolio-wrapper { padding: 24px 16px; }
+            .share-banner { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-badge">⚡</span> FolioPulse
+        </a>
+
+        <div class="nav-right">
+            <div class="dropdown" id="user-dropdown">
+                <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
+                    <span class="avatar">👤</span>
+                    <span>Menu</span>
+                    <span class="chevron">▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">
+                        <span class="item-icon">👤</span> Profile
+                    </a>
+                    <a href="portfolio.html" class="dropdown-item">
+                        <span class="item-icon">📁</span> My Portfolios
+                    </a>
+                    <a href="chat.html" class="dropdown-item">
+                        <span class="item-icon">🤖</span> AI Chat Box
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="index.html" class="dropdown-item logout-link">
+                        <span class="item-icon">🚪</span> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="portfolio-wrapper">
+            
+            <!-- User Profile Header -->
+            <div class="profile-header">
+                <div class="user-info">
+                    <div class="avatar-large" id="profile-avatar">JS</div>
+                    <div class="user-details">
+                        <h2 id="profile-name">Alex Morgan</h2>
+                        <p id="profile-title">Full Stack Developer & Systems Designer</p>
+                    </div>
+                </div>
+
+                <a href="edit-portfolio.html" class="btn-secondary" style="padding: 8px 16px; font-size: 14px;">
+                    ✏️ Edit Details
+                </a>
+            </div>
+
+            <!-- Shareable Link Banner -->
+            <div class="share-banner">
+                <div>
+                    <span style="font-size: 12px; color: #64748b; display: block;">Public Shareable Link</span>
+                    <span class="share-url" id="public-url">foliopulse.com/p/alex-morgan</span>
+                </div>
+                <button class="btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="copyLink()">
+                    📋 Copy Link
+                </button>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="portfolio-section">
+                <h3>⚡ Skills & Technologies</h3>
+                <div class="tag-list" id="skills-list">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">React</span>
+                    <span class="tag">HTML/CSS</span>
+                    <span class="tag">PostgreSQL</span>
+                </div>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="portfolio-section">
+                <h3>💼 Professional Experience</h3>
+                <div class="card-list" id="experience-list">
+                    <div class="info-card">
+                        <h4>Full Stack Engineer — TechCorp</h4>
+                        <div class="meta">2023 - Present</div>
+                        <p>Developed scalable web applications and integrated AI resume parsing services.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="portfolio-section">
+                <h3>🚀 Featured Projects</h3>
+                <div class="card-list" id="projects-list">
+                    <div class="info-card">
+                        <h4>FolioPulse Web Platform</h4>
+                        <div class="meta">AI Web Application</div>
+                        <p>Automated portfolio builder transforming resume documents into personal landing pages.</p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html?authenticated=true" class="back-link">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+    </main>
+
+    <script>
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            document.getElementById("user-dropdown").classList.toggle("open");
+        }
+
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById("user-dropdown");
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove("open");
+            }
+        });
+
+        function copyLink() {
+            const url = document.getElementById("public-url").innerText;
+            navigator.clipboard.writeText(url);
+            alert("Portfolio link copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
