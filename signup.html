@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - FolioPulse</title>
+    <title>Create Account | FolioPulse</title>
 
     <style>
         * {
@@ -12,21 +13,27 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #172554, #1e3a8a);
             min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
         }
 
         .container {
-            width: 390px;
-            background: #0f172a;
+            width: 100%;
+            max-width: 430px;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: rgba(15, 23, 42, 0.95);
             padding: 40px;
             border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
         }
 
         .logo {
@@ -48,26 +55,48 @@
             margin-bottom: 30px;
         }
 
+        .form-group {
+            margin-bottom: 18px;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
             color: #cbd5e1;
+            font-size: 14px;
         }
 
         input {
             width: 100%;
             padding: 13px;
-            margin-bottom: 18px;
             border: 1px solid #475569;
             border-radius: 8px;
             background: #1e293b;
             color: white;
             font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s ease;
         }
 
         input:focus {
-            outline: none;
-            border-color: #3b82f6;
+            border-color: #38bdf8;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 50px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
         }
 
         button {
@@ -80,7 +109,8 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 5px;
+            margin-top: 10px;
+            transition: background 0.2s ease;
         }
 
         button:hover {
@@ -91,55 +121,122 @@
             text-align: center;
             margin-top: 22px;
             color: #94a3b8;
+            font-size: 14px;
         }
 
         a {
             color: #38bdf8;
             text-decoration: none;
+            font-weight: bold;
         }
 
         a:hover {
             text-decoration: underline;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: normal;
+            transition: color 0.2s ease;
+        }
+
+        .back-home:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 12px;
+            display: none;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
+        <div class="auth-card">
 
-    <div class="logo">⚡ FolioPulse</div>
+            <div class="logo">⚡ FolioPulse</div>
 
-    <h1>Create Account</h1>
+            <h1>Create Account</h1>
 
-    <p class="subtitle">Build your professional portfolio.</p>
+            <p class="subtitle">Build your professional portfolio.</p>
 
-    <form>
+            <form onsubmit="handleSignUp(event)">
 
-        <label>Full Name</label>
-        <input type="text" placeholder="Enter your full name" required>
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" placeholder="Enter your full name" required>
+                </div>
 
-        <label>Email Address</label>
-        <input type="email" placeholder="Enter your email" required>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
 
-        <label>Password</label>
-        <input type="password" placeholder="Create a password" required>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="Create a password" required>
+                        <span class="toggle-password" onclick="togglePassword('password')" role="button" aria-label="Toggle password visibility">👁️</span>
+                    </div>
+                </div>
 
-        <label>Confirm Password</label>
-        <input type="password" placeholder="Confirm your password" required>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                        <span class="toggle-password" onclick="togglePassword('confirm-password')" role="button" aria-label="Toggle confirm password visibility">👁️</span>
+                    </div>
+                </div>
 
-        <button type="submit">Create Account</button>
+                <div id="error-msg" class="error-message">Passwords do not match. Please try again.</div>
 
-    </form>
+                <button type="submit">Create Account</button>
 
-    <div class="bottom">
-        Already have an account?
-        <a href="signin.html">Sign In</a>
-        <br><br>
-        <a href="index.html">← Back to Home</a>
+            </form>
+
+            <div class="bottom">
+                Already have an account?
+                <a href="signin.html">Sign In</a>
+
+                <a href="index.html" class="back-home">← Back to Home</a>
+            </div>
+
+        </div>
     </div>
 
-</div>
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === "password" ? "text" : "password";
+        }
+
+        function handleSignUp(event) {
+            event.preventDefault();
+
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const errorMsg = document.getElementById("error-msg");
+
+            if (password !== confirmPassword) {
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            errorMsg.style.display = "none";
+            localStorage.setItem("isLoggedIn", "true");
+            window.location.href = "index.html";
+        }
+    </script>
 
 </body>
 </html>
