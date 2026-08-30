@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FolioPulse - AI Portfolio Builder</title>
+    <title>FolioPulse | Welcome</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background: #0f172a;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
             color: white;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* Navbar */
+        /* Common Header Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
+            padding: 20px 5%;
             background: rgba(15, 23, 42, 0.9);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: sticky;
@@ -37,142 +37,318 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
-            color: #ffffff;
             text-decoration: none;
+            color: white;
         }
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 15px;
-            transition: color 0.2s ease;
-        }
-
-        .nav-links a:hover {
-            color: #ffffff;
-        }
-
-        .nav-btn {
+        /* Top Corner Button: Edit Portfolio */
+        .edit-portfolio-btn {
+            background: #38bdf8;
+            color: #0f172a;
             padding: 9px 18px;
             border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .nav-btn.primary {
-            background: #3b82f6;
-            color: white !important;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
             transition: background 0.2s ease;
         }
 
-        .nav-btn.primary:hover {
-            background: #2563eb;
+        .edit-portfolio-btn:hover {
+            background: #7dd3fc;
         }
 
-        /* Hero Section */
-        .hero-section {
+        /* VIEW 1: LANDING / AUTHENTICATION PAGE */
+        .auth-view {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 40px 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 40px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
             text-align: center;
-            padding: 80px 20px;
-            background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 70%);
         }
 
-        .hero-content {
-            max-width: 750px;
+        .tab-btn.active {
+            color: #38bdf8;
+            border-bottom: 2px solid #38bdf8;
         }
 
-        .hero-content h1 {
-            font-size: 48px;
-            line-height: 1.2;
-            margin-bottom: 20px;
+        .form-content {
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #1e293b;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            margin-top: 8px;
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #3b82f6;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+        }
+
+        /* VIEW 2: DASHBOARD PAGE */
+        .dashboard-view {
+            display: none; /* Hidden until sign in or registration */
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .dashboard-view h1 {
+            font-size: 36px;
+            margin-bottom: 12px;
             font-weight: 800;
         }
 
-        .hero-content p {
-            font-size: 18px;
+        .dashboard-view p.subtitle {
             color: #94a3b8;
-            margin-bottom: 35px;
-            line-height: 1.6;
-        }
-
-        .cta-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .cta-button {
-            padding: 14px 28px;
+            margin-bottom: 45px;
             font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
+        }
+
+        /* Two Option Cards Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .option-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 40px 25px;
             text-decoration: none;
-            background: #3b82f6;
             color: white;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .cta-button:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-        }
-
-        .cta-button.secondary {
-            background: transparent;
-            border: 1px solid #475569;
-            color: #e2e8f0;
-        }
-
-        .cta-button.secondary:hover {
+        .option-card:hover {
+            transform: translateY(-5px);
             border-color: #38bdf8;
-            color: white;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(30, 41, 59, 1);
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.15);
         }
 
-        @media (max-width: 600px) {
-            .hero-content h1 {
-                font-size: 32px;
-            }
-            .hero-content p {
-                font-size: 16px;
-            }
+        .card-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .option-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #f8fafc;
+        }
+
+        .option-card p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 0;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
+    <!-- Header Navigation -->
     <nav class="navbar">
         <a href="index.html" class="logo">⚡ FolioPulse</a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="signin.html" class="nav-btn">Sign In</a>
-            <a href="signup.html" class="nav-btn primary">Create Account</a>
-        </div>
+        <!-- Edit Portfolio button in the top corner -->
+        <a href="edit-portfolio.html" class="edit-portfolio-btn" id="edit-btn" style="display: none;">✏️ Edit Portfolio</a>
     </nav>
 
-    <!-- Main Hero / Dashboard View -->
-    <main class="hero-section">
-        <div class="hero-content">
-            <h1>Build Your Professional Portfolio in Seconds</h1>
-            <p>Showcase your work, highlight skills, and stand out to recruiters effortlessly with AI-powered suggestions.</p>
+    <!-- LANDING VIEW (Sign In & Create Account Forms) -->
+    <main class="auth-view" id="auth-view">
+        <div class="auth-card">
             
-            <div class="cta-group">
-                <!-- Replaced 'Upload Resume' with 'Edit Portfolio' -->
-                <a href="upload_resume.html" class="cta-button">Edit Portfolio</a>
-                <a href="signup.html" class="cta-button secondary">Get Started Free</a>
+            <!-- Tab Buttons to Switch Between Sign In & Create Account -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('signin')">Sign In</button>
+                <button class="tab-btn" onclick="switchTab('signup')">Create Account</button>
             </div>
+
+            <!-- Sign In Form -->
+            <div id="signin-form" class="form-content active">
+                <form onsubmit="handleAuthSubmit(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <!-- Forgot Password option links to forgot-password.html -->
+                        <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Sign In</button>
+                </form>
+            </div>
+
+            <!-- Create Account Form -->
+            <div id="signup-form" class="form-content">
+                <form onsubmit="handleAuthSubmit(event)">
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <input type="text" id="reg-name" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-email">Email Address</label>
+                        <input type="email" id="reg-email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" placeholder="Create a password" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Create Account</button>
+                </form>
+            </div>
+
         </div>
     </main>
+
+    <!-- DASHBOARD VIEW -->
+    <main class="dashboard-view" id="dashboard-view">
+        <h1>Welcome to Your Dashboard</h1>
+        <p class="subtitle">Choose an action below to manage your professional profile.</p>
+
+        <div class="options-grid">
+            <!-- Option 1: Upload Resume -->
+            <a href="upload_resume.html" class="option-card">
+                <div class="card-icon">📄</div>
+                <h3>1. Upload Resume</h3>
+                <p>Upload a PDF resume to automatically extract details and build your portfolio.</p>
+            </a>
+
+            <!-- Option 2: View Your Portfolio -->
+            <a href="portfolio.html" class="option-card">
+                <div class="card-icon">👁️</div>
+                <h3>2. View Your Portfolio</h3>
+                <p>Preview your live portfolio exactly as recruiters and visitors will see it.</p>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Toggle tabs on landing page
+        function switchTab(type) {
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            const tabs = document.querySelectorAll('.tab-btn');
+
+            if (type === 'signin') {
+                signinForm.classList.add('active');
+                signupForm.classList.remove('active');
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                signupForm.classList.add('active');
+                signinForm.classList.remove('active');
+                tabs[1].classList.add('active');
+                tabs[0].classList.remove('active');
+            }
+        }
+
+        // Direct user to Dashboard view upon Sign In / Account Creation
+        function handleAuthSubmit(event) {
+            event.preventDefault();
+            document.getElementById('auth-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'flex';
+            document.getElementById('edit-btn').style.display = 'inline-block';
+        }
+    </script>
 
 </body>
 </html>
