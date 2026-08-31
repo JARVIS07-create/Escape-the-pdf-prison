@@ -545,8 +545,13 @@
                     <input type="email" required placeholder="name@company.com">
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" required placeholder="Enter password">
+    <label>Password</label>
+    <input
+        type="password"
+        id="password"
+        required
+        placeholder="Enter password">
+</div>
                 </div>
 
                 <button type="button" class="forgot-password" id="forgot-pw-link" onclick="showView('forgot')">Forgot password?</button>
@@ -643,9 +648,64 @@
         }
 
         function handleAuth(event) {
-            event.preventDefault();
-            showView('dashboard');
+    event.preventDefault();
+
+    const password = document.getElementById("password").value;
+
+    const symbols = "!@#$%^&*";
+
+    let hasDigit = false;
+    let hasUpper = false;
+    let hasLower = false;
+    let hasSymbol = false;
+
+    for (let i of password) {
+
+        if (i >= "0" && i <= "9") {
+            hasDigit = true;
         }
+
+        if (i >= "A" && i <= "Z") {
+            hasUpper = true;
+        }
+
+        if (i >= "a" && i <= "z") {
+            hasLower = true;
+        }
+
+        if (symbols.includes(i)) {
+            hasSymbol = true;
+        }
+    }
+
+    if (password.length < 8) {
+        alert("Minimum 8 characters are required.");
+        return;
+    }
+
+    if (!hasUpper) {
+        alert("At least one uppercase letter is required.");
+        return;
+    }
+
+    if (!hasLower) {
+        alert("At least one lowercase letter is required.");
+        return;
+    }
+
+    if (!hasDigit) {
+        alert("At least one number is required.");
+        return;
+    }
+
+    if (!hasSymbol) {
+        alert("At least one special symbol is required.");
+        return;
+    }
+
+    // Password is strong
+    showView('dashboard');
+}
 
         function handleForgot(event) {
             event.preventDefault();
