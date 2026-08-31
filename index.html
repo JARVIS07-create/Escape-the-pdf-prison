@@ -3,726 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FolioPulse</title>
+    <title>Resume Analyzer</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0b1220;
-            color: #0f172a;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            margin: 0;
         }
 
-        /* Detailed CSS Office Workspace Background */
-        .office-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background: #090d16;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        /* Office Wall Grid & Lighting Glow */
-        .office-bg::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse at 50% 25%, rgba(37, 99, 235, 0.25) 0%, rgba(15, 23, 42, 0) 70%),
-                radial-gradient(circle at 85% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 40%),
-                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 60px),
-                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 60px);
-        }
-
-        /* Office Desk & Workspace Elements */
-        .office-desk {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 35vh;
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.95) 100%);
-            border-top: 2px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
-        }
-
-        /* Computer Monitor Glow in Background */
-        .office-monitor {
-            position: absolute;
-            bottom: 35vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: min(500px, 80vw);
-            height: min(280px, 30vh);
-            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15), rgba(15, 23, 42, 0.8));
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-bottom: none;
-            border-radius: 12px 12px 0 0;
-            box-shadow: 0 -10px 40px rgba(37, 99, 235, 0.2);
-        }
-
-        .office-monitor::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 20px;
-            background: #1e293b;
-            border-radius: 4px;
-        }
-
-        /* Warm Desk Lamp Ambient Glow (Top Right) */
-        .desk-lamp-glow {
-            position: absolute;
-            top: 10%;
-            right: 12%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
-            filter: blur(30px);
-        }
-
-        /* Navigation Header */
-        .navbar {
-            position: relative;
-            z-index: 50;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 6%;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            cursor: pointer;
-            color: #f8fafc;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo-badge {
-            background: #2563eb;
-            color: #ffffff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        /* Logged-out nav buttons */
-        #nav-guest {
-            display: flex;
-            gap: 10px;
-        }
-
-        .nav-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.25);
-            background: transparent;
-            color: #f8fafc;
-            transition: all 0.2s ease;
-        }
-
-        .nav-btn.solid {
-            background: #2563eb;
-            border-color: #2563eb;
-        }
-
-        .nav-btn:hover { background: rgba(255,255,255,0.12); }
-        .nav-btn.solid:hover { background: #1d4ed8; }
-
-        /* Dropdown */
-        .dropdown {
-            position: relative;
-            display: none;
-        }
-
-        .dropdown-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #f8fafc;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .dropdown-btn:hover { background: rgba(255,255,255,0.15); }
-
-        .dropdown-btn .avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: #e0e7ff;
-            color: #4338ca;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .dropdown-btn .chevron {
-            font-size: 10px;
-            color: #cbd5e1;
-            transition: transform 0.2s ease;
-        }
-
-        .dropdown.open .chevron { transform: rotate(180deg); }
-
-        .dropdown-menu {
-            position: absolute;
-            right: 0;
-            top: calc(100% + 8px);
-            width: 220px;
+        .upload-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
-            display: none;
-            flex-direction: column;
-            padding: 6px;
-            z-index: 100;
-        }
-
-        .dropdown.open .dropdown-menu { display: flex; }
-
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            color: #334155;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 6px;
-            transition: background 0.15s ease, color 0.15s ease;
-        }
-
-        .dropdown-item:hover { background: #f1f5f9; color: #0f172a; }
-        .dropdown-item .item-icon { font-size: 16px; }
-
-        .dropdown-divider { height: 1px; background: #f1f5f9; margin: 4px 0; }
-
-        /* View Container */
-        .view-container {
-            position: relative;
-            z-index: 10;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        /* LANDING VIEW */
-        #landing-view {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            width: 100%;
-        }
-
-        .hero-title {
-            font-size: clamp(26px, 5vw + 1rem, 44px);
-            font-weight: 800;
-            margin-bottom: 16px;
-            max-width: 800px;
-            color: #f8fafc;
-            letter-spacing: -0.02em;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .hero-title span { color: #60a5fa; }
-
-        .hero-subtitle {
-            font-size: clamp(14px, 2.5vw, 17px);
-            color: #cbd5e1;
-            margin: 0 auto 32px auto;
-            max-width: 600px;
-            line-height: 1.6;
-            text-align: center;
-            text-shadow: 0 1px 10px rgba(0,0,0,0.5);
-        }
-
-        .cta-group { 
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            gap: 14px; 
-            width: 100%;
-        }
-
-        .cta-btn {
-            padding: 12px 26px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary { background: #2563eb; color: #ffffff; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); }
-        .btn-primary:hover { background: #1d4ed8; }
-
-        .btn-secondary { background: rgba(255,255,255,0.08); color: #f8fafc; border-color: rgba(255,255,255,0.3); backdrop-filter: blur(4px); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
-
-        /* AUTH CARD */
-        .auth-card {
-            display: none;
-            background: #ffffff;
-            padding: 36px;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            padding: 32px;
             width: 100%;
-            max-width: 400px;
-            text-align: left;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            max-width: 480px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
         }
 
-        .auth-card h2 { text-align: center; margin-bottom: 24px; font-size: 22px; color: #0f172a; }
+        .drop-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 32px 16px;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-        .form-group { margin-bottom: 16px; }
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
 
-        label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #475569; }
+        .file-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
 
-        input {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 6px;
-            border: 1px solid #cbd5e1;
-            background: #ffffff;
-            color: #0f172a;
-            outline: none;
+        .file-name {
+            margin-top: 12px;
+            color: #2563eb;
+            font-weight: 600;
             font-size: 14px;
         }
 
-        input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-
-        .forgot-password {
-            display: block;
-            text-align: right;
-            font-size: 13px;
-            color: #2563eb;
-            text-decoration: none;
-            margin-top: -8px;
-            margin-bottom: 16px;
-            background: none;
-            border: none;
+        .btn {
             width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
             cursor: pointer;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
         }
 
-        .forgot-password:hover { text-decoration: underline; }
+        .btn-primary {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
 
-        .switch-auth {
-            text-align: center;
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+        }
+
+        .error-message {
+            color: #dc2626;
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 10px;
             margin-top: 16px;
             font-size: 13px;
-            color: #64748b;
-        }
-
-        .switch-auth a { color: #2563eb; font-weight: 600; text-decoration: none; }
-
-        /* FORGOT PASSWORD VIEW */
-        .forgot-card {
             display: none;
-            background: #ffffff;
-            padding: 36px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            width: 100%;
-            max-width: 400px;
             text-align: left;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            word-break: break-word;
         }
 
-        .forgot-card h2 { margin-bottom: 8px; font-size: 22px; color: #0f172a; }
-        .forgot-card p { font-size: 13px; color: #64748b; margin-bottom: 20px; line-height: 1.5; }
-        .success-msg {
-            display: none;
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            color: #047857;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
         .back-link {
             display: inline-block;
-            margin-top: 14px;
-            font-size: 13px;
-            color: #2563eb;
+            margin-top: 20px;
+            color: #64748b;
             text-decoration: none;
-            cursor: pointer;
-        }
-        .back-link:hover { text-decoration: underline; }
-
-        /* DASHBOARD VIEW */
-        .dashboard-view {
-            display: none;
-            width: 100%;
-            max-width: 900px;
+            font-size: 14px;
         }
 
-        .dashboard-header { margin-bottom: 24px; }
-        .dashboard-header h1 { font-size: 28px; color: #f8fafc; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
-        .dashboard-header p { color: #cbd5e1; margin-top: 6px; }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .option-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 28px 24px;
-            cursor: pointer;
-            text-decoration: none;
-            color: #0f172a;
-            transition: all 0.2s ease;
-            text-align: left;
-            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.4);
-        }
-
-        .option-card:hover {
-            border-color: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.5);
-        }
-
-        .option-card .card-icon { font-size: 30px; margin-bottom: 14px; display: inline-block; }
-        .option-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #0f172a; }
-        .option-card p { color: #64748b; font-size: 13px; line-height: 1.5; }
-
-        /* OPTIMIZED MOBILE RESPONSIVE */
-        @media (max-width: 640px) {
-            .navbar { padding: 12px 16px; }
-            .logo { font-size: 16px; }
-            .nav-btn { padding: 8px 12px; font-size: 13px; }
-            #nav-guest { gap: 6px; }
-
-            .view-container { padding: 24px 16px; }
-            .hero-subtitle { margin-bottom: 24px; }
-
-            .cta-group { 
-                flex-direction: column; 
-                width: 100%; 
-                max-width: 280px; 
-                gap: 10px;
-            }
-            .cta-btn { 
-                width: 100%; 
-                padding: 12px; 
-            }
-
-            .auth-card, .forgot-card { 
-                padding: 24px 16px; 
-                max-width: 100%; 
-            }
-
-            .dashboard-header h1 { font-size: 22px; }
-            .options-grid { 
-                grid-template-columns: 1fr; 
-                gap: 14px; 
-            }
-            .option-card { padding: 20px 16px; }
-
-            .dropdown-menu { 
-                width: calc(100vw - 32px); 
-                right: -8px; 
-            }
-        }
-
-        @media (max-width: 380px) {
-            .dropdown-btn span:not(.avatar):not(.chevron) { display: none; }
+        .back-link:hover {
+            color: #1e293b;
         }
     </style>
 </head>
 <body>
 
-    <!-- Office Setup Elements -->
-    <div class="office-bg">
-        <div class="desk-lamp-glow"></div>
-        <div class="office-monitor"></div>
-        <div class="office-desk"></div>
+<div class="upload-card">
+    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <div class="file-icon">📄</div>
+        <h3>Upload your resume</h3>
+        <p style="color: #64748b; font-size: 13px;">Drag and drop or browse from your device</p>
+        <input type="file" id="file-input" accept=".pdf,.docx" style="display: none;">
+        <button type="button" class="btn btn-secondary" style="width: auto; margin: 12px auto 0;">Browse Files</button>
+        <div class="file-name" id="selected-file-name"></div>
+        <p style="color: #94a3b8; font-size: 12px; margin-top: 8px;">Supported formats: PDF, DOCX (Max 10MB)</p>
     </div>
 
-    <nav class="navbar">
-        <div class="logo" onclick="showView('landing')">
-            <span class="logo-badge">⚡</span> FolioPulse
-        </div>
+    <button type="button" class="btn btn-primary" id="analyze-btn">
+        ⚡ Analyze My Resume
+    </button>
+    
+    <button type="button" class="btn btn-secondary" id="preview-btn">
+        👁 Preview Uploaded File
+    </button>
 
-        <div class="nav-right">
-            <!-- Shown when NOT logged in -->
-            <div id="nav-guest">
-                <button class="nav-btn" onclick="showView('signin')">Sign In</button>
-                <button class="nav-btn solid" onclick="showView('signup')">Create Account</button>
-            </div>
+    <div class="error-message" id="error-box"></div>
 
-            <!-- Shown only AFTER login -->
-            <div class="dropdown" id="user-dropdown">
-                <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
-                    <span class="avatar">👤</span>
-                    <span>Menu</span>
-                    <span class="chevron">▼</span>
-                </button>
-                <div class="dropdown-menu">
-                    <a href="profile.html" class="dropdown-item">
-                        <span class="item-icon">👤</span> Profile
-                    </a>
-                    <a href="portfolio.html" class="dropdown-item">
-                        <span class="item-icon">📁</span> My Portfolios
-                    </a>
-                    <a href="chat.html" class="dropdown-item">
-                        <span class="item-icon">🤖</span> AI Chat Box
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item" onclick="logout(event)" style="color: #ef4444;">
-                        <span class="item-icon">🚪</span> Sign Out
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <a href="#" class="back-link">← Back to Dashboard</a>
+</div>
 
-    <div class="view-container">
+<script>
+    let selectedFile = null;
 
-        <div id="landing-view">
-            <h1 class="hero-title">Build & Share Your <span>Professional Portfolio</span> Instantly</h1>
-            <p class="hero-subtitle">Convert your resume into a personalized showcase website or manage details directly from your dashboard.</p>
-            <div class="cta-group">
-                <button class="cta-btn btn-primary" onclick="showView('signup')">Create Account</button>
-                <button class="cta-btn btn-secondary" onclick="showView('signin')">Sign In</button>
-            </div>
-        </div>
+    const fileInput = document.getElementById('file-input');
+    const fileNameDisplay = document.getElementById('selected-file-name');
+    const errorBox = document.getElementById('error-box');
+    const analyzeBtn = document.getElementById('analyze-btn');
 
-        <div class="auth-card" id="auth-view">
-            <h2 id="auth-title">Sign In</h2>
-            <form onsubmit="handleAuth(event)">
-                <div class="form-group">
-                    <label>Work Email</label>
-                    <input type="email" required placeholder="name@company.com">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" required placeholder="Enter password">
-                </div>
+    // Handle File Selection
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            selectedFile = e.target.files[0];
+            fileNameDisplay.textContent = selectedFile.name;
+            hideError();
+        }
+    });
 
-                <button type="button" class="forgot-password" id="forgot-pw-link" onclick="showView('forgot')">Forgot password?</button>
-
-                <button type="submit" class="cta-btn btn-primary" style="width: 100%;">Continue to Dashboard</button>
-            </form>
-            <p class="switch-auth" id="auth-switch"></p>
-        </div>
-
-        <div class="forgot-card" id="forgot-view">
-            <h2>Reset your password</h2>
-            <p>Enter the email linked to your account. We'll send a reset link there.</p>
-            <div class="success-msg" id="forgot-success">Reset link sent — check your inbox.</div>
-            <form onsubmit="handleForgot(event)">
-                <div class="form-group">
-                    <label>Work Email</label>
-                    <input type="email" required placeholder="name@company.com" id="forgot-email">
-                </div>
-                <button type="submit" class="cta-btn btn-primary" style="width: 100%;">Send Reset Link</button>
-            </form>
-            <a class="back-link" onclick="showView('signin')">← Back to Sign In</a>
-        </div>
-
-        <div class="dashboard-view" id="dashboard-view">
-            <div class="dashboard-header">
-                <h1>Workspace Dashboard</h1>
-                <p>Manage your portfolios, import resumes, and customize your profile.</p>
-            </div>
-
-            <div class="options-grid">
-                <a href="upload_resume.html" class="option-card">
-                    <div class="card-icon">📄</div>
-                    <h3>1. Upload Resume</h3>
-                    <p>Automatically parse and import details directly from your PDF, JPG, or JPEG.</p>
-                </a>
-
-                <a href="portfolio.html" class="option-card">
-                    <div class="card-icon">🌐</div>
-                    <h3>2. View Live Portfolio</h3>
-                    <p>Review your AI-generated portfolio and shareable link for recruiters.</p>
-                </a>
-
-                <a href="edit-portfolio.html" class="option-card">
-                    <div class="card-icon">✏️</div>
-                    <h3>3. Edit Portfolio</h3>
-                    <p>Manually adjust project summaries, skills, and contact details.</p>
-                </a>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        let isLoggedIn = false;
-
-        // Dropdown Logic
-        function toggleDropdown(event) {
-            event.stopPropagation();
-            document.getElementById('user-dropdown').classList.toggle('open');
+    // Handle Resume Analysis API Request
+    analyzeBtn.addEventListener('click', async () => {
+        if (!selectedFile) {
+            showError("Please select or upload a resume file first.");
+            return;
         }
 
-        document.addEventListener('click', (e) => {
-            const dropdown = document.getElementById('user-dropdown');
-            if (dropdown && !dropdown.contains(e.target)) {
-                dropdown.classList.remove('open');
+        const formData = new FormData();
+        formData.append("resume", selectedFile);
+
+        hideError();
+        analyzeBtn.disabled = true;
+        analyzeBtn.textContent = "Analyzing...";
+
+        try {
+            // FIX: Point to the backend endpoint that handles POST requests
+            const response = await fetch('/api/analyze', { 
+                method: 'POST',
+                body: formData
+            });
+
+            // Check if backend returned an HTML error (e.g. 405, 404, 500)
+            const contentType = response.headers.get("content-type");
+            
+            if (!response.ok) {
+                if (contentType && contentType.includes("text/html")) {
+                    // Strips raw HTML tags from web server errors like 405 Not Allowed
+                    throw new Error(`Server error (${response.status}): Endpoint does not support POST requests.`);
+                } else {
+                    const errData = await response.json();
+                    throw new Error(errData.message || `Server error (${response.status})`);
+                }
             }
-        });
 
-        function updateNav() {
-            document.getElementById('nav-guest').style.display = isLoggedIn ? 'none' : 'flex';
-            document.getElementById('user-dropdown').style.display = isLoggedIn ? 'inline-block' : 'none';
+            const data = await response.json();
+            alert("Analysis successful!");
+            console.log("Analysis Result:", data);
+
+        } catch (err) {
+            showError(err.message);
+        } finally {
+            analyzeBtn.disabled = false;
+            analyzeBtn.textContent = "⚡ Analyze My Resume";
         }
+    });
 
-        // View Navigation Logic
-        function showView(view) {
-            document.getElementById('landing-view').style.display = 'none';
-            document.getElementById('auth-view').style.display = 'none';
-            document.getElementById('forgot-view').style.display = 'none';
-            document.getElementById('dashboard-view').style.display = 'none';
-            document.getElementById('forgot-success').style.display = 'none';
-
-            if (view === 'landing') {
-                document.getElementById('landing-view').style.display = 'flex';
-            } else if (view === 'signin' || view === 'signup') {
-                document.getElementById('auth-view').style.display = 'block';
-                document.getElementById('auth-title').innerText = view === 'signin' ? 'Sign In' : 'Create Account';
-                document.getElementById('forgot-pw-link').style.display = view === 'signin' ? 'block' : 'none';
-                document.getElementById('auth-switch').innerHTML = view === 'signin'
-                    ? 'New here? <a onclick="showView(\'signup\')">Create an account</a>'
-                    : 'Already have an account? <a onclick="showView(\'signin\')">Sign in</a>';
-            } else if (view === 'forgot') {
-                document.getElementById('forgot-view').style.display = 'block';
-            } else if (view === 'dashboard') {
-                isLoggedIn = true;
-                updateNav();
-                document.getElementById('dashboard-view').style.display = 'block';
-            }
-        }
-
-        function handleAuth(event) {
-    event.preventDefault();
-
-    const password = document.getElementById("password").value;
-
-    const symbols = "!@#$%^&*";
-
-    let hasDigit = false;
-    let hasUpper = false;
-    let hasLower = false;
-    let hasSymbol = false;
-
-    for (let i of password) {
-        if (i >= "0" && i <= "9") {
-            hasDigit = true;
-        }
-
-        if (i >= "A" && i <= "Z") {
-            hasUpper = true;
-        }
-
-        if (i >= "a" && i <= "z") {
-            hasLower = true;
-        }
-
-        if (symbols.includes(i)) {
-            hasSymbol = true;
-        }
+    function showError(msg) {
+        errorBox.textContent = `❌ ${msg}`;
+        errorBox.style.display = 'block';
     }
 
-    if (password.length < 8) {
-        alert("Minimum 8 characters are required.");
-        return;
+    function hideError() {
+        errorBox.style.display = 'none';
     }
+</script>
 
-    if (!hasUpper) {
-        alert("At least one uppercase letter is required.");
-        return;
-    }
-
-    if (!hasLower) {
-        alert("At least one lowercase letter is required.");
-        return;
-    }
-
-    if (!hasDigit) {
-        alert("At least one number is required.");
-        return;
-    }
-
-    if (!hasSymbol) {
-        alert("At least one special symbol is required.");
-        return;
-    }
-
-    showView('dashboard');
-}
-        function handleForgot(event) {
-            event.preventDefault();
-            document.getElementById('forgot-success').style.display = 'block';
-        }
-
-        function logout(event) {
-            event.preventDefault();
-            isLoggedIn = false;
-            updateNav();
-            showView('landing');
-        }
-
-        // Init
-        updateNav();
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('authenticated') === 'true') {
-            showView('dashboard');
-        } else {
-            showView('landing');
-        }
-    </script>
 </body>
 </html>
