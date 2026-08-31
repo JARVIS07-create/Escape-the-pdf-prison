@@ -45,18 +45,18 @@
 
         .api-key-btn {
             font-size: 12px;
-            padding: 6px 12px;
-            background: #f1f5f9;
-            border: 1px solid #cbd5e1;
+            padding: 7px 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.2s ease;
-            color: #1e293b;
         }
 
         .api-key-btn:hover {
-            background: #e2e8f0;
+            background: #1d4ed8;
         }
 
         .clear-chat-btn {
@@ -242,7 +242,7 @@
                 <h2>🤖 FolioPulse AI Assistant</h2>
                 <div class="chat-header-actions">
                     <button class="clear-chat-btn" onclick="clearChat()" title="Clear Chat History">🗑️ Clear</button>
-                    <button class="api-key-btn" onclick="promptApiKey()">⚙️ Gemini Token / Key</button>
+                    <button class="api-key-btn" onclick="promptApiKey()">🔑 Gemini API Key</button>
                 </div>
             </div>
 
@@ -270,7 +270,7 @@
             syncNavbarProfile();
             const key = localStorage.getItem("geminiApiKey");
             if (!key) {
-                setTimeout(promptApiKey, 600);
+                setTimeout(promptApiKey, 500);
             }
         });
 
@@ -322,14 +322,15 @@
         function promptApiKey() {
             const currentKey = localStorage.getItem("geminiApiKey") || "";
             const key = prompt(
-                "Enter your Google Gemini API Key or Token (supports AQ... and AIza...):",
+                "Paste your Google Gemini API Key below:",
                 currentKey
             );
+
             if (key !== null) {
                 const cleaned = cleanToken(key);
                 if (cleaned !== "") {
                     localStorage.setItem("geminiApiKey", cleaned);
-                    alert("✓ Token saved successfully!");
+                    alert("✓ Gemini API Key saved successfully!");
                 } else {
                     localStorage.removeItem("geminiApiKey");
                 }
@@ -378,34 +379,17 @@
             return msg;
         }
 
-        // Smart header config for both AQ. Bearer tokens and AIza API keys
-        function buildAuthHeadersAndUrl(model, token) {
-            const clean = cleanToken(token);
-            const headers = { "Content-Type": "application/json" };
-            let url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-
-            if (clean.startsWith("AQ.") || clean.startsWith("ya29.")) {
-                // OAuth 2.0 / Bearer token
-                headers["Authorization"] = `Bearer ${clean}`;
-            } else if (clean.startsWith("AIza")) {
-                // Standard Google API key
-                headers["x-goog-api-key"] = clean;
-                url += `?key=${clean}`;
-            } else {
-                // Fallback: send as Bearer and query param
-                headers["Authorization"] = `Bearer ${clean}`;
-                headers["x-goog-api-key"] = clean;
-                url += `?key=${clean}`;
-            }
-
-            return { url, headers };
-        }
-
-        async function executeGeminiRequest(token, contents) {
+        // Executes API request using Gemini 2.0 Flash and newer models first
+        async function executeGeminiRequest(key, contents) {
+            const cleanKey = cleanToken(key);
+            
+            // Priority list: gemini-2.0-flash is the primary model for new Google AI Studio projects
             const models = [
-                "gemini-1.5-flash",
                 "gemini-2.0-flash",
+                "gemini-2.0-flash-lite",
+                "gemini-1.5-flash",
                 "gemini-1.5-flash-latest",
+                "gemini-2.5-flash",
                 "gemini-1.5-pro",
                 "gemini-pro"
             ];
@@ -414,11 +398,14 @@
 
             for (const model of models) {
                 try {
-                    const { url, headers } = buildAuthHeadersAndUrl(model, token);
+                    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(cleanKey)}`;
                     
-                    const response = await fetch(url, {
+                    const response = await fetch(endpoint, {
                         method: "POST",
-                        headers: headers,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "x-goog-api-key": cleanKey
+                        },
                         body: JSON.stringify({
                             contents: contents,
                             generationConfig: {
@@ -436,40 +423,39 @@
 
                     if (data.error) {
                         const errMsg = data.error.message || "";
-                        if (data.error.code === 404 || errMsg.includes("not found")) {
+                        if (data.error.code === 404 || errMsg.includes("not found") || errMsg.includes("not supported")) {
                             lastError = new Error(errMsg);
-                            continue;
+                            continue; // Try next model in list
                         } else {
                             throw new Error(errMsg);
                         }
                     }
                 } catch (e) {
                     lastError = e;
-                    if (e.message && !e.message.includes("not found")) {
+                    if (e.message && !e.message.includes("not found") && !e.message.includes("not supported")) {
                         throw e;
                     }
                 }
             }
 
-            throw lastError || new Error("Unable to connect to Gemini. Please verify your token.");
+            throw lastError || new Error("Unable to connect. Please check your Gemini API key.");
         }
 
         async function sendMessage(event) {
             event.preventDefault();
             const text = userInput.value.trim();
-            const rawToken = localStorage.getItem("geminiApiKey");
+            const rawKey = localStorage.getItem("geminiApiKey");
 
             if (!text) return;
 
-            if (!rawToken) {
-                alert("Please add your Gemini API Key or Token first.");
+            if (!rawKey) {
+                alert("Please add your Gemini API Key first.");
                 promptApiKey();
                 return;
             }
 
-            const token = cleanToken(rawToken);
+            const key = cleanToken(rawKey);
 
-            // Append user message
             appendMessage(text, "user");
             userInput.value = "";
             sendBtn.disabled = true;
@@ -477,7 +463,6 @@
             const loadingMsg = appendMessage("Thinking...", "assistant loading");
 
             try {
-                // Fetch saved user data
                 let userProfile = {};
                 let portfolioData = {};
                 try {
@@ -492,7 +477,6 @@
 
                 const systemInstruction = `You are FolioPulse AI, an expert career advisor and portfolio builder assistant. Current User Profile & Portfolio Data: ${contextInfo}. Provide concise, actionable advice for portfolio improvement, tech skills, resume phrasing, and interview prep.`;
 
-                // Add to multi-turn conversation
                 conversationHistory.push({
                     role: "user",
                     parts: [{ text: text }]
@@ -503,7 +487,7 @@
                     if (idx === 0 && m.role === "user") {
                         return {
                             role: "user",
-                            parts: [{ text: `[System Instructions: ${systemInstruction}]\n\n${m.parts[0].text}` }]
+                            parts: [{ text: `${systemInstruction}\n\nUser Question: ${m.parts[0].text}` }]
                         };
                     }
                     return {
@@ -512,7 +496,7 @@
                     };
                 });
 
-                const data = await executeGeminiRequest(token, formattedContents);
+                const data = await executeGeminiRequest(key, formattedContents);
                 const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
                 if (replyText) {
@@ -529,7 +513,7 @@
             } catch (err) {
                 console.error("Chat Error:", err);
                 loadingMsg.className = "message assistant error";
-                loadingMsg.innerHTML = `<strong>⚠️ ${err.message}</strong><br><small style="margin-top:6px;display:block;">Click <strong>"⚙️ Gemini Token / Key"</strong> in the top right to verify your token.</small>`;
+                loadingMsg.innerHTML = `<strong>⚠️ Error:</strong> ${err.message}<br><small style="margin-top:6px;display:block;">Click <strong>"🔑 Gemini API Key"</strong> in the top right to verify your key.</small>`;
             } finally {
                 sendBtn.disabled = false;
                 userInput.focus();
