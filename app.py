@@ -72,10 +72,22 @@ GEMINI_MODEL = "gemini-2.5-flash"
 
 app = Flask(__name__)
 
+# FIX: CORS(app) currently allows every origin. Fine for local dev,
+# but once this is deployed with real user data (especially with
+# Supabase persistence turned on) restrict this to your actual
+# frontend origin(s), e.g.:
+#   CORS(app, resources={r"/*": {"origins": ["https://yourdomain.com"]}})
 CORS(app)
 
 # Maximum upload size = 10 MB
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
+
+# FIX: read debug/host/port from environment so this is safe to deploy
+# as-is without editing code. Defaults preserve your original local
+# dev behavior (debug on, default Flask host/port).
+FLASK_DEBUG = os.getenv("FLASK_DEBUG", "true").lower() == "true"
+FLASK_HOST = os.getenv("HOST", "127.0.0.1")
+FLASK_PORT = int(os.getenv("PORT", 5000))
 
 
 # ==========================================
@@ -186,6 +198,8 @@ def analyze_resume():
     # --------------------------------------
 
     file_path = None
+    # FIX: track the Gemini-hosted file so we can delete it after use
+    uploaded_file = None
 
 
     try:
@@ -516,18 +530,20 @@ Return JSON only.
 
         print("===========================\n")
 
-
+        # FIX: don't leak raw internal error strings (paths, SDK
+        # internals, etc.) back to the client — log full detail
+        # server-side, return a generic message to the caller.
         return jsonify({
 
             "success": False,
 
-            "error": str(error)
+            "error": "Something went wrong while analyzing the resume."
 
         }), 500
 
 
     # ======================================
-    # DELETE TEMPORARY FILE
+    # DELETE TEMPORARY FILE + GEMINI FILE
     # ======================================
 
     finally:
@@ -549,6 +565,24 @@ Return JSON only.
 
                 print(
                     "Could not delete temporary file:",
+                    cleanup_error
+                )
+
+        # FIX: also delete the file from Gemini's file storage —
+        # otherwise every resume you process stays uploaded there
+        # indefinitely.
+        if uploaded_file:
+
+            try:
+
+                client.files.delete(name=uploaded_file.name)
+
+                print("Gemini-hosted file deleted.")
+
+            except Exception as cleanup_error:
+
+                print(
+                    "Could not delete Gemini-hosted file:",
                     cleanup_error
                 )
 
@@ -616,7 +650,7 @@ def save_portfolio():
 
         return jsonify({
             "success": False,
-            "error": str(error)
+            "error": "Could not save portfolio."
         }), 500
 
 
@@ -629,18 +663,10 @@ def save_portfolio():
 @app.route("/<path:filename>")
 def static_files(filename):
 
-    return send_from_directory(
-        ".",
-        filename
-    )
+    # FIX: block dotfiles (.env, .git/..., etc.) and any path that
+    # tries to reach outside the current directory. send_from_directory
+    # already blocks "../" traversal, but it will happily serve a
+    # literal ".env" if requested by name — this closes that gap.
+    normalized = filename.replace("\\", "/")
 
-
-# ==========================================
-# RUN FLASK SERVER
-# ==========================================
-
-if __name__ == "__main__":
-
-    app.run(
-        debug=True
-    )
+    if any(part.startswith(".") for part in
