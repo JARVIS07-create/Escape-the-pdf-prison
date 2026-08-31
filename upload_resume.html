@@ -841,4 +841,514 @@
 
                         <div class="skills-container">
 
+                            ${Array.isArray(data.skills)
+                            ? data.skills.map(skill => `
+                                <span class="skill-badge">
+                                    ${escapeHTML(skill)}
+                                </span>
+                            `).join("")
+                            : "<p>No skills available.</p>"
+                        }
+
+                        </div>
+
+
+                        <h4>
+                            Projects
+                        </h4>
+
+                        <div>
+
                             ${
+                                Array.isArray(data.projects) &&
+                                data.projects.length > 0
+
+                                ? data.projects.map(project => `
+
+                                    <div class="project-card">
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                project.title ||
+                                                project.name ||
+                                                "Project"
+                                            )}
+                                        </strong>
+
+                                        ${
+                                            project.description
+                                                ? `<p>${escapeHTML(
+                                                    project.description
+                                                )}</p>`
+                                                : ""
+                                        }
+
+                                        ${
+                                            project.technologies
+                                                ? `<p>
+                                                    <strong>Technologies:</strong>
+                                                    ${escapeHTML(
+                                                        Array.isArray(project.technologies)
+                                                            ? project.technologies.join(", ")
+                                                            : project.technologies
+                                                    )}
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                        ${
+                                            project.link
+                                                ? `<p class="link-item">
+                                                    <strong>Link:</strong>
+                                                    <a
+                                                        href="${escapeAttribute(project.link)}"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        ${escapeHTML(project.link)}
+                                                    </a>
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                `).join("")
+
+                                : "<p>No projects available.</p>"
+                            }
+
+                        </div>
+
+
+                        <h4>
+                            Experience
+                        </h4>
+
+                        <div>
+
+                            ${
+                                Array.isArray(data.experience) &&
+                                data.experience.length > 0
+
+                                ? data.experience.map(exp => `
+
+                                    <div class="experience-card">
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                exp.title ||
+                                                exp.position ||
+                                                exp.role ||
+                                                "Experience"
+                                            )}
+                                        </strong>
+
+                                        ${
+                                            exp.company
+                                                ? `<p>
+                                                    <strong>Company:</strong>
+                                                    ${escapeHTML(exp.company)}
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                        ${
+                                            exp.duration
+                                                ? `<p>
+                                                    <strong>Duration:</strong>
+                                                    ${escapeHTML(exp.duration)}
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                        ${
+                                            exp.description
+                                                ? `<p>
+                                                    ${escapeHTML(exp.description)}
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                `).join("")
+
+                                : "<p>No experience information available.</p>"
+                            }
+
+                        </div>
+
+
+                        <h4>
+                            Education
+                        </h4>
+
+                        <div>
+
+                            ${
+                                Array.isArray(data.education) &&
+                                data.education.length > 0
+
+                                ? data.education.map(edu => `
+
+                                    <div class="education-card">
+
+                                        <strong>
+                                            ${escapeHTML(
+                                                edu.degree ||
+                                                edu.title ||
+                                                "Education"
+                                            )}
+                                        </strong>
+
+                                        ${
+                                            edu.institution
+                                                ? `<p>
+                                                    <strong>Institution:</strong>
+                                                    ${escapeHTML(
+                                                        edu.institution
+                                                    )}
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                        ${
+                                            edu.year
+                                                ? `<p>
+                                                    <strong>Year:</strong>
+                                                    ${escapeHTML(
+                                                        edu.year
+                                                    )}
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                        ${
+                                            edu.description
+                                                ? `<p>
+                                                    ${escapeHTML(
+                                                        edu.description
+                                                    )}
+                                                   </p>`
+                                                : ""
+                                        }
+
+                                    </div>
+
+                                `).join("")
+
+                                : "<p>No education information available.</p>"
+                            }
+
+                        </div>
+
+
+                        <h4>
+                            Links
+                        </h4>
+
+                        <div>
+
+                            ${
+                                Array.isArray(data.links) &&
+                                data.links.length > 0
+
+                                ? data.links.map(link => {
+
+                                    const url =
+                                        typeof link === "string"
+                                            ? link
+                                            : link.url;
+
+                                    const label =
+                                        typeof link === "string"
+                                            ? link
+                                            : (
+                                                link.label ||
+                                                link.name ||
+                                                link.url
+                                            );
+
+                                    if (!url) {
+                                        return "";
+                                    }
+
+                                    return `
+                                        <p class="link-item">
+
+                                            🔗
+
+                                            <a
+                                                href="${escapeAttribute(url)}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                ${escapeHTML(label)}
+                                            </a>
+
+                                        </p>
+                                    `;
+
+                                }).join("")
+
+                                : "<p>No links available.</p>"
+                            }
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                statusMessage.textContent =
+                    "Resume analyzed successfully!";
+
+                statusMessage.className =
+                    "status-success";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Resume analysis error:",
+                    error
+                );
+
+                resultContainer.style.display =
+                    "none";
+
+                statusMessage.textContent =
+                    error.message ||
+                    "Something went wrong while analyzing your resume.";
+
+                statusMessage.className =
+                    "status-error";
+
+
+            } finally {
+
+                analyzeButton.disabled =
+                    false;
+
+                viewButton.disabled =
+                    false;
+
+                analyzeButton.textContent =
+                    "⚡ Analyze My Resume";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // HTML ESCAPING
+        // Prevents resume/API data from injecting HTML
+        // ==========================================
+
+        function escapeHTML(value) {
+
+            if (value === null || value === undefined) {
+                return "";
+            }
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // ==========================================
+        // ATTRIBUTE ESCAPING
+        // ==========================================
+
+        function escapeAttribute(value) {
+
+            if (value === null || value === undefined) {
+                return "";
+            }
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
+
+        // ==========================================
+        // DROPDOWN MENU
+        // ==========================================
+
+        function toggleDropdown(event) {
+
+            event.stopPropagation();
+
+            const dropdown =
+                document.getElementById("user-dropdown");
+
+            dropdown.classList.toggle("active");
+
+        }
+
+
+        // Close dropdown when clicking elsewhere
+
+        document.addEventListener(
+            "click",
+            function () {
+
+                const dropdown =
+                    document.getElementById("user-dropdown");
+
+                if (dropdown) {
+                    dropdown.classList.remove("active");
+                }
+
+            }
+        );
+
+
+        // ==========================================
+        // LOGOUT
+        // ==========================================
+
+        function logout(event) {
+
+            event.preventDefault();
+
+            try {
+
+                // Remove common authentication/session data
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("authToken");
+                localStorage.removeItem("user");
+                localStorage.removeItem("userData");
+                localStorage.removeItem("authenticated");
+
+                sessionStorage.removeItem("token");
+                sessionStorage.removeItem("authToken");
+                sessionStorage.removeItem("user");
+                sessionStorage.removeItem("userData");
+                sessionStorage.removeItem("authenticated");
+
+            } catch (error) {
+
+                console.warn(
+                    "Could not clear browser storage:",
+                    error
+                );
+
+            }
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        // ==========================================
+        // LOAD USER INFORMATION
+        // ==========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                let user = null;
+
+                try {
+
+                    const storedUser =
+                        localStorage.getItem("user") ||
+                        localStorage.getItem("userData");
+
+                    if (storedUser) {
+
+                        user =
+                            JSON.parse(storedUser);
+
+                    }
+
+                } catch (error) {
+
+                    console.warn(
+                        "Unable to read stored user:",
+                        error
+                    );
+
+                }
+
+
+                if (!user) {
+                    return;
+                }
+
+
+                const name =
+                    user.name ||
+                    user.fullName ||
+                    user.username ||
+                    "Menu";
+
+
+                const navUserName =
+                    document.getElementById(
+                        "nav-user-name"
+                    );
+
+                if (navUserName) {
+
+                    navUserName.textContent =
+                        name;
+
+                }
+
+
+                const avatar =
+                    document.getElementById(
+                        "nav-user-avatar"
+                    );
+
+                if (avatar) {
+
+                    if (user.avatar) {
+
+                        avatar.innerHTML = `
+                            <img
+                                src="${escapeAttribute(user.avatar)}"
+                                alt="Profile"
+                                style="
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    border-radius: 50%;
+                                "
+                            >
+                        `;
+
+                    } else {
+
+                        avatar.textContent =
+                            name.charAt(0).toUpperCase();
+
+                    }
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
+
