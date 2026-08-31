@@ -321,9 +321,12 @@
             if (key !== null) {
                 if (key.trim() !== "") {
                     localStorage.setItem("geminiApiKey", key.trim());
+                    // Reset cached model to re-detect with new key
+                    localStorage.removeItem("workingGeminiModel");
                     alert("✓ Gemini API key saved successfully!");
                 } else {
                     localStorage.removeItem("geminiApiKey");
+                    localStorage.removeItem("workingGeminiModel");
                 }
             }
         }
@@ -344,25 +347,17 @@
             if (!text) return "";
             
             let html = text
-                // Escape raw HTML tags
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
-                // Code blocks (```code```)
                 .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-                // Inline code (`code`)
                 .replace(/`([^`]+)`/g, '<code>$1</code>')
-                // Bold (**text**)
                 .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-                // Italic (*text*)
                 .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-                // Bullet points
                 .replace(/^\s*[-*]\s+(.*)$/gm, '<li>$1</li>')
-                // Line breaks / paragraphs
                 .replace(/\n\n+/g, '</p><p>')
                 .replace(/\n/g, '<br>');
 
-            // Wrap loose list items in <ul>
             html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
             return `<p>${html}</p>`;
         }
@@ -380,6 +375,73 @@
             return msg;
         }
 
+        // Robust model runner that checks all valid Gemini models automatically
+        async function fetchGeminiWithFallback(apiKey, contents) {
+            const modelsToTry = [
+                "gemini-2.0-flash",
+                "gemini-1.5-flash-latest",
+                "gemini-1.5-flash",
+                "gemini-2.5-flash",
+                "gemini-1.5-pro",
+                "gemini-pro"
+            ];
+
+            const cachedModel = localStorage.getItem("workingGeminiModel");
+            if (cachedModel) {
+                const idx = modelsToTry.indexOf(cachedModel);
+                if (idx > -1) {
+                    modelsToTry.splice(idx, 1);
+                }
+                modelsToTry.unshift(cachedModel);
+            }
+
+            let lastError = null;
+
+            for (const model of modelsToTry) {
+                try {
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: contents,
+                            generationConfig: {
+                                temperature: 0.7,
+                                maxOutputTokens: 1000
+                            }
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.candidates && data.candidates.length > 0) {
+                        localStorage.setItem("workingGeminiModel", model);
+                        return data;
+                    }
+
+                    if (data.error) {
+                        const errMsg = data.error.message || "";
+                        // If model not found or unsupported, try next model in list
+                        if (data.error.code === 404 || errMsg.toLowerCase().includes("not found") || errMsg.toLowerCase().includes("not supported")) {
+                            console.warn(`Model ${model} unavailable, trying next...`);
+                            lastError = new Error(errMsg);
+                            continue;
+                        } else {
+                            throw new Error(errMsg);
+                        }
+                    }
+                } catch (err) {
+                    if (err.message && (err.message.toLowerCase().includes("not found") || err.message.toLowerCase().includes("not supported"))) {
+                        lastError = err;
+                        continue;
+                    }
+                    throw err;
+                }
+            }
+
+            throw lastError || new Error("No compatible Gemini model found. Please check your API key.");
+        }
+
         async function sendMessage(event) {
             event.preventDefault();
             const text = userInput.value.trim();
@@ -388,7 +450,7 @@
             if (!text) return;
 
             if (!apiKey) {
-                alert("Please set your Gemini API Key to use the chat assistant.");
+                alert("Please set your Gemini API Key first.");
                 promptApiKey();
                 return;
             }
@@ -398,11 +460,10 @@
             userInput.value = "";
             sendBtn.disabled = true;
 
-            // Loading state
             const loadingMsg = appendMessage("Thinking...", "assistant loading");
 
             try {
-                // Fetch saved profile & portfolio data for rich context
+                // Fetch saved profile & resume data for context
                 let userProfile = {};
                 let portfolioData = {};
                 try {
@@ -415,9 +476,7 @@
                     resume_portfolio: portfolioData
                 });
 
-                const systemInstruction = `You are FolioPulse AI, an expert career advisor and portfolio builder assistant.
-User Background & Portfolio Data: ${contextInfo}.
-Provide professional, concise, actionable advice for portfolio improvement, tech skills, resume phrasing, and interview prep.`;
+                const systemInstruction = `You are FolioPulse AI, an expert career advisor and portfolio builder assistant. Current User Profile & Portfolio Data: ${contextInfo}. Provide concise, actionable advice for portfolio improvement, tech skills, resume phrasing, and interview prep.`;
 
                 // Add to multi-turn conversation
                 conversationHistory.push({
@@ -425,35 +484,23 @@ Provide professional, concise, actionable advice for portfolio improvement, tech
                     parts: [{ text: text }]
                 });
 
-                // Limit conversation history to last 10 messages to preserve token quota
-                const recentHistory = conversationHistory.slice(-10);
-
-                // Call Gemini API (gemini-1.5-flash)
-                const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(endpoint, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        systemInstruction: {
-                            parts: [{ text: systemInstruction }]
-                        },
-                        contents: recentHistory,
-                        generationConfig: {
-                            temperature: 0.7,
-                            maxOutputTokens: 800
-                        }
-                    })
+                // Build contents payload with system context in the first turn
+                const recentHistory = conversationHistory.slice(-8);
+                const formattedContents = recentHistory.map((m, idx) => {
+                    if (idx === 0 && m.role === "user") {
+                        return {
+                            role: "user",
+                            parts: [{ text: `[System Instructions: ${systemInstruction}]\n\n${m.parts[0].text}` }]
+                        };
+                    }
+                    return {
+                        role: m.role === "model" ? "model" : "user",
+                        parts: m.parts
+                    };
                 });
 
-                const data = await response.json();
-
-                if (!response.ok) {
-                    const errorDetails = data.error?.message || `HTTP ${response.status} ${response.statusText}`;
-                    throw new Error(errorDetails);
-                }
+                // Call with automatic model detection
+                const data = await fetchGeminiWithFallback(apiKey, formattedContents);
 
                 const candidate = data.candidates?.[0];
                 const replyText = candidate?.content?.parts?.[0]?.text;
@@ -462,21 +509,21 @@ Provide professional, concise, actionable advice for portfolio improvement, tech
                     loadingMsg.className = "message assistant";
                     loadingMsg.innerHTML = formatMarkdown(replyText);
 
-                    // Add assistant response to history
+                    // Save assistant response to conversation history
                     conversationHistory.push({
                         role: "model",
                         parts: [{ text: replyText }]
                     });
                 } else if (candidate?.finishReason && candidate.finishReason !== "STOP") {
                     loadingMsg.className = "message assistant error";
-                    loadingMsg.textContent = `Response stopped: ${candidate.finishReason}`;
+                    loadingMsg.textContent = `Response finished with status: ${candidate.finishReason}`;
                 } else {
-                    throw new Error("Received an empty response from Gemini API.");
+                    throw new Error("Received an empty response from Gemini.");
                 }
             } catch (err) {
                 console.error("Chat Error:", err);
                 loadingMsg.className = "message assistant error";
-                loadingMsg.innerHTML = `<strong>⚠️ Error:</strong> ${err.message}<br><small style="margin-top:4px;display:block;">Check your Gemini API Key or network connection.</small>`;
+                loadingMsg.innerHTML = `<strong>⚠️ Error:</strong> ${err.message}<br><small style="margin-top:4px;display:block;">Click "Gemini API Key" in the top right to verify or update your key.</small>`;
             } finally {
                 sendBtn.disabled = false;
                 userInput.focus();
