@@ -1220,7 +1220,31 @@
                     "portfolioData",
                     JSON.stringify(profileData)
                 );
-
+// -------------------------------------------------------------
+// SAVE TO SUPABASE VIA FLASK BACKEND
+// -------------------------------------------------------------
+fetch("http://127.0.0.1:5000/api/save-portfolio", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(profileData)
+})
+.then(res => res.json())
+.then(data => console.log("Saved to Supabase:", data))
+.catch(err => console.error("Error saving to Supabase:", err));// -------------------------------------------------------------
+// SAVE TO SUPABASE VIA FLASK BACKEND
+// -------------------------------------------------------------
+fetch("http://127.0.0.1:5000/api/save-portfolio", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(profileData)
+})
+.then(res => res.json())
+.then(data => console.log("Saved to Supabase:", data))
+.catch(err => console.error("Error saving to Supabase:", err));
 
 
                 // ----------------------------------
