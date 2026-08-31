@@ -318,3 +318,1614 @@
 
 
         <div class="nav-right">
+
+            <div class="dropdown" id="user-dropdown">
+
+                <button
+                    class="dropdown-btn"
+                    type="button"
+                    onclick="toggleDropdown(event)"
+                >
+
+                    <div
+                        class="avatar"
+                        id="nav-user-avatar"
+                    >
+                        👤
+                    </div>
+
+
+                    <span id="nav-user-name">
+                        Menu
+                    </span>
+
+
+                    <span class="chevron">
+                        ▼
+                    </span>
+
+                </button>
+
+
+                <div class="dropdown-menu">
+
+
+                    
+                        href="profile.html"
+                        class="dropdown-item"
+                    >
+
+                        <span class="item-icon">
+                            👤
+                        </span>
+
+                        Profile
+
+                    </a>
+
+
+                    
+                        href="portfolio.html"
+                        class="dropdown-item"
+                    >
+
+                        <span class="item-icon">
+                            📁
+                        </span>
+
+                        My Portfolios
+
+                    </a>
+
+
+                    
+                        href="chat.html"
+                        class="dropdown-item"
+                    >
+
+                        <span class="item-icon">
+                            🤖
+                        </span>
+
+                        AI Chat Box
+
+                    </a>
+
+
+                    <div class="dropdown-divider"></div>
+
+
+                    
+                        href="index.html"
+                        class="dropdown-item logout-link"
+                        onclick="logout(event)"
+                    >
+
+                        <span class="item-icon">
+                            🚪
+                        </span>
+
+                        Sign Out
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="container">
+
+        <div class="upload-wrapper">
+
+
+            <h1
+                class="hero-title"
+                style="font-size: 32px; margin-bottom: 8px;"
+            >
+
+                Upload Your
+                <span>Resume</span>
+
+            </h1>
+
+
+            <p
+                class="hero-subtitle"
+                style="margin-bottom: 20px; font-size: 14px;"
+            >
+
+                Turn your resume into a professional
+                showcase website with AI.
+
+            </p>
+
+
+
+            <!-- ==========================================
+                 UPLOAD AREA
+            =========================================== -->
+
+            <div
+                class="upload-card"
+                id="drop-zone"
+            >
+
+                <div class="upload-icon">
+                    📄
+                </div>
+
+
+                <h3
+                    style="
+                        font-size: 16px;
+                        color: #0f172a;
+                        margin-bottom: 4px;
+                    "
+                >
+
+                    Upload your resume
+
+                </h3>
+
+
+                <p
+                    style="
+                        font-size: 13px;
+                        color: #64748b;
+                    "
+                >
+
+                    Drag and drop or browse from your device
+
+                </p>
+
+
+                <input
+                    type="file"
+                    id="resume"
+                    accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    style="display: none;"
+                >
+
+
+                <label
+                    for="resume"
+                    class="choose-file-btn"
+                >
+
+                    Browse Files
+
+                </label>
+
+
+                <p id="file-name">
+                    No file selected
+                </p>
+
+
+                <p class="file-types">
+
+                    Supported formats:
+                    PDF, DOCX (Max 10MB)
+
+                </p>
+
+            </div>
+
+
+
+            <!-- ==========================================
+                 BUTTONS
+            =========================================== -->
+
+            <div class="action-buttons-group">
+
+
+                <button
+                    type="button"
+                    id="analyze-button"
+                    class="btn-primary"
+                    disabled
+                >
+
+                    ⚡ Analyze My Resume
+
+                </button>
+
+
+
+                <!-- ==========================================
+                     RESULT
+                =========================================== -->
+
+                <div
+                    id="result"
+                    style="
+                        display: none;
+                        margin-top: 20px;
+                        padding: 20px;
+                        background: white;
+                        border-radius: 10px;
+                        color: black;
+                        border: 1px solid #e2e8f0;
+                    "
+                >
+
+                </div>
+
+                <!-- LAYOUT SELECTION -->
+
+<div id="layout-section" style="display: none; margin-top: 30px;">
+
+    <h2 style="color: #0f172a;">
+        Choose Your Portfolio Layout
+    </h2>
+
+    <p style="color: #64748b;">
+        Select a design for your portfolio.
+    </p>
+
+    <div class="layout-grid">
+
+        <!-- MODERN -->
+
+        <div class="layout-card" data-layout="modern">
+
+            <div class="layout-preview modern-preview">
+
+                <div class="preview-sidebar"></div>
+
+                <div class="preview-content">
+
+                    <div class="preview-line large"></div>
+                    <div class="preview-line"></div>
+                    <div class="preview-line"></div>
+                    <div class="preview-box"></div>
+
+                </div>
+
+            </div>
+
+            <h3>Modern</h3>
+
+            <p>
+                Clean and professional
+            </p>
+
+            <button
+                type="button"
+                class="layout-select-btn"
+                data-layout="modern"
+            >
+                Use This Layout
+            </button>
+
+        </div>
+
+
+        <!-- MINIMAL -->
+
+        <div class="layout-card" data-layout="minimal">
+
+            <div class="layout-preview minimal-preview">
+
+                <div class="preview-content">
+
+                    <div class="preview-line large"></div>
+                    <div class="preview-line"></div>
+                    <div class="preview-box"></div>
+                    <div class="preview-box"></div>
+
+                </div>
+
+            </div>
+
+            <h3>Minimal</h3>
+
+            <p>
+                Simple and elegant
+            </p>
+
+            <button
+                type="button"
+                class="layout-select-btn"
+                data-layout="minimal"
+            >
+                Use This Layout
+            </button>
+
+        </div>
+
+
+        <!-- CREATIVE -->
+
+        <div class="layout-card" data-layout="creative">
+
+            <div class="layout-preview creative-preview">
+
+                <div class="preview-header"></div>
+
+                <div class="preview-content">
+
+                    <div class="preview-line large"></div>
+                    <div class="preview-box"></div>
+                    <div class="preview-box"></div>
+
+                </div>
+
+            </div>
+
+            <h3>Creative</h3>
+
+            <p>
+                Bold and visually rich
+            </p>
+
+            <button
+                type="button"
+                class="layout-select-btn"
+                data-layout="creative"
+            >
+                Use This Layout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        id="generate-button"
+        class="btn-primary"
+        disabled
+        style="margin-top: 20px;"
+    >
+        🚀 Generate My Portfolio
+    </button>
+
+</div>
+
+
+
+
+
+                <!-- ==========================================
+                     PREVIEW ORIGINAL RESUME
+                =========================================== -->
+
+                <button
+                    type="button"
+                    id="view-button"
+                    class="btn-secondary"
+                    disabled
+                >
+
+                    👁 Preview Uploaded File
+
+                </button>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <p id="status-message"></p>
+
+
+
+            <!-- BACK -->
+
+            <div>
+
+                
+                    href="index.html?authenticated=true"
+                    class="back-link"
+                >
+
+                    ← Back to Dashboard
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script>
+
+
+        // ==========================================
+        // DOM ELEMENTS
+        // ==========================================
+
+        const resumeInput =
+            document.getElementById("resume");
+
+        const fileName =
+            document.getElementById("file-name");
+
+        const dropZone =
+            document.getElementById("drop-zone");
+
+        const analyzeButton =
+            document.getElementById("analyze-button");
+
+        const viewButton =
+            document.getElementById("view-button");
+
+        const statusMessage =
+            document.getElementById("status-message");
+
+        const resultContainer =
+            document.getElementById("result");
+
+
+
+        // ==========================================
+        // FILE VALIDATION
+        // ==========================================
+
+        function validateFile(file) {
+
+            if (!file) {
+                return false;
+            }
+
+
+            const fileNameLower =
+                file.name.toLowerCase();
+
+
+            const isPDF =
+                file.type === "application/pdf" ||
+                fileNameLower.endsWith(".pdf");
+
+
+            const isDOCX =
+                file.type ===
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                fileNameLower.endsWith(".docx");
+
+
+            if (!isPDF && !isDOCX) {
+
+                alert(
+                    "Please upload a PDF or DOCX file."
+                );
+
+                return false;
+
+            }
+
+
+            if (file.size > 10 * 1024 * 1024) {
+
+                alert(
+                    "File size must be less than 10 MB."
+                );
+
+                return false;
+
+            }
+
+
+            return true;
+
+        }
+
+
+
+        // ==========================================
+        // FILE SELECTION
+        // ==========================================
+
+        resumeInput.addEventListener(
+            "change",
+            function () {
+
+                if (
+                    resumeInput.files &&
+                    resumeInput.files.length > 0
+                ) {
+
+                    handleFileSelect(
+                        resumeInput.files[0]
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        function handleFileSelect(file) {
+
+
+            if (!validateFile(file)) {
+
+                resumeInput.value = "";
+
+                analyzeButton.disabled = true;
+
+                viewButton.disabled = true;
+
+                fileName.textContent =
+                    "No file selected";
+
+                return;
+
+            }
+
+
+            fileName.textContent =
+                file.name;
+
+
+            analyzeButton.disabled =
+                false;
+
+
+            viewButton.disabled =
+                false;
+
+
+            statusMessage.textContent =
+                "";
+
+
+            statusMessage.className =
+                "";
+
+
+            resultContainer.style.display =
+                "none";
+
+        }
+
+
+
+        // ==========================================
+        // DRAG AND DROP
+        // ==========================================
+
+        ["dragenter", "dragover"].forEach(
+            eventName => {
+
+                dropZone.addEventListener(
+                    eventName,
+                    function(e) {
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        dropZone.classList.add(
+                            "dragover"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        ["dragleave", "drop"].forEach(
+            eventName => {
+
+                dropZone.addEventListener(
+                    eventName,
+                    function(e) {
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        dropZone.classList.remove(
+                            "dragover"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        dropZone.addEventListener(
+            "drop",
+            function(e) {
+
+                const files =
+                    e.dataTransfer.files;
+
+
+                if (
+                    files &&
+                    files.length > 0
+                ) {
+
+                    const file =
+                        files[0];
+
+
+                    /*
+                     * Put the dropped file
+                     * into the file input.
+                     */
+
+                    const dataTransfer =
+                        new DataTransfer();
+
+
+                    dataTransfer.items.add(file);
+
+
+                    resumeInput.files =
+                        dataTransfer.files;
+
+
+                    handleFileSelect(file);
+
+                }
+
+            }
+        );
+
+
+
+        // ==========================================
+        // CLICK UPLOAD AREA
+        // ==========================================
+
+        dropZone.addEventListener(
+            "click",
+            function(e) {
+
+                /*
+                 * Don't trigger the input
+                 * when clicking the label.
+                 */
+
+                if (
+                    e.target.tagName !== "LABEL"
+                ) {
+
+                    resumeInput.click();
+
+                }
+
+            }
+        );
+
+
+
+        // ==========================================
+        // PREVIEW ORIGINAL RESUME
+        // ==========================================
+
+        viewButton.addEventListener(
+            "click",
+            function() {
+
+                const file =
+                    resumeInput.files[0];
+
+
+                if (!file) {
+
+                    alert(
+                        "Please select a resume first."
+                    );
+
+                    return;
+
+                }
+
+
+                const fileURL =
+                    URL.createObjectURL(file);
+
+
+                window.open(
+                    fileURL,
+                    "_blank"
+                );
+
+            }
+        );
+
+
+
+        // ==========================================
+        // ANALYZE RESUME
+        // ==========================================
+
+        analyzeButton.addEventListener(
+            "click",
+            analyzeResume
+        );
+
+
+
+        async function analyzeResume() {
+
+
+            const file =
+                resumeInput.files[0];
+
+
+            if (!file) {
+
+                alert(
+                    "Please select your resume first."
+                );
+
+                return;
+
+            }
+
+
+            if (!validateFile(file)) {
+
+                return;
+
+            }
+
+
+            // --------------------------------------
+            // BUTTON STATE
+            // --------------------------------------
+
+            analyzeButton.disabled =
+                true;
+
+
+            viewButton.disabled =
+                true;
+
+
+            analyzeButton.textContent =
+                "⚡ Analyzing with AI...";
+
+
+            statusMessage.textContent =
+                "Gemini is analyzing your resume. Please wait...";
+
+
+            statusMessage.className =
+                "status-loading";
+
+
+
+            // --------------------------------------
+            // FORM DATA
+            // --------------------------------------
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "resume",
+                file
+            );
+
+
+
+            try {
+
+
+                // ----------------------------------
+                // SEND TO FLASK
+                //
+                // Relative URL on purpose: this only
+                // works when the page itself is served
+                // by Flask (e.g. http://127.0.0.1:5000
+                // or wherever app.py is deployed).
+                // Opening this file directly from
+                // GitHub Pages or the local filesystem
+                // will NOT work, since there is no
+                // Flask backend running there.
+                // ----------------------------------
+
+                const response =
+                    await fetch(
+                        "/analyze-resume",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+
+                // ----------------------------------
+                // READ RESPONSE
+                // ----------------------------------
+
+                if (!response.ok) {
+
+                    const errorText =
+                        await response.text();
+
+                    throw new Error(
+                        `Server error (${response.status}): ` +
+                        errorText.slice(0, 200)
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Flask response:",
+                    data
+                );
+
+
+
+                // ----------------------------------
+                // CHECK ERROR
+                // ----------------------------------
+
+                if (!data.success) {
+
+                    throw new Error(
+                        data.error ||
+                        "Resume analysis failed."
+                    );
+
+                }
+
+
+
+                // ----------------------------------
+                // GET PROFILE DATA
+                // ----------------------------------
+
+                const profileData =
+                    data.data;
+
+
+                if (
+                    !profileData ||
+                    typeof profileData !== "object"
+                ) {
+
+                    throw new Error(
+                        "Invalid profile data received from server."
+                    );
+
+                }
+
+
+
+                console.log(
+                    "Extracted profile:",
+                    profileData
+                );
+
+
+
+                // ----------------------------------
+                // SAVE PROFILE DATA (local)
+                // ----------------------------------
+
+                localStorage.setItem(
+                    "portfolioData",
+                    JSON.stringify(profileData)
+                );
+
+
+                // ----------------------------------
+                // SAVE TO BACKEND / SUPABASE
+                //
+                // Relative URL, same reasoning as
+                // above. This is fire-and-forget —
+                // it doesn't block the UI from
+                // showing the result even if it fails.
+                // ----------------------------------
+
+                fetch("/api/save-portfolio", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(profileData)
+                })
+                .then(res => res.json())
+                .then(saveResult =>
+                    console.log("Save result:", saveResult)
+                )
+                .catch(err =>
+                    console.error("Error saving portfolio:", err)
+                );
+
+
+
+                // ----------------------------------
+                // SUCCESS
+                // ----------------------------------
+
+                statusMessage.textContent =
+                    "✓ Resume analyzed successfully! Your portfolio is ready.";
+
+                statusMessage.className =
+                    "status-success";
+
+
+                analyzeButton.textContent =
+                    "✓ Portfolio Created";
+
+
+                // ----------------------------------
+                // DISPLAY RESULT
+                // ----------------------------------
+
+                displayPortfolio(
+                    profileData
+                );
+
+
+            }
+
+            catch (error) {
+
+
+                console.error(
+                    "Analysis error:",
+                    error
+                );
+
+
+                statusMessage.textContent =
+                    "❌ " + error.message;
+
+
+                statusMessage.className =
+                    "status-error";
+
+
+                analyzeButton.disabled =
+                    false;
+
+
+                viewButton.disabled =
+                    false;
+
+
+                analyzeButton.textContent =
+                    "⚡ Analyze My Resume";
+
+            }
+
+        }
+
+
+
+        // ==========================================
+        // DISPLAY PORTFOLIO
+        // ==========================================
+
+        function displayPortfolio(data) {
+
+
+            resultContainer.style.display =
+                "block";
+
+
+            resultContainer.innerHTML = `
+
+                <div class="portfolio-result">
+
+
+                    <h2>
+                        🎉 Your Portfolio is Ready!
+                    </h2>
+
+
+                    <hr>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            data.name ||
+                            "Your Name"
+                        )}
+                    </h3>
+
+
+                    <p>
+                        ${escapeHTML(
+                            data.summary ||
+                            "Professional Summary"
+                        )}
+                    </p>
+
+
+
+                    <!-- CONTACT -->
+
+                    <h4>
+                        📧 Contact
+                    </h4>
+
+
+                    <p>
+                        <strong>Email:</strong>
+                        ${escapeHTML(
+                            data.email ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>Phone:</strong>
+                        ${escapeHTML(
+                            data.phone ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+
+                    <!-- SKILLS -->
+
+                    <h4>
+                        💻 Skills
+                    </h4>
+
+
+                    <div class="skills-container">
+
+                        ${createSkills(
+                            data.skills
+                        )}
+
+                    </div>
+
+
+
+                    <!-- EDUCATION -->
+
+                    <h4>
+                        🎓 Education
+                    </h4>
+
+
+                    ${createEducation(
+                        data.education
+                    )}
+
+
+
+                    <!-- PROJECTS -->
+
+                    <h4>
+                        🚀 Projects
+                    </h4>
+
+
+                    ${createProjects(
+                        data.projects
+                    )}
+
+
+
+                    <!-- EXPERIENCE -->
+
+                    <h4>
+                        💼 Experience
+                    </h4>
+
+
+                    ${createExperience(
+                        data.experience
+                    )}
+
+
+
+                    <!-- CERTIFICATIONS -->
+
+                    <h4>
+                        🏆 Certifications
+                    </h4>
+
+
+                    ${createSimpleList(
+                        data.certifications
+                    )}
+
+
+
+                    <!-- ACHIEVEMENTS -->
+
+                    <h4>
+                        🏅 Achievements
+                    </h4>
+
+
+                    ${createSimpleList(
+                        data.achievements
+                    )}
+
+
+
+                    <!-- LINKS -->
+
+                    <h4>
+                        🔗 Links
+                    </h4>
+
+
+                    ${
+                        data.linkedin
+                        ?
+                        `
+                        <p class="link-item">
+                            <strong>
+                                LinkedIn:
+                            </strong>
+                            ${escapeHTML(
+                                data.linkedin
+                            )}
+                        </p>
+                        `
+                        :
+                        "<p>LinkedIn: Not available</p>"
+                    }
+
+
+                    ${
+                        data.github
+                        ?
+                        `
+                        <p class="link-item">
+                            <strong>
+                                GitHub:
+                            </strong>
+                            ${escapeHTML(
+                                data.github
+                            )}
+                        </p>
+                        `
+                        :
+                        "<p>GitHub: Not available</p>"
+                    }
+
+
+
+                    <!-- VIEW PORTFOLIO -->
+
+                    <div
+                        style="
+                            margin-top:25px;
+                        "
+                    >
+
+                        <button
+                            type="button"
+                            class="btn-primary"
+                            onclick="openPortfolioPage()"
+                        >
+
+                            👁 View Full Portfolio
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            resultContainer.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+
+        // ==========================================
+        // CREATE SKILLS
+        // ==========================================
+
+        function createSkills(skills) {
+
+
+            if (
+                !skills ||
+                !Array.isArray(skills) ||
+                skills.length === 0
+            ) {
+
+                return "<p>No skills found.</p>";
+
+            }
+
+
+            return skills.map(
+                skill => {
+
+                    if (
+                        typeof skill === "object"
+                    ) {
+
+                        skill =
+                            JSON.stringify(skill);
+
+                    }
+
+
+                    return `
+
+                        <span class="skill-badge">
+
+                            ${escapeHTML(skill)}
+
+                        </span>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE EDUCATION
+        // ==========================================
+
+        function createEducation(
+            education
+        ) {
+
+
+            if (
+                !education ||
+                education.length === 0
+            ) {
+
+                return "<p>Not available.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(education)
+            ) {
+
+                education = [education];
+
+            }
+
+
+            return education.map(
+                item => {
+
+
+                    if (
+                        typeof item === "object"
+                    ) {
+
+                        return `
+
+                            <div class="education-card">
+
+                                <strong>
+
+                                    ${escapeHTML(
+                                        item.degree ||
+                                        "Degree"
+                                    )}
+
+                                </strong>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.institution ||
+                                        ""
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.year ||
+                                        ""
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <div class="education-card">
+
+                            ${escapeHTML(item)}
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE PROJECTS
+        // ==========================================
+
+        function createProjects(
+            projects
+        ) {
+
+
+            if (
+                !projects ||
+                projects.length === 0
+            ) {
+
+                return "<p>No projects found.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(projects)
+            ) {
+
+                projects = [projects];
+
+            }
+
+
+            return projects.map(
+                project => {
+
+
+                    if (
+                        typeof project === "object"
+                    ) {
+
+                        return `
+
+                            <div class="project-card">
+
+                                <strong>
+
+                                    ${escapeHTML(
+                                        project.name ||
+                                        "Project"
+                                    )}
+
+                                </strong>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        project.description ||
+                                        ""
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <div class="project-card">
+
+                            ${escapeHTML(
+                                project
+                            )}
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE EXPERIENCE
+        // ==========================================
+
+        function createExperience(
+            experience
+        ) {
+
+
+            if (
+                !experience ||
+                experience.length === 0
+            ) {
+
+                return "<p>Not available.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(experience)
+            ) {
+
+                experience = [experience];
+
+            }
+
+
+            return experience.map(
+                item => {
+
+
+                    if (
+                        typeof item === "object"
+                    ) {
+
+                        return `
+
+                            <div class="experience-card">
+
+                                <strong>
+
+                                    ${escapeHTML(
+                                        item.job_title ||
+                                        "Job Title"
+                                    )}
+
+                                </strong>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.company ||
+                                        ""
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.duration ||
+                                        ""
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.description ||
+                                        ""
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <div class="experience-card">
+
+                            ${escapeHTML(item)}
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE SIMPLE LIST
+        // ==========================================
+
+        function createSimpleList(
+            items
+        ) {
+
+
+            if (
+                !items ||
+                items.length === 0
+            ) {
+
+                return "<p>Not available.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(items)
+            ) {
+
+                items = [items];
+
+            }
+
+
+            return `
+
+                <ul>
+
+                    ${items.map(
+                        item => `
+
+                            <li
+                                style="
+                                    margin-bottom:8px;
+                                "
+                            >
+
+                                ${escapeHTML(
+                                    typeof item === "object"
+                                    ? JSON.stringify(item)
+                                    : item
+                                )}
