@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-
         .upload-wrapper {
             background: rgba(255, 255, 255, 0.88);
             border: 1px solid rgba(226, 232, 240, 0.9);
@@ -27,7 +26,6 @@
             text-align: center;
         }
 
-
         .upload-card {
             background: #ffffff;
             border: 2px dashed #cbd5e1;
@@ -40,20 +38,17 @@
             cursor: pointer;
         }
 
-
         .upload-card.dragover {
             border-color: #2563eb;
             background-color: #eff6ff;
             transform: scale(1.01);
         }
 
-
         .upload-icon {
             font-size: 40px;
             margin-bottom: 10px;
             display: inline-block;
         }
-
 
         .choose-file-btn {
             display: inline-block;
@@ -77,12 +72,10 @@
             transition: all 0.2s ease;
         }
 
-
         .choose-file-btn:hover {
             background-color: #e2e8f0;
             border-color: #94a3b8;
         }
-
 
         #file-name {
             font-weight: 600;
@@ -95,14 +88,12 @@
             word-break: break-all;
         }
 
-
         .file-types {
             font-size: 12px;
             color: #94a3b8;
 
             margin-top: 4px;
         }
-
 
         .action-buttons-group {
             display: flex;
@@ -113,12 +104,10 @@
             width: 100%;
         }
 
-
         .action-buttons-group button {
             width: 100%;
             margin: 0;
         }
-
 
         .action-buttons-group button:disabled {
             background-color: #cbd5e1;
@@ -133,7 +122,6 @@
             box-shadow: none;
         }
 
-
         #status-message {
             margin-top: 16px;
 
@@ -143,31 +131,25 @@
             min-height: 20px;
         }
 
-
         .status-success {
             color: #059669;
         }
-
 
         .status-error {
             color: #dc2626;
         }
 
-
         .status-loading {
             color: #2563eb;
         }
-
 
         #result {
             text-align: left;
         }
 
-
         .portfolio-result h2 {
             color: #0f172a;
         }
-
 
         .portfolio-result h3 {
             color: #2563eb;
@@ -177,18 +159,15 @@
             margin-bottom: 8px;
         }
 
-
         .portfolio-result h4 {
             margin-top: 20px;
 
             color: #0f172a;
         }
 
-
         .skills-container {
             margin-top: 8px;
         }
-
 
         .skill-badge {
             display: inline-block;
@@ -208,33 +187,8 @@
             font-weight: 600;
         }
 
-
-        .project-card {
-            padding: 12px;
-
-            margin: 8px 0;
-
-            background: #f8fafc;
-
-            border-radius: 8px;
-
-            border: 1px solid #e2e8f0;
-        }
-
-
-        .experience-card {
-            padding: 12px;
-
-            margin: 8px 0;
-
-            background: #f8fafc;
-
-            border-radius: 8px;
-
-            border: 1px solid #e2e8f0;
-        }
-
-
+        .project-card,
+        .experience-card,
         .education-card {
             padding: 12px;
 
@@ -247,11 +201,9 @@
             border: 1px solid #e2e8f0;
         }
 
-
         .link-item {
             word-break: break-all;
         }
-
 
         .back-link {
             display: inline-flex;
@@ -273,14 +225,33 @@
             transition: color 0.2s ease;
         }
 
-
         .back-link:hover {
             color: #0f172a;
         }
 
+        /* Layout Selection Grid */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .layout-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .layout-card.selected {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
 
         @media (max-width: 640px) {
-
             .upload-wrapper {
                 padding: 24px 16px;
             }
@@ -288,1644 +259,366 @@
             .upload-card {
                 padding: 24px 14px;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
     <div class="overlay"></div>
 
-
-    <!-- ==========================================
-         NAVBAR
-    =========================================== -->
-
+    <!-- NAVBAR -->
     <header class="navbar">
-
         <a href="index.html" class="logo">
-
-            <span class="logo-badge">⚡</span>
-
-            FolioPulse
-
+            <span class="logo-badge">⚡</span> FolioPulse
         </a>
 
-
         <div class="nav-right">
-
             <div class="dropdown" id="user-dropdown">
-
-                <button
-                    class="dropdown-btn"
-                    type="button"
-                    onclick="toggleDropdown(event)"
-                >
-
-                    <div
-                        class="avatar"
-                        id="nav-user-avatar"
-                    >
-                        👤
-                    </div>
-
-
-                    <span id="nav-user-name">
-                        Menu
-                    </span>
-
-
-                    <span class="chevron">
-                        ▼
-                    </span>
-
+                <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
+                    <div class="avatar" id="nav-user-avatar">👤</div>
+                    <span id="nav-user-name">Menu</span>
+                    <span class="chevron">▼</span>
                 </button>
-
 
                 <div class="dropdown-menu">
-
-
-                    
-                        href="profile.html"
-                        class="dropdown-item"
-                    >
-
-                        <span class="item-icon">
-                            👤
-                        </span>
-
-                        Profile
-
+                    <a href="profile.html" class="dropdown-item">
+                        <span class="item-icon">👤</span> Profile
                     </a>
-
-
-                    
-                        href="portfolio.html"
-                        class="dropdown-item"
-                    >
-
-                        <span class="item-icon">
-                            📁
-                        </span>
-
-                        My Portfolios
-
+                    <a href="portfolio.html" class="dropdown-item">
+                        <span class="item-icon">📁</span> My Portfolios
                     </a>
-
-
-                    
-                        href="chat.html"
-                        class="dropdown-item"
-                    >
-
-                        <span class="item-icon">
-                            🤖
-                        </span>
-
-                        AI Chat Box
-
+                    <a href="chat.html" class="dropdown-item">
+                        <span class="item-icon">🤖</span> AI Chat Box
                     </a>
-
-
                     <div class="dropdown-divider"></div>
-
-
-                    
-                        href="index.html"
-                        class="dropdown-item logout-link"
-                        onclick="logout(event)"
-                    >
-
-                        <span class="item-icon">
-                            🚪
-                        </span>
-
-                        Sign Out
-
+                    <a href="index.html" class="dropdown-item logout-link" onclick="logout(event)">
+                        <span class="item-icon">🚪</span> Sign Out
                     </a>
-
-
                 </div>
-
             </div>
-
         </div>
-
     </header>
 
-
-
-    <!-- ==========================================
-         MAIN CONTENT
-    =========================================== -->
-
+    <!-- MAIN CONTENT -->
     <main class="container">
-
         <div class="upload-wrapper">
-
-
-            <h1
-                class="hero-title"
-                style="font-size: 32px; margin-bottom: 8px;"
-            >
-
-                Upload Your
-                <span>Resume</span>
-
+            <h1 class="hero-title" style="font-size: 32px; margin-bottom: 8px;">
+                Upload Your <span>Resume</span>
             </h1>
 
-
-            <p
-                class="hero-subtitle"
-                style="margin-bottom: 20px; font-size: 14px;"
-            >
-
-                Turn your resume into a professional
-                showcase website with AI.
-
+            <p class="hero-subtitle" style="margin-bottom: 20px; font-size: 14px;">
+                Turn your resume into a professional showcase website with AI.
             </p>
 
-
-
-            <!-- ==========================================
-                 UPLOAD AREA
-            =========================================== -->
-
-            <div
-                class="upload-card"
-                id="drop-zone"
-            >
-
-                <div class="upload-icon">
-                    📄
-                </div>
-
-
-                <h3
-                    style="
-                        font-size: 16px;
-                        color: #0f172a;
-                        margin-bottom: 4px;
-                    "
-                >
-
+            <!-- UPLOAD AREA -->
+            <div class="upload-card" id="drop-zone">
+                <div class="upload-icon">📄</div>
+                <h3 style="font-size: 16px; color: #0f172a; margin-bottom: 4px;">
                     Upload your resume
-
                 </h3>
-
-
-                <p
-                    style="
-                        font-size: 13px;
-                        color: #64748b;
-                    "
-                >
-
+                <p style="font-size: 13px; color: #64748b;">
                     Drag and drop or browse from your device
-
                 </p>
 
+                <input type="file" id="resume" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display: none;">
 
-                <input
-                    type="file"
-                    id="resume"
-                    accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    style="display: none;"
-                >
+                <label for="resume" class="choose-file-btn">Browse Files</label>
 
-
-                <label
-                    for="resume"
-                    class="choose-file-btn"
-                >
-
-                    Browse Files
-
-                </label>
-
-
-                <p id="file-name">
-                    No file selected
-                </p>
-
-
-                <p class="file-types">
-
-                    Supported formats:
-                    PDF, DOCX (Max 10MB)
-
-                </p>
-
+                <p id="file-name">No file selected</p>
+                <p class="file-types">Supported formats: PDF, DOCX (Max 10MB)</p>
             </div>
 
-
-
-            <!-- ==========================================
-                 BUTTONS
-            =========================================== -->
-
+            <!-- ACTION BUTTONS -->
             <div class="action-buttons-group">
-
-
-                <button
-                    type="button"
-                    id="analyze-button"
-                    class="btn-primary"
-                    disabled
-                >
-
+                <button type="button" id="analyze-button" class="btn-primary" disabled>
                     ⚡ Analyze My Resume
-
                 </button>
 
+                <!-- RESULT CONTAINER -->
+                <div id="result" style="display: none; margin-top: 20px; padding: 20px; background: white; border-radius: 10px; color: black; border: 1px solid #e2e8f0;"></div>
 
+                <!-- LAYOUT SELECTION SECTION -->
+                <div id="layout-section" style="display: none; margin-top: 30px;">
+                    <h2 style="color: #0f172a;">Choose Your Portfolio Layout</h2>
+                    <p style="color: #64748b;">Select a design for your portfolio.</p>
 
-                <!-- ==========================================
-                     RESULT
-                =========================================== -->
+                    <div class="layout-grid">
+                        <div class="layout-card" data-layout="modern">
+                            <h3>Modern</h3>
+                            <p>Clean and professional</p>
+                            <button type="button" class="layout-select-btn" data-layout="modern">Use This Layout</button>
+                        </div>
 
-                <div
-                    id="result"
-                    style="
-                        display: none;
-                        margin-top: 20px;
-                        padding: 20px;
-                        background: white;
-                        border-radius: 10px;
-                        color: black;
-                        border: 1px solid #e2e8f0;
-                    "
-                >
+                        <div class="layout-card" data-layout="minimal">
+                            <h3>Minimal</h3>
+                            <p>Simple and elegant</p>
+                            <button type="button" class="layout-select-btn" data-layout="minimal">Use This Layout</button>
+                        </div>
 
+                        <div class="layout-card" data-layout="creative">
+                            <h3>Creative</h3>
+                            <p>Bold and visually rich</p>
+                            <button type="button" class="layout-select-btn" data-layout="creative">Use This Layout</button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="generate-button" class="btn-primary" style="margin-top: 20px;">
+                        🚀 Generate My Portfolio
+                    </button>
                 </div>
 
-                <!-- LAYOUT SELECTION -->
-
-<div id="layout-section" style="display: none; margin-top: 30px;">
-
-    <h2 style="color: #0f172a;">
-        Choose Your Portfolio Layout
-    </h2>
-
-    <p style="color: #64748b;">
-        Select a design for your portfolio.
-    </p>
-
-    <div class="layout-grid">
-
-        <!-- MODERN -->
-
-        <div class="layout-card" data-layout="modern">
-
-            <div class="layout-preview modern-preview">
-
-                <div class="preview-sidebar"></div>
-
-                <div class="preview-content">
-
-                    <div class="preview-line large"></div>
-                    <div class="preview-line"></div>
-                    <div class="preview-line"></div>
-                    <div class="preview-box"></div>
-
-                </div>
-
-            </div>
-
-            <h3>Modern</h3>
-
-            <p>
-                Clean and professional
-            </p>
-
-            <button
-                type="button"
-                class="layout-select-btn"
-                data-layout="modern"
-            >
-                Use This Layout
-            </button>
-
-        </div>
-
-
-        <!-- MINIMAL -->
-
-        <div class="layout-card" data-layout="minimal">
-
-            <div class="layout-preview minimal-preview">
-
-                <div class="preview-content">
-
-                    <div class="preview-line large"></div>
-                    <div class="preview-line"></div>
-                    <div class="preview-box"></div>
-                    <div class="preview-box"></div>
-
-                </div>
-
-            </div>
-
-            <h3>Minimal</h3>
-
-            <p>
-                Simple and elegant
-            </p>
-
-            <button
-                type="button"
-                class="layout-select-btn"
-                data-layout="minimal"
-            >
-                Use This Layout
-            </button>
-
-        </div>
-
-
-        <!-- CREATIVE -->
-
-        <div class="layout-card" data-layout="creative">
-
-            <div class="layout-preview creative-preview">
-
-                <div class="preview-header"></div>
-
-                <div class="preview-content">
-
-                    <div class="preview-line large"></div>
-                    <div class="preview-box"></div>
-                    <div class="preview-box"></div>
-
-                </div>
-
-            </div>
-
-            <h3>Creative</h3>
-
-            <p>
-                Bold and visually rich
-            </p>
-
-            <button
-                type="button"
-                class="layout-select-btn"
-                data-layout="creative"
-            >
-                Use This Layout
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <button
-        type="button"
-        id="generate-button"
-        class="btn-primary"
-        disabled
-        style="margin-top: 20px;"
-    >
-        🚀 Generate My Portfolio
-    </button>
-
-</div>
-
-
-
-
-
-                <!-- ==========================================
-                     PREVIEW ORIGINAL RESUME
-                =========================================== -->
-
-                <button
-                    type="button"
-                    id="view-button"
-                    class="btn-secondary"
-                    disabled
-                >
-
+                <!-- PREVIEW BUTTON -->
+                <button type="button" id="view-button" class="btn-secondary" disabled>
                     👁 Preview Uploaded File
-
                 </button>
-
             </div>
 
-
-
-            <!-- STATUS -->
-
+            <!-- STATUS MESSAGE -->
             <p id="status-message"></p>
 
-
-
-            <!-- BACK -->
-
+            <!-- BACK BUTTON -->
             <div>
-
-                
-                    href="index.html?authenticated=true"
-                    class="back-link"
-                >
-
+                <a href="index.html?authenticated=true" class="back-link">
                     ← Back to Dashboard
-
                 </a>
-
             </div>
-
-
         </div>
-
     </main>
 
-
-
-    <!-- ==========================================
-         JAVASCRIPT
-    =========================================== -->
-
+    <!-- JAVASCRIPT -->
     <script>
+        const resumeInput = document.getElementById("resume");
+        const fileName = document.getElementById("file-name");
+        const dropZone = document.getElementById("drop-zone");
+        const analyzeButton = document.getElementById("analyze-button");
+        const viewButton = document.getElementById("view-button");
+        const statusMessage = document.getElementById("status-message");
+        const resultContainer = document.getElementById("result");
+        const layoutSection = document.getElementById("layout-section");
 
-
-        // ==========================================
-        // DOM ELEMENTS
-        // ==========================================
-
-        const resumeInput =
-            document.getElementById("resume");
-
-        const fileName =
-            document.getElementById("file-name");
-
-        const dropZone =
-            document.getElementById("drop-zone");
-
-        const analyzeButton =
-            document.getElementById("analyze-button");
-
-        const viewButton =
-            document.getElementById("view-button");
-
-        const statusMessage =
-            document.getElementById("status-message");
-
-        const resultContainer =
-            document.getElementById("result");
-
-
-
-        // ==========================================
-        // FILE VALIDATION
-        // ==========================================
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
 
         function validateFile(file) {
-
-            if (!file) {
-                return false;
-            }
-
-
-            const fileNameLower =
-                file.name.toLowerCase();
-
-
-            const isPDF =
-                file.type === "application/pdf" ||
-                fileNameLower.endsWith(".pdf");
-
-
-            const isDOCX =
-                file.type ===
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-                fileNameLower.endsWith(".docx");
-
+            if (!file) return false;
+            const fileNameLower = file.name.toLowerCase();
+            const isPDF = file.type === "application/pdf" || fileNameLower.endsWith(".pdf");
+            const isDOCX = file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" || fileNameLower.endsWith(".docx");
 
             if (!isPDF && !isDOCX) {
-
-                alert(
-                    "Please upload a PDF or DOCX file."
-                );
-
+                alert("Please upload a PDF or DOCX file.");
                 return false;
-
             }
-
 
             if (file.size > 10 * 1024 * 1024) {
-
-                alert(
-                    "File size must be less than 10 MB."
-                );
-
+                alert("File size must be less than 10 MB.");
                 return false;
-
             }
-
 
             return true;
-
         }
 
-
-
-        // ==========================================
-        // FILE SELECTION
-        // ==========================================
-
-        resumeInput.addEventListener(
-            "change",
-            function () {
-
-                if (
-                    resumeInput.files &&
-                    resumeInput.files.length > 0
-                ) {
-
-                    handleFileSelect(
-                        resumeInput.files[0]
-                    );
-
-                }
-
+        resumeInput.addEventListener("change", function () {
+            if (resumeInput.files && resumeInput.files.length > 0) {
+                handleFileSelect(resumeInput.files[0]);
             }
-        );
-
-
+        });
 
         function handleFileSelect(file) {
-
-
             if (!validateFile(file)) {
-
                 resumeInput.value = "";
-
                 analyzeButton.disabled = true;
-
                 viewButton.disabled = true;
-
-                fileName.textContent =
-                    "No file selected";
-
+                fileName.textContent = "No file selected";
                 return;
-
             }
 
-
-            fileName.textContent =
-                file.name;
-
-
-            analyzeButton.disabled =
-                false;
-
-
-            viewButton.disabled =
-                false;
-
-
-            statusMessage.textContent =
-                "";
-
-
-            statusMessage.className =
-                "";
-
-
-            resultContainer.style.display =
-                "none";
-
+            fileName.textContent = file.name;
+            analyzeButton.disabled = false;
+            viewButton.disabled = false;
+            statusMessage.textContent = "";
+            statusMessage.className = "";
+            resultContainer.style.display = "none";
+            layoutSection.style.display = "none";
         }
 
+        ["dragenter", "dragover"].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.add("dragover");
+            });
+        });
 
+        ["dragleave", "drop"].forEach(eventName => {
+            dropZone.addEventListener(eventName, e => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropZone.classList.remove("dragover");
+            });
+        });
 
-        // ==========================================
-        // DRAG AND DROP
-        // ==========================================
-
-        ["dragenter", "dragover"].forEach(
-            eventName => {
-
-                dropZone.addEventListener(
-                    eventName,
-                    function(e) {
-
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        dropZone.classList.add(
-                            "dragover"
-                        );
-
-                    }
-                );
-
+        dropZone.addEventListener("drop", e => {
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) {
+                const file = files[0];
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                resumeInput.files = dataTransfer.files;
+                handleFileSelect(file);
             }
-        );
+        });
 
-
-        ["dragleave", "drop"].forEach(
-            eventName => {
-
-                dropZone.addEventListener(
-                    eventName,
-                    function(e) {
-
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        dropZone.classList.remove(
-                            "dragover"
-                        );
-
-                    }
-                );
-
+        dropZone.addEventListener("click", e => {
+            if (e.target.tagName !== "LABEL") {
+                resumeInput.click();
             }
-        );
+        });
 
-
-        dropZone.addEventListener(
-            "drop",
-            function(e) {
-
-                const files =
-                    e.dataTransfer.files;
-
-
-                if (
-                    files &&
-                    files.length > 0
-                ) {
-
-                    const file =
-                        files[0];
-
-
-                    /*
-                     * Put the dropped file
-                     * into the file input.
-                     */
-
-                    const dataTransfer =
-                        new DataTransfer();
-
-
-                    dataTransfer.items.add(file);
-
-
-                    resumeInput.files =
-                        dataTransfer.files;
-
-
-                    handleFileSelect(file);
-
-                }
-
+        viewButton.addEventListener("click", () => {
+            const file = resumeInput.files[0];
+            if (!file) {
+                alert("Please select a resume first.");
+                return;
             }
-        );
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL, "_blank");
+        });
 
-
-
-        // ==========================================
-        // CLICK UPLOAD AREA
-        // ==========================================
-
-        dropZone.addEventListener(
-            "click",
-            function(e) {
-
-                /*
-                 * Don't trigger the input
-                 * when clicking the label.
-                 */
-
-                if (
-                    e.target.tagName !== "LABEL"
-                ) {
-
-                    resumeInput.click();
-
-                }
-
-            }
-        );
-
-
-
-        // ==========================================
-        // PREVIEW ORIGINAL RESUME
-        // ==========================================
-
-        viewButton.addEventListener(
-            "click",
-            function() {
-
-                const file =
-                    resumeInput.files[0];
-
-
-                if (!file) {
-
-                    alert(
-                        "Please select a resume first."
-                    );
-
-                    return;
-
-                }
-
-
-                const fileURL =
-                    URL.createObjectURL(file);
-
-
-                window.open(
-                    fileURL,
-                    "_blank"
-                );
-
-            }
-        );
-
-
-
-        // ==========================================
-        // ANALYZE RESUME
-        // ==========================================
-
-        analyzeButton.addEventListener(
-            "click",
-            analyzeResume
-        );
-
-
+        analyzeButton.addEventListener("click", analyzeResume);
 
         async function analyzeResume() {
+            const file = resumeInput.files[0];
+            if (!file || !validateFile(file)) return;
 
+            analyzeButton.disabled = true;
+            viewButton.disabled = true;
+            analyzeButton.textContent = "⚡ Analyzing with AI...";
+            statusMessage.textContent = "Gemini is analyzing your resume. Please wait...";
+            statusMessage.className = "status-loading";
 
-            const file =
-                resumeInput.files[0];
-
-
-            if (!file) {
-
-                alert(
-                    "Please select your resume first."
-                );
-
-                return;
-
-            }
-
-
-            if (!validateFile(file)) {
-
-                return;
-
-            }
-
-
-            // --------------------------------------
-            // BUTTON STATE
-            // --------------------------------------
-
-            analyzeButton.disabled =
-                true;
-
-
-            viewButton.disabled =
-                true;
-
-
-            analyzeButton.textContent =
-                "⚡ Analyzing with AI...";
-
-
-            statusMessage.textContent =
-                "Gemini is analyzing your resume. Please wait...";
-
-
-            statusMessage.className =
-                "status-loading";
-
-
-
-            // --------------------------------------
-            // FORM DATA
-            // --------------------------------------
-
-            const formData =
-                new FormData();
-
-
-            formData.append(
-                "resume",
-                file
-            );
-
-
+            const formData = new FormData();
+            formData.append("resume", file);
 
             try {
-
-
-                // ----------------------------------
-                // SEND TO FLASK
-                //
-                // Relative URL on purpose: this only
-                // works when the page itself is served
-                // by Flask (e.g. http://127.0.0.1:5000
-                // or wherever app.py is deployed).
-                // Opening this file directly from
-                // GitHub Pages or the local filesystem
-                // will NOT work, since there is no
-                // Flask backend running there.
-                // ----------------------------------
-
-                const response =
-                    await fetch(
-                        "/analyze-resume",
-                        {
-                            method: "POST",
-                            body: formData
-                        }
-                    );
-
-
-
-                // ----------------------------------
-                // READ RESPONSE
-                // ----------------------------------
+                const response = await fetch("/analyze-resume", {
+                    method: "POST",
+                    body: formData
+                });
 
                 if (!response.ok) {
-
-                    const errorText =
-                        await response.text();
-
-                    throw new Error(
-                        `Server error (${response.status}): ` +
-                        errorText.slice(0, 200)
-                    );
-
+                    const errorText = await response.text();
+                    throw new Error(`Server error (${response.status}): ` + errorText.slice(0, 200));
                 }
 
-
-                const data =
-                    await response.json();
-
-
-                console.log(
-                    "Flask response:",
-                    data
-                );
-
-
-
-                // ----------------------------------
-                // CHECK ERROR
-                // ----------------------------------
-
+                const data = await response.json();
                 if (!data.success) {
-
-                    throw new Error(
-                        data.error ||
-                        "Resume analysis failed."
-                    );
-
+                    throw new Error(data.error || "Resume analysis failed.");
                 }
 
-
-
-                // ----------------------------------
-                // GET PROFILE DATA
-                // ----------------------------------
-
-                const profileData =
-                    data.data;
-
-
-                if (
-                    !profileData ||
-                    typeof profileData !== "object"
-                ) {
-
-                    throw new Error(
-                        "Invalid profile data received from server."
-                    );
-
+                const profileData = data.data;
+                if (!profileData || typeof profileData !== "object") {
+                    throw new Error("Invalid profile data received from server.");
                 }
 
-
-
-                console.log(
-                    "Extracted profile:",
-                    profileData
-                );
-
-
-
-                // ----------------------------------
-                // SAVE PROFILE DATA (local)
-                // ----------------------------------
-
-                localStorage.setItem(
-                    "portfolioData",
-                    JSON.stringify(profileData)
-                );
-
-
-                // ----------------------------------
-                // SAVE TO BACKEND / SUPABASE
-                //
-                // Relative URL, same reasoning as
-                // above. This is fire-and-forget —
-                // it doesn't block the UI from
-                // showing the result even if it fails.
-                // ----------------------------------
+                localStorage.setItem("portfolioData", JSON.stringify(profileData));
 
                 fetch("/api/save-portfolio", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(profileData)
-                })
-                .then(res => res.json())
-                .then(saveResult =>
-                    console.log("Save result:", saveResult)
-                )
-                .catch(err =>
-                    console.error("Error saving portfolio:", err)
-                );
+                }).catch(err => console.error("Error saving portfolio:", err));
 
+                statusMessage.textContent = "✓ Resume analyzed successfully! Your portfolio is ready.";
+                statusMessage.className = "status-success";
+                analyzeButton.textContent = "✓ Portfolio Created";
 
+                displayPortfolio(profileData);
+                layoutSection.style.display = "block";
 
-                // ----------------------------------
-                // SUCCESS
-                // ----------------------------------
-
-                statusMessage.textContent =
-                    "✓ Resume analyzed successfully! Your portfolio is ready.";
-
-                statusMessage.className =
-                    "status-success";
-
-
-                analyzeButton.textContent =
-                    "✓ Portfolio Created";
-
-
-                // ----------------------------------
-                // DISPLAY RESULT
-                // ----------------------------------
-
-                displayPortfolio(
-                    profileData
-                );
-
-
+            } catch (error) {
+                console.error("Analysis error:", error);
+                statusMessage.textContent = "❌ " + error.message;
+                statusMessage.className = "status-error";
+                analyzeButton.disabled = false;
+                viewButton.disabled = false;
+                analyzeButton.textContent = "⚡ Analyze My Resume";
             }
-
-            catch (error) {
-
-
-                console.error(
-                    "Analysis error:",
-                    error
-                );
-
-
-                statusMessage.textContent =
-                    "❌ " + error.message;
-
-
-                statusMessage.className =
-                    "status-error";
-
-
-                analyzeButton.disabled =
-                    false;
-
-
-                viewButton.disabled =
-                    false;
-
-
-                analyzeButton.textContent =
-                    "⚡ Analyze My Resume";
-
-            }
-
         }
 
+        // Helper render functions for array items
+        function createSkills(skills) {
+            if (!skills || !Array.isArray(skills) || skills.length === 0) return '<p>No skills listed</p>';
+            return skills.map(skill => `<span class="skill-badge">${escapeHTML(skill)}</span>`).join('');
+        }
 
+        function createEducation(eduList) {
+            if (!eduList || !Array.isArray(eduList) || eduList.length === 0) return '<p>No education listed</p>';
+            return eduList.map(edu => `
+                <div class="education-card">
+                    <strong>${escapeHTML(edu.degree || edu.title || '')}</strong>
+                    <div>${escapeHTML(edu.institution || edu.school || '')} (${escapeHTML(edu.year || edu.dates || '')})</div>
+                </div>
+            `).join('');
+        }
 
-        // ==========================================
-        // DISPLAY PORTFOLIO
-        // ==========================================
+        function createProjects(projList) {
+            if (!projList || !Array.isArray(projList) || projList.length === 0) return '<p>No projects listed</p>';
+            return projList.map(proj => `
+                <div class="project-card">
+                    <strong>${escapeHTML(proj.name || proj.title || '')}</strong>
+                    <p>${escapeHTML(proj.description || '')}</p>
+                </div>
+            `).join('');
+        }
 
         function displayPortfolio(data) {
-
-
-            resultContainer.style.display =
-                "block";
-
-
+            resultContainer.style.display = "block";
             resultContainer.innerHTML = `
-
                 <div class="portfolio-result">
-
-
-                    <h2>
-                        🎉 Your Portfolio is Ready!
-                    </h2>
-
-
+                    <h2>🎉 Your Portfolio is Ready!</h2>
                     <hr>
+                    <h3>${escapeHTML(data.name || "Your Name")}</h3>
+                    <p>${escapeHTML(data.summary || "Professional Summary")}</p>
 
+                    <h4>📧 Contact</h4>
+                    <p><strong>Email:</strong> ${escapeHTML(data.email || "Not available")}</p>
+                    <p><strong>Phone:</strong> ${escapeHTML(data.phone || "Not available")}</p>
 
-                    <h3>
-                        ${escapeHTML(
-                            data.name ||
-                            "Your Name"
-                        )}
-                    </h3>
-
-
-                    <p>
-                        ${escapeHTML(
-                            data.summary ||
-                            "Professional Summary"
-                        )}
-                    </p>
-
-
-
-                    <!-- CONTACT -->
-
-                    <h4>
-                        📧 Contact
-                    </h4>
-
-
-                    <p>
-                        <strong>Email:</strong>
-                        ${escapeHTML(
-                            data.email ||
-                            "Not available"
-                        )}
-                    </p>
-
-
-                    <p>
-                        <strong>Phone:</strong>
-                        ${escapeHTML(
-                            data.phone ||
-                            "Not available"
-                        )}
-                    </p>
-
-
-
-                    <!-- SKILLS -->
-
-                    <h4>
-                        💻 Skills
-                    </h4>
-
-
+                    <h4>💻 Skills</h4>
                     <div class="skills-container">
-
-                        ${createSkills(
-                            data.skills
-                        )}
-
+                        ${createSkills(data.skills)}
                     </div>
 
+                    <h4>🎓 Education</h4>
+                    ${createEducation(data.education)}
 
-
-                    <!-- EDUCATION -->
-
-                    <h4>
-                        🎓 Education
-                    </h4>
-
-
-                    ${createEducation(
-                        data.education
-                    )}
-
-
-
-                    <!-- PROJECTS -->
-
-                    <h4>
-                        🚀 Projects
-                    </h4>
-
-
-                    ${createProjects(
-                        data.projects
-                    )}
-
-
-
-                    <!-- EXPERIENCE -->
-
-                    <h4>
-                        💼 Experience
-                    </h4>
-
-
-                    ${createExperience(
-                        data.experience
-                    )}
-
-
-
-                    <!-- CERTIFICATIONS -->
-
-                    <h4>
-                        🏆 Certifications
-                    </h4>
-
-
-                    ${createSimpleList(
-                        data.certifications
-                    )}
-
-
-
-                    <!-- ACHIEVEMENTS -->
-
-                    <h4>
-                        🏅 Achievements
-                    </h4>
-
-
-                    ${createSimpleList(
-                        data.achievements
-                    )}
-
-
-
-                    <!-- LINKS -->
-
-                    <h4>
-                        🔗 Links
-                    </h4>
-
-
-                    ${
-                        data.linkedin
-                        ?
-                        `
-                        <p class="link-item">
-                            <strong>
-                                LinkedIn:
-                            </strong>
-                            ${escapeHTML(
-                                data.linkedin
-                            )}
-                        </p>
-                        `
-                        :
-                        "<p>LinkedIn: Not available</p>"
-                    }
-
-
-                    ${
-                        data.github
-                        ?
-                        `
-                        <p class="link-item">
-                            <strong>
-                                GitHub:
-                            </strong>
-                            ${escapeHTML(
-                                data.github
-                            )}
-                        </p>
-                        `
-                        :
-                        "<p>GitHub: Not available</p>"
-                    }
-
-
-
-                    <!-- VIEW PORTFOLIO -->
-
-                    <div
-                        style="
-                            margin-top:25px;
-                        "
-                    >
-
-                        <button
-                            type="button"
-                            class="btn-primary"
-                            onclick="openPortfolioPage()"
-                        >
-
-                            👁 View Full Portfolio
-
-                        </button>
-
-                    </div>
-
-
+                    <h4>🚀 Projects</h4>
+                    ${createProjects(data.projects)}
                 </div>
-
             `;
-
-
-            resultContainer.scrollIntoView({
-                behavior: "smooth"
-            });
-
         }
 
-
-
-        // ==========================================
-        // CREATE SKILLS
-        // ==========================================
-
-        function createSkills(skills) {
-
-
-            if (
-                !skills ||
-                !Array.isArray(skills) ||
-                skills.length === 0
-            ) {
-
-                return "<p>No skills found.</p>";
-
-            }
-
-
-            return skills.map(
-                skill => {
-
-                    if (
-                        typeof skill === "object"
-                    ) {
-
-                        skill =
-                            JSON.stringify(skill);
-
-                    }
-
-
-                    return `
-
-                        <span class="skill-badge">
-
-                            ${escapeHTML(skill)}
-
-                        </span>
-
-                    `;
-
-                }
-            ).join("");
-
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById("user-dropdown");
+            dropdown.classList.toggle("active");
         }
 
-
-
-        // ==========================================
-        // CREATE EDUCATION
-        // ==========================================
-
-        function createEducation(
-            education
-        ) {
-
-
-            if (
-                !education ||
-                education.length === 0
-            ) {
-
-                return "<p>Not available.</p>";
-
-            }
-
-
-            if (
-                !Array.isArray(education)
-            ) {
-
-                education = [education];
-
-            }
-
-
-            return education.map(
-                item => {
-
-
-                    if (
-                        typeof item === "object"
-                    ) {
-
-                        return `
-
-                            <div class="education-card">
-
-                                <strong>
-
-                                    ${escapeHTML(
-                                        item.degree ||
-                                        "Degree"
-                                    )}
-
-                                </strong>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        item.institution ||
-                                        ""
-                                    )}
-
-                                </p>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        item.year ||
-                                        ""
-                                    )}
-
-                                </p>
-
-                            </div>
-
-                        `;
-
-                    }
-
-
-                    return `
-
-                        <div class="education-card">
-
-                            ${escapeHTML(item)}
-
-                        </div>
-
-                    `;
-
-                }
-            ).join("");
-
+        function logout(event) {
+            event.preventDefault();
+            localStorage.clear();
+            window.location.href = "index.html";
         }
+    </script>
+</body>
 
-
-
-        // ==========================================
-        // CREATE PROJECTS
-        // ==========================================
-
-        function createProjects(
-            projects
-        ) {
-
-
-            if (
-                !projects ||
-                projects.length === 0
-            ) {
-
-                return "<p>No projects found.</p>";
-
-            }
-
-
-            if (
-                !Array.isArray(projects)
-            ) {
-
-                projects = [projects];
-
-            }
-
-
-            return projects.map(
-                project => {
-
-
-                    if (
-                        typeof project === "object"
-                    ) {
-
-                        return `
-
-                            <div class="project-card">
-
-                                <strong>
-
-                                    ${escapeHTML(
-                                        project.name ||
-                                        "Project"
-                                    )}
-
-                                </strong>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        project.description ||
-                                        ""
-                                    )}
-
-                                </p>
-
-                            </div>
-
-                        `;
-
-                    }
-
-
-                    return `
-
-                        <div class="project-card">
-
-                            ${escapeHTML(
-                                project
-                            )}
-
-                        </div>
-
-                    `;
-
-                }
-            ).join("");
-
-        }
-
-
-
-        // ==========================================
-        // CREATE EXPERIENCE
-        // ==========================================
-
-        function createExperience(
-            experience
-        ) {
-
-
-            if (
-                !experience ||
-                experience.length === 0
-            ) {
-
-                return "<p>Not available.</p>";
-
-            }
-
-
-            if (
-                !Array.isArray(experience)
-            ) {
-
-                experience = [experience];
-
-            }
-
-
-            return experience.map(
-                item => {
-
-
-                    if (
-                        typeof item === "object"
-                    ) {
-
-                        return `
-
-                            <div class="experience-card">
-
-                                <strong>
-
-                                    ${escapeHTML(
-                                        item.job_title ||
-                                        "Job Title"
-                                    )}
-
-                                </strong>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        item.company ||
-                                        ""
-                                    )}
-
-                                </p>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        item.duration ||
-                                        ""
-                                    )}
-
-                                </p>
-
-
-                                <p>
-
-                                    ${escapeHTML(
-                                        item.description ||
-                                        ""
-                                    )}
-
-                                </p>
-
-                            </div>
-
-                        `;
-
-                    }
-
-
-                    return `
-
-                        <div class="experience-card">
-
-                            ${escapeHTML(item)}
-
-                        </div>
-
-                    `;
-
-                }
-            ).join("");
-
-        }
-
-
-
-        // ==========================================
-        // CREATE SIMPLE LIST
-        // ==========================================
-
-        function createSimpleList(
-            items
-        ) {
-
-
-            if (
-                !items ||
-                items.length === 0
-            ) {
-
-                return "<p>Not available.</p>";
-
-            }
-
-
-            if (
-                !Array.isArray(items)
-            ) {
-
-                items = [items];
-
-            }
-
-
-            return `
-
-                <ul>
-
-                    ${items.map(
-                        item => `
-
-                            <li
-                                style="
-                                    margin-bottom:8px;
-                                "
-                            >
-
-                                ${escapeHTML(
-                                    typeof item === "object"
-                                    ? JSON.stringify(item)
-                                    : item
-                                )}
+</html>
