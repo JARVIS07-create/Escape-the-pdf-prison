@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+
         .upload-wrapper {
             background: rgba(255, 255, 255, 0.88);
             border: 1px solid rgba(226, 232, 240, 0.9);
@@ -17,21 +18,28 @@
             padding: 40px 30px;
             max-width: 580px;
             margin: 0 auto;
+
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
+
             box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+
             text-align: center;
         }
+
 
         .upload-card {
             background: #ffffff;
             border: 2px dashed #cbd5e1;
             border-radius: 12px;
+
             padding: 32px 20px;
             margin: 24px 0;
+
             transition: all 0.2s ease;
             cursor: pointer;
         }
+
 
         .upload-card.dragover {
             border-color: #2563eb;
@@ -39,150 +47,240 @@
             transform: scale(1.01);
         }
 
+
         .upload-icon {
             font-size: 40px;
             margin-bottom: 10px;
             display: inline-block;
         }
 
+
         .choose-file-btn {
             display: inline-block;
+
             background-color: #f1f5f9;
             color: #1e293b;
+
             border: 1px solid #cbd5e1;
+
             padding: 10px 22px;
+
             border-radius: 6px;
+
             font-weight: 600;
             font-size: 14px;
+
             cursor: pointer;
+
             margin: 14px 0 8px 0;
+
             transition: all 0.2s ease;
         }
+
 
         .choose-file-btn:hover {
             background-color: #e2e8f0;
             border-color: #94a3b8;
         }
 
+
         #file-name {
             font-weight: 600;
             color: #2563eb;
+
             margin-top: 6px;
+
             font-size: 14px;
+
             word-break: break-all;
         }
+
 
         .file-types {
             font-size: 12px;
             color: #94a3b8;
+
             margin-top: 4px;
         }
+
 
         .action-buttons-group {
             display: flex;
             flex-direction: column;
+
             gap: 12px;
+
             width: 100%;
         }
+
 
         .action-buttons-group button {
             width: 100%;
             margin: 0;
         }
 
+
         .action-buttons-group button:disabled {
             background-color: #cbd5e1;
             border-color: #cbd5e1;
+
             color: #94a3b8;
+
             cursor: not-allowed;
+
             transform: none;
+
             box-shadow: none;
         }
 
+
         #status-message {
             margin-top: 16px;
+
             font-weight: 600;
             font-size: 14px;
+
             min-height: 20px;
         }
+
 
         .status-success {
             color: #059669;
         }
 
+
         .status-error {
             color: #dc2626;
         }
+
 
         .status-loading {
             color: #2563eb;
         }
 
+
         #result {
             text-align: left;
         }
+
 
         .portfolio-result h2 {
             color: #0f172a;
         }
 
+
         .portfolio-result h3 {
             color: #2563eb;
+
             font-size: 24px;
+
             margin-bottom: 8px;
         }
 
+
         .portfolio-result h4 {
             margin-top: 20px;
+
             color: #0f172a;
         }
+
 
         .skills-container {
             margin-top: 8px;
         }
 
+
         .skill-badge {
             display: inline-block;
+
             background: #eff6ff;
+
             color: #2563eb;
+
             padding: 7px 12px;
+
             margin: 4px;
+
             border-radius: 20px;
+
             font-size: 13px;
+
             font-weight: 600;
         }
 
-        .project-card,
-        .experience-card,
-        .education-card {
+
+        .project-card {
             padding: 12px;
+
             margin: 8px 0;
+
             background: #f8fafc;
+
             border-radius: 8px;
+
             border: 1px solid #e2e8f0;
         }
+
+
+        .experience-card {
+            padding: 12px;
+
+            margin: 8px 0;
+
+            background: #f8fafc;
+
+            border-radius: 8px;
+
+            border: 1px solid #e2e8f0;
+        }
+
+
+        .education-card {
+            padding: 12px;
+
+            margin: 8px 0;
+
+            background: #f8fafc;
+
+            border-radius: 8px;
+
+            border: 1px solid #e2e8f0;
+        }
+
 
         .link-item {
             word-break: break-all;
         }
 
+
         .back-link {
             display: inline-flex;
+
             align-items: center;
+
             gap: 6px;
+
             margin-top: 24px;
+
             color: #64748b;
+
             text-decoration: none;
+
             font-weight: 600;
+
             font-size: 14px;
+
             transition: color 0.2s ease;
         }
+
 
         .back-link:hover {
             color: #0f172a;
         }
 
+
         @media (max-width: 640px) {
+
             .upload-wrapper {
                 padding: 24px 16px;
             }
@@ -190,23 +288,34 @@
             .upload-card {
                 padding: 24px 14px;
             }
+
         }
+
     </style>
 
 </head>
 
+
 <body>
+
 
     <div class="overlay"></div>
 
-    <!-- NAVBAR -->
+
+    <!-- ==========================================
+         NAVBAR
+    =========================================== -->
 
     <header class="navbar">
 
         <a href="index.html" class="logo">
+
             <span class="logo-badge">⚡</span>
+
             FolioPulse
+
         </a>
+
 
         <div class="nav-right">
 
@@ -218,13 +327,18 @@
                     onclick="toggleDropdown(event)"
                 >
 
-                    <div class="avatar" id="nav-user-avatar">
+                    <div
+                        class="avatar"
+                        id="nav-user-avatar"
+                    >
                         👤
                     </div>
+
 
                     <span id="nav-user-name">
                         Menu
                     </span>
+
 
                     <span class="chevron">
                         ▼
@@ -232,33 +346,69 @@
 
                 </button>
 
+
                 <div class="dropdown-menu">
 
-                    <a href="profile.html" class="dropdown-item">
-                        <span class="item-icon">👤</span>
+
+                    <a
+                        href="profile.html"
+                        class="dropdown-item"
+                    >
+
+                        <span class="item-icon">
+                            👤
+                        </span>
+
                         Profile
+
                     </a>
 
-                    <a href="portfolio.html" class="dropdown-item">
-                        <span class="item-icon">📁</span>
+
+                    <a
+                        href="portfolio.html"
+                        class="dropdown-item"
+                    >
+
+                        <span class="item-icon">
+                            📁
+                        </span>
+
                         My Portfolios
+
                     </a>
 
-                    <a href="chat.html" class="dropdown-item">
-                        <span class="item-icon">🤖</span>
+
+                    <a
+                        href="chat.html"
+                        class="dropdown-item"
+                    >
+
+                        <span class="item-icon">
+                            🤖
+                        </span>
+
                         AI Chat Box
+
                     </a>
+
 
                     <div class="dropdown-divider"></div>
+
 
                     <a
                         href="index.html"
                         class="dropdown-item logout-link"
                         onclick="logout(event)"
                     >
-                        <span class="item-icon">🚪</span>
+
+                        <span class="item-icon">
+                            🚪
+                        </span>
+
                         Sign Out
+
                     </a>
+
 
                 </div>
 
@@ -268,29 +418,43 @@
 
     </header>
 
-    <!-- MAIN CONTENT -->
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
 
     <main class="container">
 
         <div class="upload-wrapper">
 
+
             <h1
                 class="hero-title"
                 style="font-size: 32px; margin-bottom: 8px;"
             >
+
                 Upload Your
                 <span>Resume</span>
+
             </h1>
+
 
             <p
                 class="hero-subtitle"
                 style="margin-bottom: 20px; font-size: 14px;"
             >
+
                 Turn your resume into a professional
                 showcase website with AI.
+
             </p>
 
-            <!-- UPLOAD AREA -->
+
+
+            <!-- ==========================================
+                 UPLOAD AREA
+            =========================================== -->
 
             <div
                 class="upload-card"
@@ -301,6 +465,7 @@
                     📄
                 </div>
 
+
                 <h3
                     style="
                         font-size: 16px;
@@ -308,8 +473,11 @@
                         margin-bottom: 4px;
                     "
                 >
+
                     Upload your resume
+
                 </h3>
+
 
                 <p
                     style="
@@ -317,8 +485,11 @@
                         color: #64748b;
                     "
                 >
+
                     Drag and drop or browse from your device
+
                 </p>
+
 
                 <input
                     type="file"
@@ -327,27 +498,39 @@
                     style="display: none;"
                 >
 
+
                 <label
                     for="resume"
                     class="choose-file-btn"
                 >
+
                     Browse Files
+
                 </label>
+
 
                 <p id="file-name">
                     No file selected
                 </p>
 
+
                 <p class="file-types">
+
                     Supported formats:
                     PDF, DOCX (Max 10MB)
+
                 </p>
 
             </div>
 
-            <!-- BUTTONS -->
+
+
+            <!-- ==========================================
+                 BUTTONS
+            =========================================== -->
 
             <div class="action-buttons-group">
+
 
                 <button
                     type="button"
@@ -355,10 +538,16 @@
                     class="btn-primary"
                     disabled
                 >
+
                     ⚡ Analyze My Resume
+
                 </button>
 
-                <!-- RESULT -->
+
+
+                <!-- ==========================================
+                     RESULT
+                =========================================== -->
 
                 <div
                     id="result"
@@ -372,9 +561,14 @@
                         border: 1px solid #e2e8f0;
                     "
                 >
+
                 </div>
 
-                <!-- PREVIEW -->
+
+
+                <!-- ==========================================
+                     PREVIEW ORIGINAL RESUME
+                =========================================== -->
 
                 <button
                     type="button"
@@ -382,14 +576,20 @@
                     class="btn-secondary"
                     disabled
                 >
+
                     👁 Preview Uploaded File
+
                 </button>
 
             </div>
 
+
+
             <!-- STATUS -->
 
             <p id="status-message"></p>
+
+
 
             <!-- BACK -->
 
@@ -399,18 +599,26 @@
                     href="index.html?authenticated=true"
                     class="back-link"
                 >
+
                     ← Back to Dashboard
+
                 </a>
 
             </div>
+
 
         </div>
 
     </main>
 
-    <!-- JAVASCRIPT -->
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
 
     <script>
+
 
         // ==========================================
         // DOM ELEMENTS
@@ -438,6 +646,7 @@
             document.getElementById("result");
 
 
+
         // ==========================================
         // FILE VALIDATION
         // ==========================================
@@ -448,17 +657,21 @@
                 return false;
             }
 
+
             const fileNameLower =
                 file.name.toLowerCase();
+
 
             const isPDF =
                 file.type === "application/pdf" ||
                 fileNameLower.endsWith(".pdf");
 
+
             const isDOCX =
                 file.type ===
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
                 fileNameLower.endsWith(".docx");
+
 
             if (!isPDF && !isDOCX) {
 
@@ -467,7 +680,9 @@
                 );
 
                 return false;
+
             }
+
 
             if (file.size > 10 * 1024 * 1024) {
 
@@ -476,10 +691,14 @@
                 );
 
                 return false;
+
             }
 
+
             return true;
+
         }
+
 
 
         // ==========================================
@@ -498,12 +717,16 @@
                     handleFileSelect(
                         resumeInput.files[0]
                     );
+
                 }
+
             }
         );
 
 
+
         function handleFileSelect(file) {
+
 
             if (!validateFile(file)) {
 
@@ -517,26 +740,35 @@
                     "No file selected";
 
                 return;
+
             }
+
 
             fileName.textContent =
                 file.name;
 
+
             analyzeButton.disabled =
                 false;
+
 
             viewButton.disabled =
                 false;
 
+
             statusMessage.textContent =
                 "";
+
 
             statusMessage.className =
                 "";
 
+
             resultContainer.style.display =
                 "none";
+
         }
+
 
 
         // ==========================================
@@ -548,7 +780,7 @@
 
                 dropZone.addEventListener(
                     eventName,
-                    function (e) {
+                    function(e) {
 
                         e.preventDefault();
                         e.stopPropagation();
@@ -556,8 +788,10 @@
                         dropZone.classList.add(
                             "dragover"
                         );
+
                     }
                 );
+
             }
         );
 
@@ -567,7 +801,7 @@
 
                 dropZone.addEventListener(
                     eventName,
-                    function (e) {
+                    function(e) {
 
                         e.preventDefault();
                         e.stopPropagation();
@@ -575,18 +809,21 @@
                         dropZone.classList.remove(
                             "dragover"
                         );
+
                     }
                 );
+
             }
         );
 
 
         dropZone.addEventListener(
             "drop",
-            function (e) {
+            function(e) {
 
                 const files =
                     e.dataTransfer.files;
+
 
                 if (
                     files &&
@@ -596,18 +833,30 @@
                     const file =
                         files[0];
 
+
+                    /*
+                     * Put the dropped file
+                     * into the file input.
+                     */
+
                     const dataTransfer =
                         new DataTransfer();
 
+
                     dataTransfer.items.add(file);
+
 
                     resumeInput.files =
                         dataTransfer.files;
 
+
                     handleFileSelect(file);
+
                 }
+
             }
         );
+
 
 
         // ==========================================
@@ -616,16 +865,24 @@
 
         dropZone.addEventListener(
             "click",
-            function (e) {
+            function(e) {
+
+                /*
+                 * Don't trigger the input
+                 * when clicking the label.
+                 */
 
                 if (
                     e.target.tagName !== "LABEL"
                 ) {
 
                     resumeInput.click();
+
                 }
+
             }
         );
+
 
 
         // ==========================================
@@ -634,10 +891,11 @@
 
         viewButton.addEventListener(
             "click",
-            function () {
+            function() {
 
                 const file =
                     resumeInput.files[0];
+
 
                 if (!file) {
 
@@ -646,17 +904,22 @@
                     );
 
                     return;
+
                 }
+
 
                 const fileURL =
                     URL.createObjectURL(file);
+
 
                 window.open(
                     fileURL,
                     "_blank"
                 );
+
             }
         );
+
 
 
         // ==========================================
@@ -669,14 +932,13 @@
         );
 
 
-        // ==========================================
-        // ANALYZE RESUME FUNCTION
-        // ==========================================
 
         async function analyzeResume() {
 
+
             const file =
                 resumeInput.files[0];
+
 
             if (!file) {
 
@@ -685,35 +947,49 @@
                 );
 
                 return;
+
             }
+
 
             if (!validateFile(file)) {
+
                 return;
+
             }
 
 
+            // --------------------------------------
             // BUTTON STATE
+            // --------------------------------------
 
             analyzeButton.disabled =
                 true;
 
+
             viewButton.disabled =
                 true;
+
 
             analyzeButton.textContent =
                 "⚡ Analyzing with AI...";
 
+
             statusMessage.textContent =
                 "Gemini is analyzing your resume. Please wait...";
+
 
             statusMessage.className =
                 "status-loading";
 
 
+
+            // --------------------------------------
             // FORM DATA
+            // --------------------------------------
 
             const formData =
                 new FormData();
+
 
             formData.append(
                 "resume",
@@ -721,9 +997,13 @@
             );
 
 
+
             try {
 
-                // SEND FILE TO FLASK
+
+                // ----------------------------------
+                // SEND TO FLASK
+                // ----------------------------------
 
                 const response =
                     await fetch(
@@ -735,53 +1015,13 @@
                     );
 
 
-                // READ RESPONSE AS TEXT FIRST
-                // This prevents:
-                // Unexpected token '<'
 
-                const responseText =
-                    await response.text();
+                // ----------------------------------
+                // READ RESPONSE
+                // ----------------------------------
 
-                console.log(
-                    "Server response:",
-                    responseText
-                );
-
-
-                // CHECK SERVER STATUS
-
-                if (!response.ok) {
-
-                    throw new Error(
-                        "Server error: " +
-                        response.status +
-                        " " +
-                        response.statusText
-                    );
-                }
-
-
-                // CONVERT TEXT TO JSON
-
-                let data;
-
-                try {
-
-                    data =
-                        JSON.parse(responseText);
-
-                } catch (jsonError) {
-
-                    console.error(
-                        "Server returned:",
-                        responseText
-                    );
-
-                    throw new Error(
-                        "The server returned HTML instead of JSON. " +
-                        "Please check your Flask backend and /analyze-resume route."
-                    );
-                }
+                const data =
+                    await response.json();
 
 
                 console.log(
@@ -790,350 +1030,114 @@
                 );
 
 
-                // CHECK SUCCESS
 
-                if (!data.success) {
+                // ----------------------------------
+                // CHECK ERROR
+                // ----------------------------------
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
 
                     throw new Error(
-                        data.message ||
-                        "Unable to analyze the resume."
+                        data.error ||
+                        "Resume analysis failed."
                     );
+
                 }
 
 
-                // SHOW RESULT
-
-                resultContainer.style.display =
-                    "block";
-
-
-                resultContainer.innerHTML = `
-
-                    <div class="portfolio-result">
-
-                        <h2>
-                            Resume Analysis
-                        </h2>
-
-                        <h3>
-                            ${escapeHTML(
-                                data.name ||
-                                "Your Resume"
-                            )}
-                        </h3>
 
-
-                        <h4>
-                            Summary
-                        </h4>
-
-                        <p>
-                            ${escapeHTML(
-                                data.summary ||
-                                "No summary available."
-                            )}
-                        </p>
+                // ----------------------------------
+                // GET PROFILE DATA
+                // ----------------------------------
 
+                const profileData =
+                    data.data;
 
-                        <h4>
-                            Skills
-                        </h4>
 
-                        <div class="skills-container">
+                if (
+                    !profileData ||
+                    typeof profileData !== "object"
+                ) {
 
-                            ${Array.isArray(data.skills)
-                            ? data.skills.map(skill => `
-                                <span class="skill-badge">
-                                    ${escapeHTML(skill)}
-                                </span>
-                            `).join("")
-                            : "<p>No skills available.</p>"
-                        }
-
-                        </div>
-
-
-                        <h4>
-                            Projects
-                        </h4>
-
-                        <div>
-
-                            ${
-                                Array.isArray(data.projects) &&
-                                data.projects.length > 0
-
-                                ? data.projects.map(project => `
-
-                                    <div class="project-card">
-
-                                        <strong>
-                                            ${escapeHTML(
-                                                project.title ||
-                                                project.name ||
-                                                "Project"
-                                            )}
-                                        </strong>
-
-                                        ${
-                                            project.description
-                                                ? `<p>${escapeHTML(
-                                                    project.description
-                                                )}</p>`
-                                                : ""
-                                        }
-
-                                        ${
-                                            project.technologies
-                                                ? `<p>
-                                                    <strong>Technologies:</strong>
-                                                    ${escapeHTML(
-                                                        Array.isArray(project.technologies)
-                                                            ? project.technologies.join(", ")
-                                                            : project.technologies
-                                                    )}
-                                                   </p>`
-                                                : ""
-                                        }
+                    throw new Error(
+                        "Invalid profile data received from server."
+                    );
 
-                                        ${
-                                            project.link
-                                                ? `<p class="link-item">
-                                                    <strong>Link:</strong>
-                                                    <a
-                                                        href="${escapeAttribute(project.link)}"
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        ${escapeHTML(project.link)}
-                                                    </a>
-                                                   </p>`
-                                                : ""
-                                        }
-
-                                    </div>
-
-                                `).join("")
-
-                                : "<p>No projects available.</p>"
-                            }
-
-                        </div>
-
-
-                        <h4>
-                            Experience
-                        </h4>
-
-                        <div>
-
-                            ${
-                                Array.isArray(data.experience) &&
-                                data.experience.length > 0
-
-                                ? data.experience.map(exp => `
-
-                                    <div class="experience-card">
-
-                                        <strong>
-                                            ${escapeHTML(
-                                                exp.title ||
-                                                exp.position ||
-                                                exp.role ||
-                                                "Experience"
-                                            )}
-                                        </strong>
-
-                                        ${
-                                            exp.company
-                                                ? `<p>
-                                                    <strong>Company:</strong>
-                                                    ${escapeHTML(exp.company)}
-                                                   </p>`
-                                                : ""
-                                        }
-
-                                        ${
-                                            exp.duration
-                                                ? `<p>
-                                                    <strong>Duration:</strong>
-                                                    ${escapeHTML(exp.duration)}
-                                                   </p>`
-                                                : ""
-                                        }
-
-                                        ${
-                                            exp.description
-                                                ? `<p>
-                                                    ${escapeHTML(exp.description)}
-                                                   </p>`
-                                                : ""
-                                        }
-
-                                    </div>
-
-                                `).join("")
-
-                                : "<p>No experience information available.</p>"
-                            }
-
-                        </div>
-
-
-                        <h4>
-                            Education
-                        </h4>
-
-                        <div>
-
-                            ${
-                                Array.isArray(data.education) &&
-                                data.education.length > 0
-
-                                ? data.education.map(edu => `
-
-                                    <div class="education-card">
-
-                                        <strong>
-                                            ${escapeHTML(
-                                                edu.degree ||
-                                                edu.title ||
-                                                "Education"
-                                            )}
-                                        </strong>
+                }
 
-                                        ${
-                                            edu.institution
-                                                ? `<p>
-                                                    <strong>Institution:</strong>
-                                                    ${escapeHTML(
-                                                        edu.institution
-                                                    )}
-                                                   </p>`
-                                                : ""
-                                        }
 
-                                        ${
-                                            edu.year
-                                                ? `<p>
-                                                    <strong>Year:</strong>
-                                                    ${escapeHTML(
-                                                        edu.year
-                                                    )}
-                                                   </p>`
-                                                : ""
-                                        }
 
-                                        ${
-                                            edu.description
-                                                ? `<p>
-                                                    ${escapeHTML(
-                                                        edu.description
-                                                    )}
-                                                   </p>`
-                                                : ""
-                                        }
+                console.log(
+                    "Extracted profile:",
+                    profileData
+                );
 
-                                    </div>
 
-                                `).join("")
 
-                                : "<p>No education information available.</p>"
-                            }
+                // ----------------------------------
+                // SAVE PROFILE DATA
+                // ----------------------------------
 
-                        </div>
+                localStorage.setItem(
+                    "portfolioData",
+                    JSON.stringify(profileData)
+                );
 
 
-                        <h4>
-                            Links
-                        </h4>
 
-                        <div>
-
-                            ${
-                                Array.isArray(data.links) &&
-                                data.links.length > 0
-
-                                ? data.links.map(link => {
-
-                                    const url =
-                                        typeof link === "string"
-                                            ? link
-                                            : link.url;
-
-                                    const label =
-                                        typeof link === "string"
-                                            ? link
-                                            : (
-                                                link.label ||
-                                                link.name ||
-                                                link.url
-                                            );
-
-                                    if (!url) {
-                                        return "";
-                                    }
-
-                                    return `
-                                        <p class="link-item">
-
-                                            🔗
-
-                                            <a
-                                                href="${escapeAttribute(url)}"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                ${escapeHTML(label)}
-                                            </a>
-
-                                        </p>
-                                    `;
-
-                                }).join("")
-
-                                : "<p>No links available.</p>"
-                            }
-
-                        </div>
-
-                    </div>
-
-                `;
-
+                // ----------------------------------
+                // SUCCESS
+                // ----------------------------------
 
                 statusMessage.textContent =
-                    "Resume analyzed successfully!";
+                    "✓ Resume analyzed successfully! Your portfolio is ready.";
 
                 statusMessage.className =
                     "status-success";
 
 
-            } catch (error) {
+                analyzeButton.textContent =
+                    "✓ Portfolio Created";
+
+
+                // ----------------------------------
+                // DISPLAY RESULT
+                // ----------------------------------
+
+                displayPortfolio(
+                    profileData
+                );
+
+
+            }
+
+            catch (error) {
+
 
                 console.error(
-                    "Resume analysis error:",
+                    "Analysis error:",
                     error
                 );
 
-                resultContainer.style.display =
-                    "none";
 
                 statusMessage.textContent =
-                    error.message ||
-                    "Something went wrong while analyzing your resume.";
+                    "❌ " + error.message;
+
 
                 statusMessage.className =
                     "status-error";
 
 
-            } finally {
-
                 analyzeButton.disabled =
                     false;
 
+
                 viewButton.disabled =
                     false;
+
 
                 analyzeButton.textContent =
                     "⚡ Analyze My Resume";
@@ -1143,76 +1147,843 @@
         }
 
 
+
         // ==========================================
-        // HTML ESCAPING
-        // Prevents resume/API data from injecting HTML
+        // DISPLAY PORTFOLIO
+        // ==========================================
+
+        function displayPortfolio(data) {
+
+
+            resultContainer.style.display =
+                "block";
+
+
+            resultContainer.innerHTML = `
+
+                <div class="portfolio-result">
+
+
+                    <h2>
+                        🎉 Your Portfolio is Ready!
+                    </h2>
+
+
+                    <hr>
+
+
+                    <h3>
+                        ${escapeHTML(
+                            data.name ||
+                            "Your Name"
+                        )}
+                    </h3>
+
+
+                    <p>
+                        ${escapeHTML(
+                            data.summary ||
+                            "Professional Summary"
+                        )}
+                    </p>
+
+
+
+                    <!-- CONTACT -->
+
+                    <h4>
+                        📧 Contact
+                    </h4>
+
+
+                    <p>
+                        <strong>Email:</strong>
+                        ${escapeHTML(
+                            data.email ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>Phone:</strong>
+                        ${escapeHTML(
+                            data.phone ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+
+                    <!-- SKILLS -->
+
+                    <h4>
+                        💻 Skills
+                    </h4>
+
+
+                    <div class="skills-container">
+
+                        ${createSkills(
+                            data.skills
+                        )}
+
+                    </div>
+
+
+
+                    <!-- EDUCATION -->
+
+                    <h4>
+                        🎓 Education
+                    </h4>
+
+
+                    ${createEducation(
+                        data.education
+                    )}
+
+
+
+                    <!-- PROJECTS -->
+
+                    <h4>
+                        🚀 Projects
+                    </h4>
+
+
+                    ${createProjects(
+                        data.projects
+                    )}
+
+
+
+                    <!-- EXPERIENCE -->
+
+                    <h4>
+                        💼 Experience
+                    </h4>
+
+
+                    ${createExperience(
+                        data.experience
+                    )}
+
+
+
+                    <!-- CERTIFICATIONS -->
+
+                    <h4>
+                        🏆 Certifications
+                    </h4>
+
+
+                    ${createSimpleList(
+                        data.certifications
+                    )}
+
+
+
+                    <!-- ACHIEVEMENTS -->
+
+                    <h4>
+                        🏅 Achievements
+                    </h4>
+
+
+                    ${createSimpleList(
+                        data.achievements
+                    )}
+
+
+
+                    <!-- LINKS -->
+
+                    <h4>
+                        🔗 Links
+                    </h4>
+
+
+                    ${
+                        data.linkedin
+                        ?
+                        `
+                        <p class="link-item">
+                            <strong>
+                                LinkedIn:
+                            </strong>
+                            ${escapeHTML(
+                                data.linkedin
+                            )}
+                        </p>
+                        `
+                        :
+                        "<p>LinkedIn: Not available</p>"
+                    }
+
+
+                    ${
+                        data.github
+                        ?
+                        `
+                        <p class="link-item">
+                            <strong>
+                                GitHub:
+                            </strong>
+                            ${escapeHTML(
+                                data.github
+                            )}
+                        </p>
+                        `
+                        :
+                        "<p>GitHub: Not available</p>"
+                    }
+
+
+
+                    <!-- VIEW PORTFOLIO -->
+
+                    <div
+                        style="
+                            margin-top:25px;
+                        "
+                    >
+
+                        <button
+                            type="button"
+                            class="btn-primary"
+                            onclick="openPortfolioPage()"
+                        >
+
+                            👁 View Full Portfolio
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            resultContainer.scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+
+        // ==========================================
+        // CREATE SKILLS
+        // ==========================================
+
+        function createSkills(skills) {
+
+
+            if (
+                !skills ||
+                !Array.isArray(skills) ||
+                skills.length === 0
+            ) {
+
+                return "<p>No skills found.</p>";
+
+            }
+
+
+            return skills.map(
+                skill => {
+
+                    if (
+                        typeof skill === "object"
+                    ) {
+
+                        skill =
+                            JSON.stringify(skill);
+
+                    }
+
+
+                    return `
+
+                        <span class="skill-badge">
+
+                            ${escapeHTML(skill)}
+
+                        </span>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE EDUCATION
+        // ==========================================
+
+        function createEducation(
+            education
+        ) {
+
+
+            if (
+                !education ||
+                education.length === 0
+            ) {
+
+                return "<p>Not available.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(education)
+            ) {
+
+                education = [education];
+
+            }
+
+
+            return education.map(
+                item => {
+
+
+                    if (
+                        typeof item === "object"
+                    ) {
+
+                        return `
+
+                            <div class="education-card">
+
+                                <strong>
+
+                                    ${escapeHTML(
+                                        item.degree ||
+                                        "Degree"
+                                    )}
+
+                                </strong>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.institution ||
+                                        ""
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.year ||
+                                        ""
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <div class="education-card">
+
+                            ${escapeHTML(item)}
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE PROJECTS
+        // ==========================================
+
+        function createProjects(
+            projects
+        ) {
+
+
+            if (
+                !projects ||
+                projects.length === 0
+            ) {
+
+                return "<p>No projects found.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(projects)
+            ) {
+
+                projects = [projects];
+
+            }
+
+
+            return projects.map(
+                project => {
+
+
+                    if (
+                        typeof project === "object"
+                    ) {
+
+                        return `
+
+                            <div class="project-card">
+
+                                <strong>
+
+                                    ${escapeHTML(
+                                        project.name ||
+                                        "Project"
+                                    )}
+
+                                </strong>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        project.description ||
+                                        ""
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <div class="project-card">
+
+                            ${escapeHTML(
+                                project
+                            )}
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE EXPERIENCE
+        // ==========================================
+
+        function createExperience(
+            experience
+        ) {
+
+
+            if (
+                !experience ||
+                experience.length === 0
+            ) {
+
+                return "<p>Not available.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(experience)
+            ) {
+
+                experience = [experience];
+
+            }
+
+
+            return experience.map(
+                item => {
+
+
+                    if (
+                        typeof item === "object"
+                    ) {
+
+                        return `
+
+                            <div class="experience-card">
+
+                                <strong>
+
+                                    ${escapeHTML(
+                                        item.job_title ||
+                                        "Job Title"
+                                    )}
+
+                                </strong>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.company ||
+                                        ""
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.duration ||
+                                        ""
+                                    )}
+
+                                </p>
+
+
+                                <p>
+
+                                    ${escapeHTML(
+                                        item.description ||
+                                        ""
+                                    )}
+
+                                </p>
+
+                            </div>
+
+                        `;
+
+                    }
+
+
+                    return `
+
+                        <div class="experience-card">
+
+                            ${escapeHTML(item)}
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+        }
+
+
+
+        // ==========================================
+        // CREATE SIMPLE LIST
+        // ==========================================
+
+        function createSimpleList(
+            items
+        ) {
+
+
+            if (
+                !items ||
+                items.length === 0
+            ) {
+
+                return "<p>Not available.</p>";
+
+            }
+
+
+            if (
+                !Array.isArray(items)
+            ) {
+
+                items = [items];
+
+            }
+
+
+            return `
+
+                <ul>
+
+                    ${items.map(
+                        item => `
+
+                            <li
+                                style="
+                                    margin-bottom:8px;
+                                "
+                            >
+
+                                ${escapeHTML(
+                                    typeof item === "object"
+                                    ? JSON.stringify(item)
+                                    : item
+                                )}
+
+                            </li>
+
+                        `
+                    ).join("")}
+
+                </ul>
+
+            `;
+
+        }
+
+
+
+        // ==========================================
+        // SECURITY
         // ==========================================
 
         function escapeHTML(value) {
 
-            if (value === null || value === undefined) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
                 return "";
+
             }
 
+
             return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
         }
 
 
+
         // ==========================================
-        // ATTRIBUTE ESCAPING
+        // OPEN PORTFOLIO PAGE
         // ==========================================
 
-        function escapeAttribute(value) {
+        function openPortfolioPage() {
 
-            if (value === null || value === undefined) {
-                return "";
-            }
+            window.location.href =
+                "portfolio.html";
 
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/"/g, "&quot;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
         }
 
 
+
         // ==========================================
-        // DROPDOWN MENU
+        // NAVBAR DROPDOWN
         // ==========================================
 
         function toggleDropdown(event) {
 
             event.stopPropagation();
 
-            const dropdown =
-                document.getElementById("user-dropdown");
 
-            dropdown.classList.toggle("active");
+            document
+                .getElementById(
+                    "user-dropdown"
+                )
+                .classList.toggle("open");
 
         }
 
 
-        // Close dropdown when clicking elsewhere
-
-        document.addEventListener(
+        window.addEventListener(
             "click",
-            function () {
+            function(event) {
+
 
                 const dropdown =
-                    document.getElementById("user-dropdown");
+                    document.getElementById(
+                        "user-dropdown"
+                    );
 
-                if (dropdown) {
-                    dropdown.classList.remove("active");
+
+                if (
+                    dropdown &&
+                    !dropdown.contains(
+                        event.target
+                    )
+                ) {
+
+                    dropdown.classList.remove(
+                        "open"
+                    );
+
                 }
 
             }
         );
+
+
+
+        // ==========================================
+        // LOAD USER PROFILE
+        // ==========================================
+
+        function syncNavbarProfile() {
+
+
+            let savedProfile;
+
+
+            try {
+
+                savedProfile =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "userProfile"
+                        )
+                    );
+
+            }
+
+            catch (error) {
+
+                savedProfile = null;
+
+            }
+
+
+            const navAvatar =
+                document.getElementById(
+                    "nav-user-avatar"
+                );
+
+
+            const navName =
+                document.getElementById(
+                    "nav-user-name"
+                );
+
+
+            if (!savedProfile) {
+
+                return;
+
+            }
+
+
+            if (
+                navName &&
+                savedProfile.firstName
+            ) {
+
+                navName.textContent =
+                    savedProfile.firstName;
+
+            }
+
+
+            if (navAvatar) {
+
+
+                if (
+                    savedProfile.avatar
+                ) {
+
+                    navAvatar.style.backgroundImage =
+                        `url('${savedProfile.avatar}')`;
+
+
+                    navAvatar.style.backgroundSize =
+                        "cover";
+
+
+                    navAvatar.style.backgroundPosition =
+                        "center";
+
+
+                    navAvatar.textContent =
+                        "";
+
+                }
+
+                else {
+
+
+                    const initials =
+                        (
+                            savedProfile.firstName?.[0] ||
+                            ""
+                        ) +
+                        (
+                            savedProfile.lastName?.[0] ||
+                            ""
+                        );
+
+
+                    navAvatar.textContent =
+                        initials.toUpperCase() ||
+                        "👤";
+
+                }
+
+            }
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            syncNavbarProfile
+        );
+
 
 
         // ==========================================
@@ -1221,32 +1992,24 @@
 
         function logout(event) {
 
+
             event.preventDefault();
 
-            try {
 
-                // Remove common authentication/session data
+            localStorage.removeItem(
+                "isLoggedIn"
+            );
 
-                localStorage.removeItem("token");
-                localStorage.removeItem("authToken");
-                localStorage.removeItem("user");
-                localStorage.removeItem("userData");
-                localStorage.removeItem("authenticated");
 
-                sessionStorage.removeItem("token");
-                sessionStorage.removeItem("authToken");
-                sessionStorage.removeItem("user");
-                sessionStorage.removeItem("userData");
-                sessionStorage.removeItem("authenticated");
+            localStorage.removeItem(
+                "userProfile"
+            );
 
-            } catch (error) {
 
-                console.warn(
-                    "Could not clear browser storage:",
-                    error
-                );
+            localStorage.removeItem(
+                "portfolioData"
+            );
 
-            }
 
             window.location.href =
                 "index.html";
@@ -1254,101 +2017,9 @@
         }
 
 
-        // ==========================================
-        // LOAD USER INFORMATION
-        // ==========================================
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-
-                let user = null;
-
-                try {
-
-                    const storedUser =
-                        localStorage.getItem("user") ||
-                        localStorage.getItem("userData");
-
-                    if (storedUser) {
-
-                        user =
-                            JSON.parse(storedUser);
-
-                    }
-
-                } catch (error) {
-
-                    console.warn(
-                        "Unable to read stored user:",
-                        error
-                    );
-
-                }
-
-
-                if (!user) {
-                    return;
-                }
-
-
-                const name =
-                    user.name ||
-                    user.fullName ||
-                    user.username ||
-                    "Menu";
-
-
-                const navUserName =
-                    document.getElementById(
-                        "nav-user-name"
-                    );
-
-                if (navUserName) {
-
-                    navUserName.textContent =
-                        name;
-
-                }
-
-
-                const avatar =
-                    document.getElementById(
-                        "nav-user-avatar"
-                    );
-
-                if (avatar) {
-
-                    if (user.avatar) {
-
-                        avatar.innerHTML = `
-                            <img
-                                src="${escapeAttribute(user.avatar)}"
-                                alt="Profile"
-                                style="
-                                    width: 100%;
-                                    height: 100%;
-                                    object-fit: cover;
-                                    border-radius: 50%;
-                                "
-                            >
-                        `;
-
-                    } else {
-
-                        avatar.textContent =
-                            name.charAt(0).toUpperCase();
-
-                    }
-
-                }
-
-            }
-        );
-
     </script>
+
 
 </body>
 
 </html>
-
