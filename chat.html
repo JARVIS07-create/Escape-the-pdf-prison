@@ -264,13 +264,12 @@
         const userInput = document.getElementById("user-input");
         const sendBtn = document.getElementById("send-btn");
 
-        // Keep multi-turn conversation context
         let conversationHistory = [];
 
         window.addEventListener("DOMContentLoaded", () => {
             syncNavbarProfile();
             const key = localStorage.getItem("geminiApiKey");
-            if (!key) {
+            if (!key || !key.startsWith("AIza")) {
                 setTimeout(promptApiKey, 600);
             }
         });
@@ -315,18 +314,27 @@
             }
         }
 
+        function cleanApiKey(rawKey) {
+            if (!rawKey) return "";
+            return rawKey.trim().replace(/^["']|["']$/g, '');
+        }
+
         function promptApiKey() {
             const currentKey = localStorage.getItem("geminiApiKey") || "";
-            const key = prompt("Enter your Google Gemini API Key (get one free at aistudio.google.com):", currentKey);
+            const key = prompt(
+                "Enter your Google Gemini API Key from https://aistudio.google.com/app/apikey (Key must start with 'AIzaSy...'):",
+                currentKey
+            );
             if (key !== null) {
-                if (key.trim() !== "") {
-                    localStorage.setItem("geminiApiKey", key.trim());
-                    // Reset cached model to re-detect with new key
-                    localStorage.removeItem("workingGeminiModel");
-                    alert("✓ Gemini API key saved successfully!");
+                const cleaned = cleanApiKey(key);
+                if (cleaned.startsWith("AIza")) {
+                    localStorage.setItem("geminiApiKey", cleaned);
+                    alert("✓ Valid Gemini API Key saved!");
+                } else if (cleaned !== "") {
+                    alert("⚠️ Note: Official Gemini API keys start with 'AIzaSy...'. Please get a free key from https://aistudio.google.com/app/apikey");
+                    localStorage.setItem("geminiApiKey", cleaned);
                 } else {
                     localStorage.removeItem("geminiApiKey");
-                    localStorage.removeItem("workingGeminiModel");
                 }
             }
         }
@@ -342,10 +350,8 @@
             }
         }
 
-        // Lightweight Markdown to HTML Formatter
         function formatMarkdown(text) {
             if (!text) return "";
-            
             let html = text
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
@@ -375,32 +381,35 @@
             return msg;
         }
 
-        // Robust model runner that checks all valid Gemini models automatically
-        async function fetchGeminiWithFallback(apiKey, contents) {
-            const modelsToTry = [
-                "gemini-2.0-flash",
-                "gemini-1.5-flash-latest",
-                "gemini-1.5-flash",
-                "gemini-2.5-flash",
-                "gemini-1.5-pro",
-                "gemini-pro"
-            ];
+        // Smart local assistant if key is invalid or missing
+        function getSmartDemoResponse(query) {
+            const q = query.toLowerCase();
+            if (q.includes("hi") || q.includes("hello") || q.includes("hey")) {
+                return "Hello! I am your **FolioPulse AI Assistant**. I can help you craft portfolio summaries, write project descriptions, and highlight your technical skills. What are you building today?";
+            }
+            if (q.includes("summary") || q.includes("bio")) {
+                return "Here is a strong professional summary template for your portfolio:\n\n*\"Passionate Full-Stack Developer with a track record of building performant, user-centric web applications. Proficient in modern frontend architectures, RESTful APIs, and cloud deployments. Dedicated to writing clean, maintainable code and solving complex technical challenges.\"*";
+            }
+            if (q.includes("project") || q.includes("description")) {
+                return "When showcasing projects in FolioPulse, use the **STAR method** (Situation, Task, Action, Result):\n\n1. **Project Title & Tech Stack** (e.g. React, Flask, MongoDB)\n2. **Problem Statement**: What problem does this application solve?\n3. **Key Features**: Live demo link, core functionalities, and APIs used\n4. **Impact**: Performance improvements, responsive design, or user metrics.";
+            }
+            return `I received your question: *"${query}"*.\n\nTo unlock live real-time Gemini AI generation, add your free Gemini API key (starts with **AIzaSy...**) from **[aistudio.google.com](https://aistudio.google.com/app/apikey)** by clicking **⚙️ Gemini API Key** at the top right!`;
+        }
 
-            const cachedModel = localStorage.getItem("workingGeminiModel");
-            if (cachedModel) {
-                const idx = modelsToTry.indexOf(cachedModel);
-                if (idx > -1) {
-                    modelsToTry.splice(idx, 1);
-                }
-                modelsToTry.unshift(cachedModel);
+        async function executeGeminiRequest(apiKey, contents) {
+            apiKey = cleanApiKey(apiKey);
+
+            if (!apiKey.startsWith("AIza")) {
+                throw new Error("Invalid API key format. Google Gemini keys must start with 'AIzaSy...'. Get one free at aistudio.google.com.");
             }
 
+            const models = ["gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-2.5-flash", "gemini-pro"];
             let lastError = null;
 
-            for (const model of modelsToTry) {
+            for (const model of models) {
                 try {
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-                    const response = await fetch(url, {
+                    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                    const response = await fetch(endpoint, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -415,45 +424,31 @@
                     const data = await response.json();
 
                     if (response.ok && data.candidates && data.candidates.length > 0) {
-                        localStorage.setItem("workingGeminiModel", model);
                         return data;
                     }
 
                     if (data.error) {
-                        const errMsg = data.error.message || "";
-                        // If model not found or unsupported, try next model in list
-                        if (data.error.code === 404 || errMsg.toLowerCase().includes("not found") || errMsg.toLowerCase().includes("not supported")) {
-                            console.warn(`Model ${model} unavailable, trying next...`);
-                            lastError = new Error(errMsg);
+                        lastError = new Error(data.error.message);
+                        if (data.error.code === 404 || data.error.message.includes("not found")) {
                             continue;
                         } else {
-                            throw new Error(errMsg);
+                            throw lastError;
                         }
                     }
-                } catch (err) {
-                    if (err.message && (err.message.toLowerCase().includes("not found") || err.message.toLowerCase().includes("not supported"))) {
-                        lastError = err;
-                        continue;
-                    }
-                    throw err;
+                } catch (e) {
+                    lastError = e;
                 }
             }
 
-            throw lastError || new Error("No compatible Gemini model found. Please check your API key.");
+            throw lastError || new Error("Unable to connect to Gemini. Please check your API key.");
         }
 
         async function sendMessage(event) {
             event.preventDefault();
             const text = userInput.value.trim();
-            const apiKey = localStorage.getItem("geminiApiKey");
+            const rawApiKey = localStorage.getItem("geminiApiKey");
 
             if (!text) return;
-
-            if (!apiKey) {
-                alert("Please set your Gemini API Key first.");
-                promptApiKey();
-                return;
-            }
 
             // Append user message
             appendMessage(text, "user");
@@ -462,8 +457,23 @@
 
             const loadingMsg = appendMessage("Thinking...", "assistant loading");
 
+            const apiKey = cleanApiKey(rawApiKey);
+
+            // If no valid Gemini key (doesn't start with AIza), provide smart demo response
+            if (!apiKey || !apiKey.startsWith("AIza")) {
+                setTimeout(() => {
+                    const demoReply = getSmartDemoResponse(text);
+                    loadingMsg.className = "message assistant";
+                    loadingMsg.innerHTML = formatMarkdown(demoReply);
+                    sendBtn.disabled = false;
+                    userInput.focus();
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 600);
+                return;
+            }
+
             try {
-                // Fetch saved profile & resume data for context
+                // Fetch saved user data
                 let userProfile = {};
                 let portfolioData = {};
                 try {
@@ -478,13 +488,12 @@
 
                 const systemInstruction = `You are FolioPulse AI, an expert career advisor and portfolio builder assistant. Current User Profile & Portfolio Data: ${contextInfo}. Provide concise, actionable advice for portfolio improvement, tech skills, resume phrasing, and interview prep.`;
 
-                // Add to multi-turn conversation
+                // Add to conversation
                 conversationHistory.push({
                     role: "user",
                     parts: [{ text: text }]
                 });
 
-                // Build contents payload with system context in the first turn
                 const recentHistory = conversationHistory.slice(-8);
                 const formattedContents = recentHistory.map((m, idx) => {
                     if (idx === 0 && m.role === "user") {
@@ -499,31 +508,24 @@
                     };
                 });
 
-                // Call with automatic model detection
-                const data = await fetchGeminiWithFallback(apiKey, formattedContents);
-
-                const candidate = data.candidates?.[0];
-                const replyText = candidate?.content?.parts?.[0]?.text;
+                const data = await executeGeminiRequest(apiKey, formattedContents);
+                const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
                 if (replyText) {
                     loadingMsg.className = "message assistant";
                     loadingMsg.innerHTML = formatMarkdown(replyText);
 
-                    // Save assistant response to conversation history
                     conversationHistory.push({
                         role: "model",
                         parts: [{ text: replyText }]
                     });
-                } else if (candidate?.finishReason && candidate.finishReason !== "STOP") {
-                    loadingMsg.className = "message assistant error";
-                    loadingMsg.textContent = `Response finished with status: ${candidate.finishReason}`;
                 } else {
                     throw new Error("Received an empty response from Gemini.");
                 }
             } catch (err) {
                 console.error("Chat Error:", err);
                 loadingMsg.className = "message assistant error";
-                loadingMsg.innerHTML = `<strong>⚠️ Error:</strong> ${err.message}<br><small style="margin-top:4px;display:block;">Click "Gemini API Key" in the top right to verify or update your key.</small>`;
+                loadingMsg.innerHTML = `<strong>⚠️ ${err.message}</strong><br><small style="margin-top:6px;display:block;">Click <strong>"⚙️ Gemini API Key"</strong> in the top right to paste a valid key starting with <code>AIzaSy...</code>.</small>`;
             } finally {
                 sendBtn.disabled = false;
                 userInput.focus();
