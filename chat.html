@@ -22,4 +22,475 @@
 
         .chat-header {
             display: flex;
-            align-items:
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .chat-header h2 {
+            font-size: 18px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .chat-header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .api-key-btn {
+            font-size: 12px;
+            padding: 6px 12px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            color: #1e293b;
+        }
+
+        .api-key-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .clear-chat-btn {
+            font-size: 12px;
+            padding: 6px 10px;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s ease;
+        }
+
+        .clear-chat-btn:hover {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: #fca5a5;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: #2563eb;
+            color: #ffffff;
+            border-bottom-right-radius: 2px;
+            white-space: pre-wrap;
+        }
+
+        .message.assistant {
+            align-self: flex-start;
+            background-color: #f8fafc;
+            color: #1e293b;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .message.assistant p {
+            margin: 0 0 8px 0;
+        }
+
+        .message.assistant p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message.assistant ul, .message.assistant ol {
+            margin: 4px 0 8px 20px;
+            padding: 0;
+        }
+
+        .message.assistant li {
+            margin-bottom: 4px;
+        }
+
+        .message.assistant strong {
+            color: #0f172a;
+        }
+
+        .message.assistant code {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .message.assistant pre {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 8px 0;
+        }
+
+        .message.assistant pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .message.error {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+
+        .message.loading {
+            font-style: italic;
+            color: #64748b;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .chat-input-area input:focus {
+            border-color: #2563eb;
+        }
+
+        .chat-input-area button {
+            padding: 12px 22px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .chat-input-area button:hover:not(:disabled) {
+            background: #1d4ed8;
+        }
+
+        .chat-input-area button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            <span class="logo-badge">⚡</span> FolioPulse
+        </a>
+
+        <div class="nav-right">
+            <div class="dropdown" id="user-dropdown">
+                <button class="dropdown-btn" type="button" onclick="toggleDropdown(event)">
+                    <div class="avatar" id="nav-user-avatar">👤</div>
+                    <span id="nav-user-name">Menu</span>
+                    <span class="chevron">▼</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="profile.html" class="dropdown-item">👤 Profile Settings</a>
+                    <a href="portfolio.html" class="dropdown-item">📁 My Portfolios</a>
+                    <a href="chat.html" class="dropdown-item">🤖 AI Chat Box</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="index.html" class="dropdown-item logout-link" onclick="handleLogout(event)">🚪 Sign Out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CHAT CONTAINER -->
+    <main class="container">
+        <div class="chat-wrapper">
+            <div class="chat-header">
+                <h2>🤖 FolioPulse AI Assistant</h2>
+                <div class="chat-header-actions">
+                    <button class="clear-chat-btn" onclick="clearChat()" title="Clear Chat History">🗑️ Clear</button>
+                    <button class="api-key-btn" onclick="promptApiKey()">⚙️ Gemini API Key</button>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <div class="message assistant">
+                    Hello! I'm your FolioPulse AI assistant. Ask me to help optimize your resume summary, generate portfolio project descriptions, or prepare interview answers based on your experience!
+                </div>
+            </div>
+
+            <form class="chat-input-area" onsubmit="sendMessage(event)">
+                <input type="text" id="user-input" placeholder="Ask anything about your portfolio, resume, or projects..." autocomplete="off">
+                <button type="submit" id="send-btn">Send</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const chatMessages = document.getElementById("chat-messages");
+        const userInput = document.getElementById("user-input");
+        const sendBtn = document.getElementById("send-btn");
+
+        // Keep multi-turn conversation context
+        let conversationHistory = [];
+
+        window.addEventListener("DOMContentLoaded", () => {
+            syncNavbarProfile();
+            const key = localStorage.getItem("geminiApiKey");
+            if (!key) {
+                setTimeout(promptApiKey, 600);
+            }
+        });
+
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            document.getElementById("user-dropdown").classList.toggle("open");
+        }
+
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById("user-dropdown");
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove("open");
+            }
+        });
+
+        function syncNavbarProfile() {
+            let savedProfile = null;
+            try {
+                savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+            } catch (e) {
+                savedProfile = null;
+            }
+
+            const navAvatar = document.getElementById("nav-user-avatar");
+            const navName = document.getElementById("nav-user-name");
+
+            if (savedProfile) {
+                if (navName && savedProfile.firstName) {
+                    navName.textContent = savedProfile.firstName;
+                }
+                if (navAvatar) {
+                    if (savedProfile.avatar) {
+                        navAvatar.style.backgroundImage = `url('${savedProfile.avatar}')`;
+                        navAvatar.style.backgroundSize = "cover";
+                        navAvatar.textContent = "";
+                    } else {
+                        const initials = ((savedProfile.firstName?.[0] || '') + (savedProfile.lastName?.[0] || '')).toUpperCase() || '👤';
+                        navAvatar.textContent = initials;
+                    }
+                }
+            }
+        }
+
+        function promptApiKey() {
+            const currentKey = localStorage.getItem("geminiApiKey") || "";
+            const key = prompt("Enter your Google Gemini API Key (get one free at aistudio.google.com):", currentKey);
+            if (key !== null) {
+                if (key.trim() !== "") {
+                    localStorage.setItem("geminiApiKey", key.trim());
+                    alert("✓ Gemini API key saved successfully!");
+                } else {
+                    localStorage.removeItem("geminiApiKey");
+                }
+            }
+        }
+
+        function clearChat() {
+            if (confirm("Are you sure you want to clear this conversation?")) {
+                conversationHistory = [];
+                chatMessages.innerHTML = `
+                    <div class="message assistant">
+                        Conversation cleared. How can I help you with your portfolio today?
+                    </div>
+                `;
+            }
+        }
+
+        // Lightweight Markdown to HTML Formatter
+        function formatMarkdown(text) {
+            if (!text) return "";
+            
+            let html = text
+                // Escape raw HTML tags
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                // Code blocks (```code```)
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                // Inline code (`code`)
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                // Bold (**text**)
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                // Italic (*text*)
+                .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+                // Bullet points
+                .replace(/^\s*[-*]\s+(.*)$/gm, '<li>$1</li>')
+                // Line breaks / paragraphs
+                .replace(/\n\n+/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+
+            // Wrap loose list items in <ul>
+            html = html.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+            return `<p>${html}</p>`;
+        }
+
+        function appendMessage(content, role, isHTML = false) {
+            const msg = document.createElement("div");
+            msg.className = `message ${role}`;
+            if (isHTML) {
+                msg.innerHTML = content;
+            } else {
+                msg.textContent = content;
+            }
+            chatMessages.appendChild(msg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return msg;
+        }
+
+        async function sendMessage(event) {
+            event.preventDefault();
+            const text = userInput.value.trim();
+            const apiKey = localStorage.getItem("geminiApiKey");
+
+            if (!text) return;
+
+            if (!apiKey) {
+                alert("Please set your Gemini API Key to use the chat assistant.");
+                promptApiKey();
+                return;
+            }
+
+            // Append user message
+            appendMessage(text, "user");
+            userInput.value = "";
+            sendBtn.disabled = true;
+
+            // Loading state
+            const loadingMsg = appendMessage("Thinking...", "assistant loading");
+
+            try {
+                // Fetch saved profile & portfolio data for rich context
+                let userProfile = {};
+                let portfolioData = {};
+                try {
+                    userProfile = JSON.parse(localStorage.getItem("userProfile") || "{}");
+                    portfolioData = JSON.parse(localStorage.getItem("portfolioData") || "{}");
+                } catch(e) {}
+
+                const contextInfo = JSON.stringify({
+                    profile: userProfile,
+                    resume_portfolio: portfolioData
+                });
+
+                const systemInstruction = `You are FolioPulse AI, an expert career advisor and portfolio builder assistant.
+User Background & Portfolio Data: ${contextInfo}.
+Provide professional, concise, actionable advice for portfolio improvement, tech skills, resume phrasing, and interview prep.`;
+
+                // Add to multi-turn conversation
+                conversationHistory.push({
+                    role: "user",
+                    parts: [{ text: text }]
+                });
+
+                // Limit conversation history to last 10 messages to preserve token quota
+                const recentHistory = conversationHistory.slice(-10);
+
+                // Call Gemini API (gemini-1.5-flash)
+                const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        systemInstruction: {
+                            parts: [{ text: systemInstruction }]
+                        },
+                        contents: recentHistory,
+                        generationConfig: {
+                            temperature: 0.7,
+                            maxOutputTokens: 800
+                        }
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    const errorDetails = data.error?.message || `HTTP ${response.status} ${response.statusText}`;
+                    throw new Error(errorDetails);
+                }
+
+                const candidate = data.candidates?.[0];
+                const replyText = candidate?.content?.parts?.[0]?.text;
+
+                if (replyText) {
+                    loadingMsg.className = "message assistant";
+                    loadingMsg.innerHTML = formatMarkdown(replyText);
+
+                    // Add assistant response to history
+                    conversationHistory.push({
+                        role: "model",
+                        parts: [{ text: replyText }]
+                    });
+                } else if (candidate?.finishReason && candidate.finishReason !== "STOP") {
+                    loadingMsg.className = "message assistant error";
+                    loadingMsg.textContent = `Response stopped: ${candidate.finishReason}`;
+                } else {
+                    throw new Error("Received an empty response from Gemini API.");
+                }
+            } catch (err) {
+                console.error("Chat Error:", err);
+                loadingMsg.className = "message assistant error";
+                loadingMsg.innerHTML = `<strong>⚠️ Error:</strong> ${err.message}<br><small style="margin-top:4px;display:block;">Check your Gemini API Key or network connection.</small>`;
+            } finally {
+                sendBtn.disabled = false;
+                userInput.focus();
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        function handleLogout(event) {
+            event.preventDefault();
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("userProfile");
+            localStorage.removeItem("portfolioData");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
